@@ -10,22 +10,23 @@ Premise;
 
     So in titanfall, there's a smart pistol section that is incredibly fun.
 
-
 Hierarchical Design Document
 
+
+===== v0.1.0 =====
+ 
 - high speed first person locomotion
     - double jump
     - dash
     - slam/slide
-    - wall-jump
-
+        - slam: when in the air press a button to slam down to the ground and deal aoe damage.
+    - wall-jump/wall running
 
 - dumb enemy targets moving around
     - enemys that walk around on the floor
     - enemies that walk around on walls
-    - flier enemies
+    - flying enemies
     - ragdolls on death
-
 
 - weaponry
 
@@ -36,3 +37,7 @@ Hierarchical Design Document
     - revolver pistol
         - single shot high powered revolver.
 
+===== v0.2.0 =====
+
+- items
+- powerups
