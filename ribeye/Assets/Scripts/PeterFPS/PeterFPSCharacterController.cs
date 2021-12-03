@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
-using UnityEditor.UI;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -44,6 +43,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = true;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private bool slideStart = false;
