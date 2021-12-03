@@ -81,29 +81,45 @@ public class PeterFPSCharacterController : MonoBehaviour {
         // transform.localRotation *= Quaternion.Euler(0, mousex * sensitivity, 0);
         // transform.localRotation *= Quaternion.Euler(mousey * sensitivity, 0, 0);
 
+        transform.localRotation = Quaternion.Euler(0, mousex, 0);
+    }
+
+    private void LateUpdate()
+    {
         cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
-        transform.localRotation = Quaternion.Euler(0, mousex + 90, 0);
     }
 
 
     [SerializeField] private float speed = 500;
     [SerializeField] private LayerMask groundLayer;
-    private void FixedUpdate()
+
+    private void GetGroundVelocityFromInput(out Vector3 trueForward, out Vector3 trueRight)
     {
-        // raycast
         Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 5f, groundLayer);
         
-        Debug.Log(hitInfo.normal);
-        var trueForward = Vector3.ProjectOnPlane(transform.forward, hitInfo.normal).normalized;
-        Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
-        Debug.DrawLine(transform.position, transform.position + trueForward, Color.red);
+        if (groundState == groundStates.Grounded)
+        {
+            trueForward = Vector3.ProjectOnPlane(transform.forward, hitInfo.normal).normalized;
+            trueRight = Vector3.ProjectOnPlane(transform.right, hitInfo.normal).normalized;
+        }
+        else
+        {
+            trueForward = transform.forward;
+            trueRight = transform.right;
+        }
+    }
+    
+    private void FixedUpdate()
+    {
+        GetGroundVelocityFromInput(out Vector3 trueForward, out Vector3 trueRight);
+        // Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
+        // Debug.DrawLine(transform.position, transform.position + trueForward, Color.red);
         
-        var trueRight = Vector3.ProjectOnPlane(transform.right, hitInfo.normal).normalized;
-        Debug.DrawLine(transform.position, transform.position + trueRight);
+        // Debug.DrawLine(transform.position, transform.position + trueRight);
 
         // project
         // isolate forward vector
-        _rigidbody.velocity = speed * (inputScript.vertical * trueForward + inputScript.horizontal * trueRight) ;
+        _rigidbody.velocity = speed * ((inputScript.vertical * trueForward + inputScript.horizontal * trueRight).normalized) ;
         _rigidbody.velocity += GetGravity();
     }
 
