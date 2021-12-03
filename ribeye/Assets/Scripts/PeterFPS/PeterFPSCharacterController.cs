@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEditor.UI;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -21,9 +22,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private float RotatorSpeed = 500f;
 
     private Rigidbody _rigidbody;
+    private CapsuleCollider _capsule;
 
     [Header("Debugging")]
     [SerializeField] private groundStates groundState = groundStates.InAir;
+    
+    private bool sliding = false;
+    private bool slideLock = false;
+    [SerializeField] float slideImpulse = 20f;
+    [SerializeField] float slideForce = 10f;
 
     #endregion
 
@@ -44,6 +51,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = true;
         Cursor.lockState = CursorLockMode.Locked;
+        _capsule = GetComponent<CapsuleCollider>();
     }
 
     private bool slideStart = false;
@@ -75,6 +83,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
         inputScript.SetInput();
 
         HandleSlideActivate();
+
+        HandleJump();
         
         //Set state
         if (groundCheck.OnGround()) {
@@ -103,9 +113,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         mousex += Input.GetAxis("Mouse X");
         mousey += Input.GetAxis("Mouse Y");
         mousey = Mathf.Clamp(mousey, -90, 90);
-
-        // transform.localRotation *= Quaternion.Euler(0, mousex * sensitivity, 0);
-        // transform.localRotation *= Quaternion.Euler(mousey * sensitivity, 0, 0);
         
         _rigidbody.rotation = Quaternion.Euler(0, mousex, 0);
     }
@@ -113,21 +120,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private void LateUpdate()
     {
         cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), Time.deltaTime/0.016f);
-        if (sliding)
-        {
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position - new Vector3(0.0f, 0.4f, 0.0f), Time.deltaTime/0.016f); // 16ms * 60  = 1 s
-        }
-        else
-        {
-            cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime/0.016f); // 16ms * 60  = 1 s
-        }
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime/0.016f); // 16ms * 60  = 1 s
     }
 
     [SerializeField] private float speed = 500;
+    [SerializeField] private float airForce = 20;
+    [SerializeField] private float jumpImpulse = 60;
     [SerializeField] private LayerMask groundLayer;
 
-
-    private void GetGroundVelocityFromInput(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown)
+    private void GetGroundDirections(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown)
     {
         Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 5f, groundLayer);
 
@@ -144,40 +145,13 @@ public class PeterFPSCharacterController : MonoBehaviour {
             trueDown = -transform.up;
         }
     }
-    
-    private bool sliding = false;
-    private bool slideLock = false;
-    [SerializeField] float slideImpulse = 20f;
-    [SerializeField] float slideForce = 10f;
-    
-    private void FixedUpdate()
-    {
-        GetGroundVelocityFromInput(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown);
-        
-        // Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
-        // Debug.DrawLine(transform.position, transform.position + trueForward, Color.red);
-        // Debug.DrawLine(transform.position, transform.position + trueRight);
 
-        // project
-        // isolate forward vector
-        if (!sliding)
-        {
-            if (groundState == groundStates.Grounded)
-            {
-                _rigidbody.velocity = speed * ((inputScript.vertical * trueForward + inputScript.horizontal * trueRight).normalized);
-            }
-            else if (groundState == groundStates.InAir)
-            {
-                _rigidbody.AddForce(trueForward * slideForce);
-                _rigidbody.AddForce(GetGravity());
-            }
-        }
-        else
-        {
+    private void HandleSlidingFixedUpdate(Vector3 trueForward, Vector3 trueRight, Vector3 trueDown)
+    {
             if (slideStart)
             {
                 slideStart = false;
-                // _rigidbody.AddForce(trueForward* slideImpulse, ForceMode.Impulse);
+                 _rigidbody.AddForce(trueDown * 20f, ForceMode.Impulse);
             }
 
             if (groundState == groundStates.InAir)
@@ -186,19 +160,81 @@ public class PeterFPSCharacterController : MonoBehaviour {
             }
             else
             {
-                _rigidbody.AddForce(GetGravity());
+                _rigidbody.AddForce(GetGravity()*10f);
                 if (_rigidbody.velocity.magnitude < speed * 0.4)
                 {
                     _rigidbody.velocity = (0.4f * speed) * trueForward;
                 }
                 else
                 {
-                    _rigidbody.AddForce(trueForward * slideForce);
+                    _rigidbody.AddForce(travelVector * airForce);
+                    if (horizontalVelocityVector.magnitude > maxAccelSpeed)
+                    {
+                        _rigidbody.velocity = (maxAccelSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
+                    }
                 }
+            }
+    }
+
+    private bool jumping = false;
+    [SerializeField] private float maxAccelSpeed = 20f;
+    
+    Vector3 travelVector = Vector3.zero;
+    Vector3 horizontalVelocityVector = Vector3.zero;
+
+    private void FixedUpdate()
+    {
+        GetGroundDirections(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown);
+        travelVector = ((inputScript.vertical * trueForward + inputScript.horizontal * trueRight).normalized);
+        horizontalVelocityVector = _rigidbody.velocity;
+        horizontalVelocityVector.y = 0;
+        
+        _rigidbody.useGravity = true;
+        if (!sliding && !jumping)
+        {
+            _capsule.height = 2;
+            if (groundState == groundStates.Grounded)
+            {
+                _rigidbody.velocity = speed * (travelVector);
+                _rigidbody.useGravity = false;
+            }
+        }
+        else if(sliding)
+        {
+            _capsule.height = 0.6f;
+            HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
+        }
+        
+        if (groundState == groundStates.InAir)
+        {
+            _capsule.height = 2;
+            _rigidbody.AddForce(travelVector * airForce);
+            var innerMaxSpeed = maxAccelSpeed;
+            if (horizontalVelocityVector.magnitude > innerMaxSpeed)
+            {
+                _rigidbody.velocity = (innerMaxSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
             }
         }
     }
 
+    private void HandleJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && groundState == groundStates.Grounded)
+        {
+            StartCoroutine(doJump());
+        }
+    }
+
+    IEnumerator doJump()
+    {
+        if (!jumping)
+        {
+            _rigidbody.AddForce(Vector3.up * jumpImpulse, ForceMode.Impulse);
+            jumping = true;
+            yield return new WaitForSeconds(0.1f);
+            jumping = false;
+        }
+    }
 
     private Vector3 GetGravity()
     {
