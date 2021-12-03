@@ -8,22 +8,19 @@ Premise;
 
     So in titanfall, there's a smart pistol section that is incredibly fun.
 
-
 Hierarchical Design Document
 
 - high speed first person locomotion
     - double jump
     - dash
     - slam/slide
-    - wall-jump
-
+    - wall-jump/wall running
 
 - dumb enemy targets moving around
     - enemys that walk around on the floor
     - enemies that walk around on walls
-    - flier enemies
+    - flying enemies
     - ragdolls on death
-
 
 - weaponry
 
