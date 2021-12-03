@@ -48,20 +48,22 @@ Hierarchical Design Document
 - weaponry and combat
 
     - smart pistol
-        - automatically locks on and hits targets in the head when the trigger is pressed.
+        - automatically locks on and hits targets in the head when the trigger is pressed, high rate of fire, always accurate.
         - hitscan/borderline hitscan,
-        - do an angle check to all enemy targets,
-        - alt fire to shot single high powered shot
+        - alt fire to shot single high powered shot, that is NOT auto-aimed.
     
     - blade & hook
         - short range melee weapon
         - alt fire to throw grappling hook
+            - choose to pull self to target or pull target to self.
+            - can latch onto floors, walls or enemies
  
     - thermobaric launcher
         - heavy weapon with delay before firing and self-knockback
+            - slight delay between impact and explosion
+            - am implosion/levitating effect happens during this delay
         - significant cooldown
         - high damage
-        - big explosion on impact
 
 - gameplay loop?
     - need a designer for this;
