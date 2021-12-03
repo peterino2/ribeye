@@ -44,8 +44,8 @@ public class PeterFPSInput : MonoBehaviour {
         //Set input
         public void SetInput(bool setVertical = true, bool setHorizontal = true) {
             //Check
-            if (setVertical) { vertical.axisFloat = Input.GetAxis(vertical.axisString); }
-            if (setHorizontal) { horizontal.axisFloat = Input.GetAxis(horizontal.axisString); }
+            if (setVertical) { vertical.axisFloat = Input.GetAxisRaw(vertical.axisString); }
+            if (setHorizontal) { horizontal.axisFloat = Input.GetAxisRaw(horizontal.axisString); }
         }
     }
     public class axisFloatString {
