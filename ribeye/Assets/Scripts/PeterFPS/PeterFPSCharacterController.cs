@@ -107,7 +107,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             //_rigidbody.velocity = f * dashSpeed;
             _rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
             //Push the player forward
-            _rigidbody.velocity = (f.normalized * 50);
+            _rigidbody.velocity = (f.normalized * dashSpeed);
             yield return new WaitForSeconds(0.3f);
             dashing = false;
 
