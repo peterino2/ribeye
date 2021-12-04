@@ -197,7 +197,10 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (slideStart)
             {
                 slideStart = false;
-                 _rigidbody.AddForce(trueDown * 20f, ForceMode.Impulse);
+                if (doubleJump || groundState == groundStates.Grounded)
+                {
+                    _rigidbody.AddForce(trueDown * 20f, ForceMode.Impulse);
+                }
             }
 
             if (groundState == groundStates.InAir)
