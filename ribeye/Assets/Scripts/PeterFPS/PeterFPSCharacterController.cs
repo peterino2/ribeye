@@ -15,6 +15,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private PeterFPSInput inputScript = null;
     [SerializeField] private PeterFPSCameraLook cameraLook = null;
     [SerializeField] private PeterFPSGroundCheck groundCheck = null;
+    [SerializeField] private WallRideOrGrabber wallGrappler = null;
     [SerializeField] private Transform Rotator = null;
 
     [Header("Specifications")]
@@ -103,6 +104,34 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
     }
 
+    private void HandleWallGrabberUpdate()
+    {
+        if (wallGrappler._wall && groundState == groundStates.InAir)
+        {
+            if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized) > 0.5f)
+            {
+                StartCoroutine(doWallGrab());
+            }
+        }
+    }
+
+    private bool wallgrabready = true;
+    private bool wallgrabbed = false;
+    IEnumerator doWallGrab()
+    {
+        if (wallgrabready)
+        {
+            wallgrabbed = true;
+            wallgrabready = false;
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.useGravity = false;
+            yield return new WaitForSeconds(0.4f);
+            _rigidbody.useGravity = true;
+            wallgrabbed = false;
+        }
+        yield return null;
+    }
+
     private void HandleDash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -116,11 +145,10 @@ public class PeterFPSCharacterController : MonoBehaviour {
         inputScript.SetInput();
 
         HandleSlideActivate();
-
         HandleJump();
-
         HandleDash();
-        
+
+        HandleWallGrabberUpdate();
         
         //Set state
         if (groundCheck.OnGround()) {
@@ -139,6 +167,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 UseControllerInput();
                 break;
         }
+
+        if (!wallGrappler._wall)
+        {
+            wallgrabbed = false;
+        }
     }
 
 
@@ -156,13 +189,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), 0.5f);
         cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, 0.5f); // 16ms * 60  = 1 s
-
-
-        // x.position = transform.position;
-        // x.rotation = Quaternion.Euler(-mousey, mousex, 0);;
-        
-        // cameraTransform.position = transform.position; // 16ms * 60  = 1 s
-        // cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
     }
 
     [SerializeField] private float speed = 500;
@@ -244,8 +270,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (groundState == groundStates.Grounded)
         {
             doubleJump = false;
+            wallgrabready = true;
         }
-        
         _rigidbody.useGravity = true;
         if (!sliding && !jumping && !dashing)
         {
@@ -260,6 +286,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             _capsule.height = 0.6f;
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
+        }
+
+        if (wallgrabbed)
+        {
+            _rigidbody.useGravity = false;
+            _rigidbody.velocity = -Vector3.up * 0.2f;
         }
         
         if (groundState == groundStates.InAir && !dashing)
