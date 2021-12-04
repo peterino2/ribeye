@@ -26,10 +26,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     [HideInInspector] public Rigidbody _rigidbody;
     [SerializeField] private CapsuleCollider _capsule;
+    private RigidbodyConstraints originalConstraints;
 
     [Header("Polish")]
     [SerializeField] private AnimationCurve fallCurve;
-    [SerializeField] private Camera cam;
+    [SerializeField] private Transform cam;
+    [SerializeField] private WallRunLean lean;
 
     [Header("Debugging")]
     [SerializeField] private groundStates groundState = groundStates.InAir;
@@ -57,6 +59,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = true;
+        originalConstraints = _rigidbody.constraints;
         Cursor.lockState = CursorLockMode.Locked;
         //_capsule = GetComponent<CapsuleCollider>();
     }
@@ -95,17 +98,23 @@ public class PeterFPSCharacterController : MonoBehaviour {
             print("Dashing");
             dashReady = false;
             dashing = true;
-            Vector3 cachedVelocity = _rigidbody.velocity;
+            //Vector3 cachedVelocity = _rigidbody.velocity;
             Vector3 f = travelVector;
             if (f.magnitude < 0.5f)
             {
                 f = transform.forward;
             }
-            _rigidbody.velocity = f * dashSpeed;
+            //_rigidbody.velocity = f * dashSpeed;
+            _rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+            //Push the player forward
+            _rigidbody.velocity = (f.normalized * 50);
             yield return new WaitForSeconds(0.3f);
             dashing = false;
 
-            _rigidbody.velocity = cachedVelocity;
+            _rigidbody.constraints = originalConstraints;
+            _rigidbody.velocity = new Vector3(0, 0, 0) + transform.forward.normalized * 10;
+
+            //_rigidbody.velocity = cachedVelocity;
             yield return new WaitForSeconds(0.7f);
             dashReady = true;
         }
@@ -128,7 +137,10 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (wallgrabready)
         {
-            print(wallgrabbed);
+            //print(wallgrabbed);
+            float dir = Vector3.Dot(-cameraTransform.right, wallGrappler.wallNormal);
+            lean.StopCoroutine(lean.Lean(dir));
+            lean.StartCoroutine(lean.Lean(dir));
             wallgrabbed = true;
             wallgrabready = false;
             _rigidbody.velocity = Vector3.zero;
@@ -185,19 +197,26 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             if (travelVector.magnitude > 0.5f)
             {
-                StartCoroutine(StartWallRun());
+                StartCoroutine(DoWallRun());
             }
         }
 
         int layer = 1 << 3;
         layer = ~layer;
         underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
+        if (wallrunning)
+        {
+            if (!wallGrappler._wall || Input.GetKeyDown(KeyCode.Space))
+            {
+                EndWallRun();
+            }
+        }
     }
 
     private bool wallrunning = false;
     private Vector3 Wallrunning_vect;
     [SerializeField] private float wallrunningInitialSpeed = 12f;
-    IEnumerator StartWallRun()
+    IEnumerator DoWallRun()
     {
         if (!wallrunning)
         {
@@ -205,7 +224,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallgrabbed = false;
             Vector3 base_vect = Vector3.ProjectOnPlane(transform.forward, wallGrappler.wallNormal);
             Vector3 start_normal = wallGrappler.wallNormal;
-            base_vect.y += 0.10f;
+            //base_vect.y += 0.10f;
             base_vect = base_vect.normalized;
             print(base_vect);
             Wallrunning_vect = base_vect * wallrunningInitialSpeed;
@@ -217,12 +236,21 @@ public class PeterFPSCharacterController : MonoBehaviour {
             // jump off if we're still on the wall.
             if (wallGrappler._wall)
             {
-                _rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse *10);
-                doubleJump = false;
+                //_rigidbody.AddForce(wallGrappler.wallNormal * (jumpImpulse * 100));
+                wallrunning = false;
             }
         }
     }
-
+    void EndWallRun()
+    {
+        wallrunning = false;
+        _rigidbody.AddForce(Vector3.up, ForceMode.Impulse);
+        _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+        lean.StopCoroutine(lean.ResetLean());
+        lean.StartCoroutine(lean.ResetLean());
+        //_rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
+        doubleJump = false;
+    }
 
     public float mousex = 0f;
     public float mousey = 0f;
@@ -231,7 +259,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         mousex += Input.GetAxis("Mouse X");
         mousey += Input.GetAxis("Mouse Y");
         mousey = Mathf.Clamp(mousey, -90, 90);
-
     }
 
     private void LateUpdate()
@@ -330,10 +357,13 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             _capsule.center = new Vector3(0, 0.09f, 0);
             cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, 0.5f, 0), Time.deltaTime * 8);
-            cam.transform.localRotation = Quaternion.Slerp(cam.transform.localRotation, Quaternion.identity, Time.deltaTime * 10);
+            cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.identity, Time.deltaTime * 10);
             if (groundState == groundStates.Grounded)
             {
-                _rigidbody.velocity = speed * (travelVector);
+                if (travelVector.magnitude > 0)
+                    _rigidbody.velocity = speed * (travelVector);
+                else
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 8);
                 _rigidbody.useGravity = false;
             }
         }
@@ -341,14 +371,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             _capsule.center = new Vector3(0,  -0.67f, 0);
             cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, -0.45f, 0), Time.deltaTime * 8);
-            cam.transform.localRotation = Quaternion.Slerp(cam.transform.localRotation, Quaternion.Euler(-10, 0, 0), Time.deltaTime * 2);
+            cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(-10, 0, 0), Time.deltaTime * 2);
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
 
         if (wallgrabbed)
         {
             _rigidbody.useGravity = false;
-            _rigidbody.velocity = -Vector3.up * 0.2f;
+            //_rigidbody.velocity = -Vector3.up * 0.2f;
         }
 
         if (groundState == groundStates.InAir && !dashing)
@@ -366,12 +396,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (wallrunning)
         {
             _rigidbody.velocity = Wallrunning_vect;
-            if (!wallGrappler._wall || Input.GetKeyDown(KeyCode.Space))
-            {
-                _rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
-                wallrunning = false;
-                doubleJump = false;
-            }
         }
     }
     private void OnCollisionEnter(Collision collision)
