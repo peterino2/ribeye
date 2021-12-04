@@ -272,10 +272,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (slideStart)
             {
                 slideStart = false;
-                if (doubleJump || groundState == groundStates.Grounded)
+                if (doubleJump)
                 {
                     _rigidbody.AddForce(trueDown * 20f, ForceMode.Impulse);
                 }
+                _rigidbody.AddForce(trueForward * 10f, ForceMode.Impulse);
             }
 
             if (groundState == groundStates.InAir)
@@ -285,18 +286,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
             else
             {
                 _rigidbody.AddForce(GetGravity()*10f);
-                if (_rigidbody.velocity.magnitude < speed * 0.4)
                 {
-                    _rigidbody.velocity = (0.4f * speed) * trueForward;
-                }
-                else
-                {
-                    _rigidbody.AddForce(travelVector * airForce);
-                    if (horizontalVelocityVector.magnitude > maxAccelSpeed)
+                    // _rigidbody.AddForce(travelVector * airForce);
+                    if (horizontalVelocityVector.magnitude < maxAccelSpeed * 0.4f)
                     {
-                        _rigidbody.velocity = (maxAccelSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
+                        _rigidbody.velocity = maxAccelSpeed * 0.4f * travelVector;
                     }
+                    // if (horizontalVelocityVector.magnitude > maxSlideSpeed)
+                    // {
+                    //     _rigidbody.velocity = (maxSlideSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
+                    // }
                 }
+
+                _rigidbody.velocity = (1 - 0.95f * Time.deltaTime) * _rigidbody.velocity;
             }
     }
 
