@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
-using UnityEditor.UI;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -10,7 +9,6 @@ using Vector3 = UnityEngine.Vector3;
 public class PeterFPSCharacterController : MonoBehaviour {
 
     #region Declares
-
     //Declare serializables
     [Header("Setup")]
     [SerializeField] private PeterFPSInput inputScript = null;
@@ -106,8 +104,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
 
 
-    private float mousex = 0f;
-    private float mousey = 0f;
+    public float mousex = 0f;
+    public float mousey = 0f;
     private void UseMouseInput()
     {
         mousex += Input.GetAxis("Mouse X");
@@ -119,8 +117,13 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private void LateUpdate()
     {
-        cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), Time.deltaTime/0.016f);
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime/0.016f); // 16ms * 60  = 1 s
+        // cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), Time.deltaTime / 0.016f);
+        // cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime / 0.016f); // 16ms * 60  = 1 s
+        
+        Transform newTransform = 
+        cameraTransform.position = transform.position; // 16ms * 60  = 1 s
+        cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
+
     }
 
     [SerializeField] private float speed = 500;
@@ -178,6 +181,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private bool jumping = false;
     [SerializeField] private float maxAccelSpeed = 20f;
+    [SerializeField] private float maxSlideSpeed = 20f;
     
     Vector3 travelVector = Vector3.zero;
     Vector3 horizontalVelocityVector = Vector3.zero;
@@ -209,7 +213,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             _capsule.height = 2;
             _rigidbody.AddForce(travelVector * airForce);
-            var innerMaxSpeed = maxAccelSpeed;
+            var innerMaxSpeed = sliding ? maxSlideSpeed : maxAccelSpeed;
             if (horizontalVelocityVector.magnitude > innerMaxSpeed)
             {
                 _rigidbody.velocity = (innerMaxSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
@@ -229,7 +233,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (!jumping)
         {
-            _rigidbody.AddForce(Vector3.up * jumpImpulse, ForceMode.Impulse);
+            Vector3 vel = _rigidbody.velocity;
+            _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
             jumping = true;
             yield return new WaitForSeconds(0.1f);
             jumping = false;
