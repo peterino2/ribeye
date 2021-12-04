@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour {
 
     #region Start and initialization
 
-    private void Start() {
+    private void Awake() {
         //Loop
         for (int i = 0; i < soundObjects.Length; i++) {
             //Expand
