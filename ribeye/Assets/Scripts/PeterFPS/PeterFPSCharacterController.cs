@@ -117,12 +117,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private void LateUpdate()
     {
-        // cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), Time.deltaTime / 0.016f);
-        // cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime / 0.016f); // 16ms * 60  = 1 s
-        
-        cameraTransform.position = transform.position; // 16ms * 60  = 1 s
-        cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
+        cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), 0.5f);
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, 0.5f); // 16ms * 60  = 1 s
 
+
+        // x.position = transform.position;
+        // x.rotation = Quaternion.Euler(-mousey, mousex, 0);;
+        
+        // cameraTransform.position = transform.position; // 16ms * 60  = 1 s
+        // cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
     }
 
     [SerializeField] private float speed = 500;
