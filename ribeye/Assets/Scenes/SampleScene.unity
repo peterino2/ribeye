@@ -2300,10 +2300,6 @@ MonoBehaviour:
     TheAudioClips:
     - {fileID: 0}
     NumberOfObjects: 30
-  - SoundPrefab: {fileID: 0}
-    TheAudioClips:
-    - {fileID: 0}
-    NumberOfObjects: 30
 --- !u!1 &1568081950
 GameObject:
   m_ObjectHideFlags: 0
