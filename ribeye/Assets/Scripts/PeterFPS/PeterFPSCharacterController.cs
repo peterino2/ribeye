@@ -102,17 +102,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
             Vector3 f = travelVector;
             if (f.magnitude < 0.5f)
             {
-                f = transform.forward;
+                f = m_trueForward;
             }
-            //_rigidbody.velocity = f * dashSpeed;
-            _rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-            //Push the player forward
-            _rigidbody.velocity = (f.normalized * 50);
+            // _rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+            _rigidbody.useGravity = false;
+            _rigidbody.velocity = (f.normalized * dashSpeed);
             yield return new WaitForSeconds(0.3f);
-            dashing = false;
-
-            _rigidbody.constraints = originalConstraints;
-            _rigidbody.velocity = new Vector3(0, 0, 0) + transform.forward.normalized * 10;
+            
+            EndDashing();
 
             //_rigidbody.velocity = cachedVelocity;
             yield return new WaitForSeconds(0.7f);
@@ -163,6 +160,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         //Set input
 
         inputScript.SetInput();
+        Debug.DrawLine(transform.position, transform.position + m_trueForward);
 
         HandleSlideActivate();
         HandleJump();
@@ -211,6 +209,27 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 EndWallRun();
             }
         }
+        
+        if (dashing)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                print("jumping during dash");
+                EndDashing();
+                
+                Vector3 vel = _rigidbody.velocity;
+                _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
+            }
+        }
+    }
+
+    private void EndDashing()
+    {
+        dashing = false;
+        _rigidbody.useGravity = true;
+
+        _rigidbody.constraints = originalConstraints;
+        _rigidbody.velocity = new Vector3(0, 0, 0) + travelVector * 10;
     }
 
     private bool wallrunning = false;
@@ -340,6 +359,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private void FixedUpdate()
     {
         _rigidbody.rotation = Quaternion.Euler(0, mousex, 0);
+        
 
         GetGroundDirections(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown);
         travelVector = ((inputScript.vertical * trueForward + inputScript.horizontal * trueRight).normalized);
@@ -352,6 +372,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallgrabready = true;
         }
         _rigidbody.useGravity = true;
+
 
         if (!sliding && !jumping && !dashing && !underObject)
         {
