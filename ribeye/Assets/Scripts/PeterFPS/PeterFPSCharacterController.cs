@@ -16,12 +16,16 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private PeterFPSCameraLook cameraLook = null;
     [SerializeField] private PeterFPSGroundCheck groundCheck = null;
     [SerializeField] private Transform Rotator = null;
+    [SerializeField] private Transform cameraPos;
 
     [Header("Specifications")]
     [SerializeField] private float RotatorSpeed = 500f;
 
     private Rigidbody _rigidbody;
-    private CapsuleCollider _capsule;
+    [SerializeField] private CapsuleCollider _capsule;
+
+    [Header("Polish")]
+    [SerializeField] private AnimationCurve fallCurve;
 
     [Header("Debugging")]
     [SerializeField] private groundStates groundState = groundStates.InAir;
@@ -50,7 +54,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = true;
         Cursor.lockState = CursorLockMode.Locked;
-        _capsule = GetComponent<CapsuleCollider>();
+        //_capsule = GetComponent<CapsuleCollider>();
     }
 
     private bool slideStart = false;
@@ -155,7 +159,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private void LateUpdate()
     {
         cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), 0.5f);
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, 0.5f); // 16ms * 60  = 1 s
+        cameraTransform.position = Vector3.Lerp(cameraPos.position, transform.position, 0.5f); // 16ms * 60  = 1 s
 
 
         // x.position = transform.position;
@@ -246,7 +250,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
         _rigidbody.useGravity = true;
         if (!sliding && !jumping && !dashing)
         {
-            _capsule.height = 2;
+            _capsule.center = new Vector3(0, 0.09f, 0);
+            cameraPos.localPosition = Vector3.Lerp(cameraPos.localPosition, new Vector3(0, 0.75f, 0), Time.deltaTime * 8);
             if (groundState == groundStates.Grounded)
             {
                 _rigidbody.velocity = speed * (travelVector);
@@ -255,13 +260,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         else if(sliding)
         {
-            _capsule.height = 0.6f;
+            _capsule.center = new Vector3(0,  -0.67f, 0);
+            cameraPos.localPosition = Vector3.Lerp(cameraPos.localPosition, new Vector3(0, -0.5f, 0), Time.deltaTime * 8);
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
         
         if (groundState == groundStates.InAir && !dashing)
         {
-            _capsule.height = 2;
+            //_capsule.center = new Vector3(0, 0.09f, 0);
+            //cameraPos.localPosition = Vector3.Lerp(cameraPos.localPosition, new Vector3(0, -0.5f, 0), Time.deltaTime * 8);
             _rigidbody.AddForce(travelVector * airForce);
             var innerMaxSpeed = sliding ? maxSlideSpeed : maxAccelSpeed;
             if (horizontalVelocityVector.magnitude > innerMaxSpeed)
@@ -270,7 +277,26 @@ public class PeterFPSCharacterController : MonoBehaviour {
             }
         }
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 1.1f) && !(groundState == groundStates.Grounded))
+        {
+            if (collision.relativeVelocity.magnitude > 0.3f)
+            {
+                StartCoroutine(LerpCamDown());
+            }
+        }
+    }
+    IEnumerator LerpCamDown()
+    {
+        float pos = 0;
+        while (pos < 1)
+        {
+            pos += Time.deltaTime * 2.5f;
+            cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, fallCurve.Evaluate(pos), cameraPos.localPosition.z);
+            yield return null;
+        }
+    }
 
     private void HandleJump()
     {
