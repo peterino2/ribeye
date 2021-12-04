@@ -18,8 +18,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private WallRideOrGrabber wallGrappler = null;
     [SerializeField] private Transform Rotator = null;
 
-    [SerializeField] private Transform cameraPos;
-    [SerializeField] private Transform cameraPosP;
 
     [Header("Specifications")]
     [SerializeField] private float RotatorSpeed = 500f;
@@ -32,6 +30,13 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private AnimationCurve fallCurve;
     [SerializeField] private Transform cam;
     [SerializeField] private WallRunLean lean;
+    [SerializeField] private Transform camParent;
+    [SerializeField] private Transform cameraPos;
+    [SerializeField] private Transform cameraPosP;
+    //[SerializeField] private Transform cameraParent;
+
+    [Header("Rigidbody Stuff")]
+    private Vector3 cachedvelocity;
 
     [Header("Debugging")]
     [SerializeField] private groundStates groundState = groundStates.InAir;
@@ -121,11 +126,18 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (wallGrappler._wall && groundState == groundStates.InAir)
         {
-            if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized) > 0f)
-            {
-                StartCoroutine(doWallGrab());
-            }
+            StartCoroutine(doWallGrab());
+            //if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized) > 0f)
+            //{
+            //    StartCoroutine(doWallGrab());
+            //}
         }
+    }
+    private void Lean()
+    {
+        float x;
+        x = Input.GetAxisRaw("Horizontal");
+        camParent.localRotation = Quaternion.Slerp(camParent.localRotation, Quaternion.Euler(0, 0, x * -2), Time.deltaTime * 4);
     }
 
     private bool wallgrabready = true;
@@ -140,6 +152,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             lean.StartCoroutine(lean.Lean(dir));
             wallgrabbed = true;
             wallgrabready = false;
+            cachedvelocity = _rigidbody.velocity;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.useGravity = false;
             yield return new WaitForSeconds(0.4f);
@@ -158,7 +171,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
     private void Update() {
         //Set input
-
+        Lean();
         inputScript.SetInput();
         Debug.DrawLine(transform.position, transform.position + m_trueForward);
 
@@ -193,10 +206,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
         if (wallgrabbed)
         {
-            if (travelVector.magnitude > 0.5f)
-            {
-                StartCoroutine(DoWallRun());
-            }
+            StartCoroutine(DoWallRun());
+            //if (travelVector.magnitude > 0.5f)
+            //{
+            //    StartCoroutine(DoWallRun());
+            //}
         }
 
         int layer = 1 << 3;
@@ -234,7 +248,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private bool wallrunning = false;
     private Vector3 Wallrunning_vect;
-    [SerializeField] private float wallrunningInitialSpeed = 12f;
+    [SerializeField] private float wallrunningInitialSpeed = 8;
     IEnumerator DoWallRun()
     {
         if (!wallrunning)
@@ -263,8 +277,9 @@ public class PeterFPSCharacterController : MonoBehaviour {
     void EndWallRun()
     {
         wallrunning = false;
-        _rigidbody.AddForce(Vector3.up, ForceMode.Impulse);
+        _rigidbody.AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
         _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+        lean.StopAllCoroutines();
         lean.StopCoroutine(lean.ResetLean());
         lean.StartCoroutine(lean.ResetLean());
         //_rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
@@ -384,7 +399,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 if (travelVector.magnitude > 0)
                     _rigidbody.velocity = speed * (travelVector);
                 else
-                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 8);
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 10);
                 _rigidbody.useGravity = false;
             }
         }
