@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2033262863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033262864}
+  m_Layer: 0
+  m_Name: CamParent2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2033262864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033262863}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 805970884252458301}
+  m_Father: {fileID: 528967582560920069}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &805970884252458288
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +61,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5613941248016703638}
-  m_Father: {fileID: 528967582560920069}
+  m_Father: {fileID: 2033262864}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &805970884252458302
@@ -189,7 +220,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 805970884252458301}
+  - {fileID: 2033262864}
   m_Father: {fileID: 5613941248740767370}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -206,41 +237,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 528967582560920069}
+  camP: {fileID: 0}
   animCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.9479113
-      outSlope: 1.9479113
+      inSlope: 4.6239767
+      outSlope: 4.6239767
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.26836446
-      value: 0.52275014
-      inSlope: 0.20049503
-      outSlope: 0.20049503
+      time: 0.18801627
+      value: 0.8693828
+      inSlope: 4.7910957
+      outSlope: 4.7910957
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.076642044
+      outWeight: 0.025957184
     - serializedVersion: 3
-      time: 0.61927587
-      value: 0.16544344
-      inSlope: -0.9060625
-      outSlope: -0.9060625
+      time: 0.5312708
+      value: 1.5141904
+      inSlope: -0.15371406
+      outSlope: -0.15371406
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.14917146
+    - serializedVersion: 3
+      time: 0.96218616
+      value: 0.3783384
+      inSlope: -7.1819963
+      outSlope: -7.1819963
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2427805
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -0.4345494
-      outSlope: -0.4345494
+      inSlope: -10.005288
+      outSlope: -10.005288
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -314,6 +355,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
       propertyPath: m_Name
       value: Guns
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
