@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class WallRideOrGrabber : MonoBehaviour
@@ -28,10 +27,11 @@ public class WallRideOrGrabber : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            wallDir = other.gameObject.transform.position - transform.position;
-            Physics.Raycast(transform.position, other.gameObject.transform.position- transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
+            closestPoint = other.ClosestPoint(transform.position);
+                
+            wallDir = closestPoint - transform.position;
+            Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
             wallNormal = hitInfo.normal;
-            closestPoint = hitInfo.point;
             _wall = other.gameObject;
         }
     }

@@ -115,7 +115,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (wallGrappler._wall && groundState == groundStates.InAir)
         {
-            if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized) > 0.5f)
+            if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized) > 0f)
             {
                 StartCoroutine(doWallGrab());
             }
@@ -128,6 +128,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (wallgrabready)
         {
+            print(wallgrabbed);
             wallgrabbed = true;
             wallgrabready = false;
             _rigidbody.velocity = Vector3.zero;
@@ -179,9 +180,47 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             wallgrabbed = false;
         }
+
+        if (wallgrabbed)
+        {
+            if (travelVector.magnitude > 0.5f)
+            {
+                StartCoroutine(StartWallRun());
+            }
+        }
+
         int layer = 1 << 3;
         layer = ~layer;
         underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
+    }
+
+    private bool wallrunning = false;
+    private Vector3 Wallrunning_vect;
+    [SerializeField] private float wallrunningInitialSpeed = 12f;
+    IEnumerator StartWallRun()
+    {
+        if (!wallrunning)
+        {
+            print("wallrunning started!");
+            wallgrabbed = false;
+            Vector3 base_vect = Vector3.ProjectOnPlane(transform.forward, wallGrappler.wallNormal);
+            Vector3 start_normal = wallGrappler.wallNormal;
+            base_vect.y += 0.10f;
+            base_vect = base_vect.normalized;
+            print(base_vect);
+            Wallrunning_vect = base_vect * wallrunningInitialSpeed;
+            wallrunning = true;
+            print(Wallrunning_vect);
+            yield return new WaitForSeconds(1.5f);
+            wallrunning = false;
+            
+            // jump off if we're still on the wall.
+            if (wallGrappler._wall)
+            {
+                _rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse *10);
+                doubleJump = false;
+            }
+        }
     }
 
 
@@ -316,6 +355,17 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (horizontalVelocityVector.magnitude > innerMaxSpeed)
             {
                 _rigidbody.velocity = (innerMaxSpeed * horizontalVelocityVector.normalized) + Vector3.up * _rigidbody.velocity.y;
+            }
+        }
+
+        if (wallrunning)
+        {
+            _rigidbody.velocity = Wallrunning_vect;
+            if (!wallGrappler._wall || Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
+                wallrunning = false;
+                doubleJump = false;
             }
         }
     }
