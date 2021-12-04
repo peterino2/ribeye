@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
@@ -18,6 +20,7 @@ public class SoundManager : MonoBehaviour {
         public AudioClip[] TheAudioClips = null;
         [Range(1, 30)]
         public int NumberOfObjects = 30;
+        
         [System.NonSerialized] public int AudioSourceIndex = 0;
         [System.NonSerialized] public Transform[] SoundTransforms;
         [System.NonSerialized] public AudioSource[] AudioSources;

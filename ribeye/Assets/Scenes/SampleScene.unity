@@ -791,6 +791,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4decb6e82c19c5b42ba1a121795ef4d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunrack: []
+  guns: []
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,10 +2298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundObjects:
-  - SoundPrefab: {fileID: 0}
-    TheAudioClips:
-    - {fileID: 0}
-    NumberOfObjects: 30
   - SoundPrefab: {fileID: 0}
     TheAudioClips:
     - {fileID: 0}
