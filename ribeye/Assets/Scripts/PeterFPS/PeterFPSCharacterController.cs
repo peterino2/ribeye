@@ -120,7 +120,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         // cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.Euler(-mousey, mousex, 0), Time.deltaTime / 0.016f);
         // cameraTransform.position = Vector3.Lerp(cameraTransform.position, transform.position, Time.deltaTime / 0.016f); // 16ms * 60  = 1 s
         
-        Transform newTransform = 
         cameraTransform.position = transform.position; // 16ms * 60  = 1 s
         cameraTransform.rotation = Quaternion.Euler(-mousey, mousex, 0);
 
