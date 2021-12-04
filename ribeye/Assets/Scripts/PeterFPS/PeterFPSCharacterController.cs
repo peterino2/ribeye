@@ -30,6 +30,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [Header("Polish")]
     [SerializeField] private AnimationCurve fallCurve;
     [SerializeField] private Camera cam;
+    [SerializeField] private WallRunLean lean;
 
     [Header("Debugging")]
     [SerializeField] private groundStates groundState = groundStates.InAir;
@@ -132,6 +133,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallgrabready = false;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.useGravity = false;
+            lean.StartCoroutine(lean.Lean());
             yield return new WaitForSeconds(0.4f);
             _rigidbody.useGravity = true;
             wallgrabbed = false;
