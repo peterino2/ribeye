@@ -16,6 +16,9 @@ public class RibGunner : MonoBehaviour
 
     private RibWeaponBase activeGun;
     
+    [SerializeField]
+    private int weaponIndexStart = 0;
+    
     void Start()
     {
         gunrack = GetComponentsInChildren<RibWeaponBase>();
@@ -23,7 +26,9 @@ public class RibGunner : MonoBehaviour
         foreach (var gun in gunrack)
         {
             guns[gun.GetWeaponActivationIndex()] = gun;
+            gun.DeactivateWeapon();
         }
+        ActivateGun(weaponIndexStart);
     }
 
     // Update is called once per frame
@@ -31,12 +36,25 @@ public class RibGunner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            GameManager._soundManager.PlaySound(0, transform.position, transform);
+            activeGun.OnFire();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            activeGun.OnAltFire();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateGun(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateGun(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ActivateGun(2);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
+    }
+
+    void TryActivateGun(int gunIndex)
+    {
+        if (guns[gunIndex])
+        {
+            ActivateGun(gunIndex);
+        }
     }
 
     void ActivateGun(int gunIndex)

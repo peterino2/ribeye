@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour {
         //Declare
         public GameObject SoundPrefab = null;
         public AudioClip[] TheAudioClips = null;
-        [Range(1, 30)]
+        [Range(1, 200)]
         public int NumberOfObjects = 30;
         
         [System.NonSerialized] public int AudioSourceIndex = 0;
@@ -72,7 +72,7 @@ public class SoundManager : MonoBehaviour {
 
     #region Other functions
 
-    internal void PlaySound(int soundObjectIndex, Vector3 playAtLocation, Transform followTransform = null) {
+    internal void PlaySound(int soundObjectIndex, Vector3 playAtLocation, Transform followTransform = null, float volume = 1f) {
         //Check if not playing sound
         if (!soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].isPlaying) {
             //Change clip
@@ -83,7 +83,7 @@ public class SoundManager : MonoBehaviour {
             //Set
             soundObjects[soundObjectIndex].FollowTransforms[soundObjects[soundObjectIndex].AudioSourceIndex] = followTransform;
             //Set volume
-            soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].volume = 1f;
+            soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].volume = volume;
             //Play sound
             soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].Play();
             //Increase index
