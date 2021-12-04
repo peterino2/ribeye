@@ -3006,11 +3006,12 @@ MonoBehaviour:
   slideImpulse: 5
   slideForce: 3
   cameraTransform: {fileID: 5100286917037198233}
+  dashSpeed: 50
   mousex: 0
   mousey: 0
   speed: 6
   airForce: 50
-  jumpImpulse: 7
+  jumpImpulse: 6
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

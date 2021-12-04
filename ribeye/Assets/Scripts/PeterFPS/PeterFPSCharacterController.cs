@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using Cursor = UnityEngine.Cursor;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -75,6 +76,40 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     }
 
+    private bool dashReady = true;
+    private bool dashing = false;
+    [SerializeField] private float dashSpeed = 10f;
+
+    IEnumerator doDash()
+    {
+        if (dashReady && !sliding)
+        {
+            print("Dashing");
+            dashReady = false;
+            dashing = true;
+            Vector3 cachedVelocity = _rigidbody.velocity;
+            Vector3 f = travelVector;
+            if (f.magnitude < 0.5f)
+            {
+                f = transform.forward;
+            }
+            _rigidbody.velocity = f * dashSpeed;
+            yield return new WaitForSeconds(0.3f);
+            dashing = false;
+            
+            _rigidbody.velocity = cachedVelocity;
+            yield return new WaitForSeconds(0.7f);
+            dashReady = true;
+        }
+    }
+
+    private void HandleDash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            StartCoroutine(doDash());
+        }
+    }
     private void Update() {
         //Set input
         
@@ -83,6 +118,9 @@ public class PeterFPSCharacterController : MonoBehaviour {
         HandleSlideActivate();
 
         HandleJump();
+
+        HandleDash();
+        
         
         //Set state
         if (groundCheck.OnGround()) {
@@ -112,7 +150,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         mousey += Input.GetAxis("Mouse Y");
         mousey = Mathf.Clamp(mousey, -90, 90);
         
-        _rigidbody.rotation = Quaternion.Euler(0, mousex, 0);
     }
 
     private void LateUpdate()
@@ -133,6 +170,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private float jumpImpulse = 60;
     [SerializeField] private LayerMask groundLayer;
 
+    private Vector3 m_trueForward;
+
     private void GetGroundDirections(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown)
     {
         Physics.Raycast(transform.position, -transform.up, out RaycastHit hitInfo, 5f, groundLayer);
@@ -149,6 +188,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
             trueRight = transform.right;
             trueDown = -transform.up;
         }
+
+        m_trueForward = trueForward;
     }
 
     private void HandleSlidingFixedUpdate(Vector3 trueForward, Vector3 trueRight, Vector3 trueDown)
@@ -190,13 +231,20 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        _rigidbody.rotation = Quaternion.Euler(0, mousex, 0);
+        
         GetGroundDirections(out Vector3 trueForward, out Vector3 trueRight, out Vector3 trueDown);
         travelVector = ((inputScript.vertical * trueForward + inputScript.horizontal * trueRight).normalized);
         horizontalVelocityVector = _rigidbody.velocity;
         horizontalVelocityVector.y = 0;
+
+        if (groundState == groundStates.Grounded)
+        {
+            doubleJump = false;
+        }
         
         _rigidbody.useGravity = true;
-        if (!sliding && !jumping)
+        if (!sliding && !jumping && !dashing)
         {
             _capsule.height = 2;
             if (groundState == groundStates.Grounded)
@@ -211,7 +259,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
         
-        if (groundState == groundStates.InAir)
+        if (groundState == groundStates.InAir && !dashing)
         {
             _capsule.height = 2;
             _rigidbody.AddForce(travelVector * airForce);
@@ -223,23 +271,38 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
     }
 
+
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && groundState == groundStates.Grounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(doJump());
         }
     }
 
+    private bool doubleJump = false;
+
     IEnumerator doJump()
     {
         if (!jumping)
         {
-            Vector3 vel = _rigidbody.velocity;
-            _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
-            jumping = true;
-            yield return new WaitForSeconds(0.1f);
-            jumping = false;
+            if (groundState == groundStates.Grounded)
+            {
+                Vector3 vel = _rigidbody.velocity;
+                _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
+                jumping = true;
+                yield return new WaitForSeconds(0.1f);
+                jumping = false;
+            }
+            else
+            {
+                if (groundState == groundStates.InAir && !doubleJump)
+                {
+                    Vector3 vel = _rigidbody.velocity;
+                    _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
+                    doubleJump = true;
+                }
+            }
         }
     }
 
