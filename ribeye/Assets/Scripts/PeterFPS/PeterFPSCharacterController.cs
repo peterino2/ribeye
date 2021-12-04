@@ -128,6 +128,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (wallgrabready)
         {
+            print(wallgrabbed);
             wallgrabbed = true;
             wallgrabready = false;
             _rigidbody.velocity = Vector3.zero;
@@ -359,7 +360,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
         if (wallrunning)
         {
-            print("yes");
             _rigidbody.velocity = Wallrunning_vect;
             if (!wallGrappler._wall || Input.GetKeyDown(KeyCode.Space))
             {
