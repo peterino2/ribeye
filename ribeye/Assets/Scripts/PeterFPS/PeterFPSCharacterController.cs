@@ -296,7 +296,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         else if(sliding)
         {
             _capsule.center = new Vector3(0,  -0.67f, 0);
-            cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, -0.75f, 0), Time.deltaTime * 8);
+            cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, -0.45f, 0), Time.deltaTime * 8);
             cam.transform.localRotation = Quaternion.Slerp(cam.transform.localRotation, Quaternion.Euler(-10, 0, 0), Time.deltaTime * 2);
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
