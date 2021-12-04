@@ -1037,7 +1037,7 @@ Transform:
   m_GameObject: {fileID: 1015319470}
   m_LocalRotation: {x: -0, y: -0.70718247, z: -0, w: 0.7070311}
   m_LocalPosition: {x: -3.37, y: 1.8, z: 3.72}
-  m_LocalScale: {x: 3.4749, y: 1.519001, z: 0.27732643}
+  m_LocalScale: {x: 3.4749, y: 12.526746, z: 0.27732643}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -3006,7 +3006,7 @@ MonoBehaviour:
   slideImpulse: 5
   slideForce: 3
   cameraTransform: {fileID: 5100286917037198233}
-  dashSpeed: 50
+  dashSpeed: 35
   mousex: 0
   mousey: 0
   speed: 6
