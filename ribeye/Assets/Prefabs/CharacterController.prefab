@@ -275,6 +275,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   cam: {fileID: 0}
+  lean: {fileID: 0}
   groundState: 1
   slideImpulse: 5
   slideForce: 3
