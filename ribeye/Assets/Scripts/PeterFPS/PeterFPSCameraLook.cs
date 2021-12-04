@@ -10,7 +10,6 @@ public class PeterFPSCameraLook : MonoBehaviour
     private void Start()
     {
         cameraTransform = transform;
-        Application.targetFrameRate = 60;
     }
 
     private void FixedUpdate()

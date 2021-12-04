@@ -11,7 +11,6 @@ public class displayFramerate : MonoBehaviour
     void Start()
     {
         _text = GetComponent<TextMeshProUGUI>();
-        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame
