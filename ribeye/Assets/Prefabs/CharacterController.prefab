@@ -285,7 +285,7 @@ MonoBehaviour:
   mousey: 0
   speed: 8
   airForce: 50
-  jumpImpulse: 6
+  jumpImpulse: 6.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
