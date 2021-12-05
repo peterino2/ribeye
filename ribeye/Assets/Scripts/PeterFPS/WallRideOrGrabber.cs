@@ -30,11 +30,6 @@ public class WallRideOrGrabber : MonoBehaviour
         {
             o = other;
             _wall = other.gameObject;
-            closestPoint = o.ClosestPoint(transform.position);
-                
-            wallDir = closestPoint - transform.position;
-            Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
-            wallNormal = hitInfo.normal;
         }
     }
 
@@ -54,20 +49,22 @@ public class WallRideOrGrabber : MonoBehaviour
     {
         if (_wall)
         {
+            closestPoint = o.ClosestPoint(transform.position);
+                
+            wallDir = closestPoint - transform.position;
+            Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
+            wallNormal = hitInfo.normal;
+            
             string x = string.Format("wall at {0} with normal {1}", closestPoint, wallNormal);
             _debugText.text = x;
 
-            if (_wall)
+            if (wallNormal.y > 0.3f)
             {
-                if (wallNormal.y > 0.3f)
-                {
-                    _wall = null;
-                    closestPoint = o.ClosestPoint(transform.position);
-                        
-                    wallDir = closestPoint - transform.position;
-                    Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
-                    wallNormal = hitInfo.normal;
-                }
+                _wall = null;
+                closestPoint = o.ClosestPoint(transform.position);
+                    
+                wallDir = closestPoint - transform.position;
+                wallNormal = hitInfo.normal;
             }
         }
         else

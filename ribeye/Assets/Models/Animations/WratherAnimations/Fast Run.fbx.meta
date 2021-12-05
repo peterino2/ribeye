@@ -1,35 +1,11 @@
 fileFormatVersion: 2
-guid: 2d5879e5924301b4493fbb47634752eb
+guid: 948595542033be1419df77cdbda65898
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 7769411969743427932
-    second: Armature|BladeIdle
-  - first:
-      74: 1223085223970368579
-    second: Armature|BladeSwipe
-  - first:
-      74: 3632112711596955739
-    second: Armature|RestPose
-  - first:
-      74: 2146537684202851828
-    second: Armature|SmartPistolIdle
-  - first:
-      74: 8618324741251241024
-    second: Armature|BladeSwing
-  - first:
-      74: -5308103516755804555
-    second: Armature|SmartPistolReload
-  - first:
-      74: -8118085603667230786
-    second: Armature|SmartPistolShoot
-  - first:
-      74: -4528270657951867006
-    second: Armature|BladeEquip
-  - first:
-      74: 8576591457078069526
-    second: Armature|SmartPistolEquip
+      74: -203655887218126122
+    second: mixamo.com
   externalObjects: {}
   materials:
     materialImportMode: 2
