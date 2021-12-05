@@ -9,7 +9,7 @@ namespace Gameplay.Core
         {
             health = Mathf.Max(health - damage, 0);
 
-            if (health == 0)
+            if (health <= 0.01f)
             {
                 Destroy(gameObject);
             }
