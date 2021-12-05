@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3029506368048398361}
-  - component: {fileID: 3029506368048398366}
+  - component: {fileID: 5773785644703295850}
   m_Layer: 0
-  m_Name: TurretManager
+  m_Name: TurretGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3029506368048398366
+--- !u!114 &5773785644703295850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3029506368048398367}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d49ce746002b48543935adac19af3c09, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d9ec55107d63c745b19839d79dc9649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtAndLockerScripts: []
