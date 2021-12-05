@@ -6,7 +6,7 @@ namespace Gameplay.Gunner
 {
     public class RibWeaponSmartPistol : RibWeaponBase
     {
-        enum SmartPistolModes
+        public enum SmartPistolModes
         {
             Smart,
             Revolver
@@ -70,16 +70,13 @@ namespace Gameplay.Gunner
 
         IEnumerator playFireAnim()
         {
-            if (fireready)
+            float time = 0;
+            while (time < smartPistolFire.length)
             {
-                float time = 0;
-                while (time < smartPistolFire.length)
-                {
-                    float yoffset = smartPistolFire.Evaluate(time);
-                    time += Time.deltaTime;
-                    model.transform.localRotation = Quaternion.Euler(0, 0, yoffset * 15f);
-                    yield return null;
-                }
+                float yoffset = smartPistolFire.Evaluate(time);
+                time += Time.deltaTime;
+                model.transform.localRotation = Quaternion.Euler(0, 0, yoffset * 15f);
+                yield return null;
             }
         } 
 
