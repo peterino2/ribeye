@@ -98,8 +98,14 @@ public class BezierCurveTracer : MonoBehaviour {
 
     public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition) {
         //Declare
-        Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * multiplerCurving) + (gunMuzzlePoint.forward * multiplerForwarding);
-        Vector3 endingCurve = endingPosition + (-gunMuzzlePoint.right * multiplerCurving) + (-gunMuzzlePoint.forward * multiplerForwarding);
+        float m = multiplerCurving;
+
+        m = Random.Range(-6, 6);
+        float u = Random.Range(-4, 2);
+        Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * m) + (gunMuzzlePoint.forward * multiplerForwarding) + (-gunMuzzlePoint.up * u);
+        
+        // Vector3 startingCurve = gunMuzzlePoint.position + ()
+        Vector3 endingCurve = endingPosition + (-gunMuzzlePoint.right * m) + (-gunMuzzlePoint.forward * multiplerForwarding) + (-gunMuzzlePoint.up * u);
         //Loop
         for (int i = 0; i < lengthCalculated; i++) {
             //Set
