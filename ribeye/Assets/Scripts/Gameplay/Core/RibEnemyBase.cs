@@ -11,6 +11,7 @@ namespace Gameplay.Core
 
             if (health <= 0.01f)
             {
+                GameManager.playHeavySound(transform.position);
                 Destroy(gameObject);
             }
         }

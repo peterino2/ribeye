@@ -79,7 +79,8 @@ namespace Gameplay.Gunner
             {
                 target.TakeDamage(damageSmart);
                 bcurveGen.ShowTracer(model.transform, target.transform.position);
-                GameManager._soundManager.PlaySound(0, transform.position, volume:0.3f);
+                GameManager._soundManager.PlaySound(0, transform.position, volume:0.1f);
+                GameManager.playHitSound(transform.position);
                 StartCoroutine(playFireAnim());
             } 
             fireready = true;
@@ -102,20 +103,21 @@ namespace Gameplay.Gunner
             if (revolverReady)
             {
                 revolverReady = false;
-                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.3f);
+                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.2f);
                 if (ui.GetCenterTarget(out Transform objectHit, out RaycastHit rayhit))
                 {
                     EntityBase x = objectHit.gameObject.GetComponent<EntityBase>();
                     if (x != null)
                     {
                         x.TakeDamage(damageRevolver);
+                        GameManager.playHitSound(transform.position);
                     }
                 }
                 StartCoroutine(playFireAnim());
                 yield return new WaitForSeconds(0.20f);
                 
                 float t = 0f;
-                while (t < 0.10f)
+                while (t < 0.15f)
                 {
                     t += Time.deltaTime;
                     if (Input.GetKeyDown(KeyCode.Mouse0))
