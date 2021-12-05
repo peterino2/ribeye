@@ -78,8 +78,9 @@ namespace Gameplay.Gunner
             if (target != null)
             {
                 target.TakeDamage(damageSmart);
+                ui.Hitmarker();
                 bcurveGen.ShowTracer(model.transform, target.transform.position);
-                GameManager._soundManager.PlaySound(0, transform.position, volume:0.1f);
+                GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
                 StartCoroutine(playFireAnim());
             } 
@@ -111,6 +112,7 @@ namespace Gameplay.Gunner
                     {
                         x.TakeDamage(damageRevolver);
                         GameManager.playHitSound(transform.position);
+                        ui.Hitmarker();
                     }
                 }
                 StartCoroutine(playFireAnim());
