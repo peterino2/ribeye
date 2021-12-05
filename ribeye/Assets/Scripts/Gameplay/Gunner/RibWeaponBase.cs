@@ -10,6 +10,9 @@ namespace Gameplay.Gunner
         
         public abstract void DeactivateWeapon();
         public abstract void OnFire();
+        
+        public abstract string GetWeaponName();
+        
         public abstract void OnAltFire();
         public int GetWeaponActivationIndex()
         {
