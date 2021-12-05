@@ -95,7 +95,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         if (dashReady && !sliding)
         {
-            print("Dashing");
             dashReady = false;
             dashing = true;
             //Vector3 cachedVelocity = _rigidbody.velocity;
@@ -248,7 +247,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
             print(base_vect);
             Wallrunning_vect = base_vect * wallrunningInitialSpeed;
             wallrunning = true;
-            print(Wallrunning_vect);
             yield return new WaitForSeconds(1.5f);
             wallrunning = false;
             

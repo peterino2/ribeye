@@ -53,23 +53,19 @@ namespace Gameplay.Gunner
 
         IEnumerator FullAutoSmart()
         {
-            print("startfiring");
             while (Input.GetKey(KeyCode.Mouse0))
             {
                 DoFire();
                 yield return new WaitForSeconds(1/FireRate);
             }
-            print("endFiring");
         }
         IEnumerator switchModes(SmartPistolModes newMode)
         {
             yield return null;
         }
 
-
         IEnumerator playFireAnim()
         {
-            print("shot");
             float time = 0;
             while (time < smartPistolFire.length)
             {
