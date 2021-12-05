@@ -103,7 +103,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             slideStart = true;
         }
-
     }
 
     private bool dashReady = true;
@@ -280,7 +279,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private float wallrunningInitialSpeed = 8;
     IEnumerator DoWallRun()
     {
-        if (!wallrunning)
+        if (!wallrunning&& travelVector.x > 0.1f)
         {
             print("wallrunning started!");
             wallgrabbed = false;
