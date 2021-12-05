@@ -25,25 +25,31 @@ namespace Gameplay.Gunner
         [SerializeField] private GameObject modelBase;
         [SerializeField] private AnimationCurve smartPistolFire;
         [SerializeField] private AnimationCurve smartPistolBasePosition;
+        
+        [SerializeField] private SmartAimerUI ui;
+        
         private void Start()
         {
             if (!active)
             {
                 modelBase.SetActive(false);
             }
-            
-        }
 
-        private bool fireready = true;
-        private void Update()
-        {
+            FindObjectOfType<SmartAimerUI>();
         }
+        
+        private bool fireready = true;
         
         public override void OnFire()
         {
             if (mode == SmartPistolModes.Smart)
             {
                 StartCoroutine(FullAutoSmart());
+            }
+
+            if (mode == SmartPistolModes.Revolver)
+            {
+                
             }
         }
 
@@ -65,6 +71,8 @@ namespace Gameplay.Gunner
         }
         IEnumerator switchModes(SmartPistolModes newMode)
         {
+            mode = newMode;
+            
             yield return null;
         }
 
@@ -99,7 +107,7 @@ namespace Gameplay.Gunner
         {
             SmartPistolModes newmode =
                 mode == SmartPistolModes.Smart ? SmartPistolModes.Revolver : SmartPistolModes.Smart;
-            switchModes(newmode);
+            StartCoroutine(switchModes(newmode));
         }
 
     }

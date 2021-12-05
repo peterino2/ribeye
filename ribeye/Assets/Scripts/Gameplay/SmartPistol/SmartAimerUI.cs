@@ -134,8 +134,8 @@ public class SmartAimerUI : MonoBehaviour
         }
     }
 
-    List<GameObject> confirmedTargets = new List<GameObject>();
-    List<Vector3> targetPointsOnScreen = new List<Vector3>();
+    public List<GameObject> confirmedTargets = new List<GameObject>();
+    public List<Vector3> targetPointsOnScreen = new List<Vector3>();
     
     void HandleSmartTargetingVisuals()
     {
