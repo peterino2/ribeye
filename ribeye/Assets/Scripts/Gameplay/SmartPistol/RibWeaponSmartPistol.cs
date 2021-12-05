@@ -34,8 +34,7 @@ namespace Gameplay.Gunner
             {
                 modelBase.SetActive(false);
             }
-
-            FindObjectOfType<SmartAimerUI>();
+            if(ui == null) ui = FindObjectOfType<SmartAimerUI>();
         }
         
         private bool fireready = true;
@@ -66,13 +65,14 @@ namespace Gameplay.Gunner
             while (Input.GetKey(KeyCode.Mouse0) && fireready)
             {
                 DoFire();
-                yield return new WaitForSeconds(1/FireRate);
+                yield return new WaitForSeconds(1 / FireRate);
             }
         }
+
         IEnumerator switchModes(SmartPistolModes newMode)
         {
             mode = newMode;
-            
+            ui.SetMode(mode);
             yield return null;
         }
 

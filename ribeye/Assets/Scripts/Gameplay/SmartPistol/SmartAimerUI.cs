@@ -6,6 +6,7 @@ using System.Threading;
 using Game;
 using Gameplay.Gunner;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
@@ -56,11 +57,9 @@ public class SmartAimerUI : MonoBehaviour
             positionPool[i].enabled = false;
         }
     }
-
-    private Vector3 cameraCenter;
-    void SetMode(RibWeaponSmartPistol.SmartPistolModes m)
+    
+    public void SetMode(RibWeaponSmartPistol.SmartPistolModes m)
     {
-        cameraCenter = new Vector3(mainCamera.pixelWidth/2f, mainCamera.pixelHeight/2f, 0f);
         mode = m;
         if (m == RibWeaponSmartPistol.SmartPistolModes.Revolver)
         {
@@ -108,11 +107,6 @@ public class SmartAimerUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            SetMode(mode == RibWeaponSmartPistol.SmartPistolModes.Revolver ? RibWeaponSmartPistol.SmartPistolModes.Smart : RibWeaponSmartPistol.SmartPistolModes.Revolver);
-        }
-
         if (mode == RibWeaponSmartPistol.SmartPistolModes.Smart)
         {
             HandleSmartTargetingVisuals();
@@ -136,6 +130,10 @@ public class SmartAimerUI : MonoBehaviour
 
     public List<GameObject> confirmedTargets = new List<GameObject>();
     public List<Vector3> targetPointsOnScreen = new List<Vector3>();
+
+    [SerializeField] private LayerMask mask;
+
+    [SerializeField] GameObject test;
     
     void HandleSmartTargetingVisuals()
     {
@@ -156,7 +154,26 @@ public class SmartAimerUI : MonoBehaviour
             {
                 targetWorldPos = target.targetingLoc.transform.position;
             }
-            
+
+            Debug.DrawLine(targetWorldPos, mainCamera.transform.position);
+
+            var castv = targetWorldPos - mainCamera.transform.position;
+            if (
+                Physics.Raycast(
+                    mainCamera.transform.position, 
+                    castv,
+                    out RaycastHit hit, castv.magnitude, mask
+                    )
+                )
+            {
+                //test.transform.position = hit.transform.position;
+                // print(mask);
+                //if ((hit.transform.gameObject.layer & mask) > 0)
+                //{
+                continue;
+                //}
+            }
+
             point = mainCamera.WorldToScreenPoint(targetWorldPos);
             
             if (Vector3.Dot(mainCamera.transform.forward, targetWorldPos - mainCamera.transform.position) < 0)
@@ -165,20 +182,18 @@ public class SmartAimerUI : MonoBehaviour
             }
             
             var r = _rect.rect;
-            var targetPoint = point - cameraCenter;
+            var targetPoint = point - _rect.position;
             
             if (
                 targetPoint.x > (-0.5 * r.width) && 
                 targetPoint.x < (0.5 * r.width) && 
                 targetPoint.y > (-0.5 * r.height) && 
                 targetPoint.y < (0.5 * r.height) 
-            )
-            {
+            ) {
                 AddTargetingObject(point);
                 confirmedTargets.Add(target.gameObject);
             }
         }
-        print(confirmedTargets.Count());
     }
 
     void AddTargetingObject(Vector3 point)

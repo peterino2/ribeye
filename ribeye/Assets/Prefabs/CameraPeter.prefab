@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8129846809180627023}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GunLoc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3638538195005568151}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gunrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4130307776573117093}
   - component: {fileID: 4130307776573117094}
   - component: {fileID: 4130307776573117095}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3830850257143328157}
   - component: {fileID: 6316249829200323302}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9193560873156914958}
   - component: {fileID: 9193560873156914956}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Smartgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,6 +435,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  ui: {fileID: 0}
 --- !u!1 &9193560874032003345
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +447,7 @@ GameObject:
   - component: {fileID: 9193560874032003346}
   - component: {fileID: 9193560874032003347}
   - component: {fileID: 3638538195178598059}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CameraPeter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
