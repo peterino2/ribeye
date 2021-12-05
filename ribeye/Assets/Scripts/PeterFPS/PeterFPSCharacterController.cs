@@ -39,7 +39,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private Vector3 cachedvelocity;
 
     [Header("Debugging")]
-    [SerializeField] private groundStates groundState = groundStates.InAir;
+    public groundStates groundState = groundStates.InAir;
 
     private bool sliding = false;
     private bool slideLock = false;
@@ -52,7 +52,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #region Enumerators
 
-    private enum groundStates {
+    public enum groundStates {
         Grounded, InAir
     }
 
@@ -150,12 +150,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (wallgrabready)
         {
             //print(wallgrabbed);
+            cachedvelocity = _rigidbody.velocity;
             float dir = Vector3.Dot(-cameraTransform.right, wallGrappler.wallNormal);
-            lean.StopCoroutine(lean.Lean(dir));
+            lean.StopAllCoroutines();
             lean.StartCoroutine(lean.Lean(dir));
             wallgrabbed = true;
             wallgrabready = false;
-            cachedvelocity = _rigidbody.velocity;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.useGravity = false;
             yield return new WaitForSeconds(0.4f);
@@ -260,9 +260,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
         wallrunning = false;
         _rigidbody.AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
         _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+
         lean.StopAllCoroutines();
-        lean.StopCoroutine(lean.ResetLean());
-        lean.StartCoroutine(lean.ResetLean());
+        lean.isLeaning = false;
+        //lean.StartCoroutine(lean.ResetLean());
+
         //_rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
         doubleJump = false;
     }
@@ -370,7 +372,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
         if (!sliding && !jumping && !dashing && !underObject)
         {
-            _capsule.center = new Vector3(0, 0.09f, 0);
+            _capsule.center = new Vector3(0, -0.25f, 0);
+            _capsule.height = 1.5f;
             cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, 0.5f, 0), Time.deltaTime * 8);
             cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.identity, Time.deltaTime * 10);
             if (groundState == groundStates.Grounded)
@@ -384,7 +387,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         else if(sliding)
         {
-            _capsule.center = new Vector3(0,  -0.67f, 0);
+            _capsule.center = new Vector3(0,  -0.5f, 0);
+            _capsule.height = 0.75f;
             cameraPosP.localPosition = Vector3.Lerp(cameraPosP.localPosition, new Vector3(0, -0.45f, 0), Time.deltaTime * 8);
             cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(-10, 0, 0), Time.deltaTime * 2);
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
