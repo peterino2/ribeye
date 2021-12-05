@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Game;
 using Gameplay.Stats;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -77,9 +78,10 @@ namespace Gameplay.Gunner
             var target = ui.GetNearestTarget();
             if (target != null)
             {
+                var obj = target.gameObject.GetComponent<RibTargetable>();
                 target.TakeDamage(damageSmart);
                 ui.Hitmarker();
-                bcurveGen.ShowTracer(model.transform, target.transform.position);
+                bcurveGen.ShowTracer(model.transform, obj.targetingLoc.position);
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
                 StartCoroutine(playFireAnim());
