@@ -20,6 +20,9 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField]
     public Sprite aimerRevolverEnemy;
     
+    [SerializeField]
+    public Sprite aimerSmartEnemy;
+    
     [SerializeField] public Color smartColor;
     [SerializeField] public Color enemyTargetColor;
     [SerializeField] public Color neutralColor;
@@ -32,7 +35,10 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField] public Camera mainCamera;
     
     [SerializeField] public Image reticuleMain;
+    [SerializeField] public Image hitmarker;
 
+
+    private float hitmarkerFade = 0.0f;
 
     [SerializeField] public GameObject imagePrefab;
     [SerializeField] private GameObject poolParent;
@@ -52,7 +58,7 @@ public class SmartAimerUI : MonoBehaviour
         {
             var o = Instantiate(imagePrefab, poolParent.transform);
             positionPool[i] = o.GetComponent<Image>();
-            positionPool[i].sprite = aimerRevolverEnemy;
+            positionPool[i].sprite = aimerSmartEnemy;
             positionPool[i].color = enemyTargetColor;
             positionPool[i].enabled = false;
         }
@@ -107,6 +113,10 @@ public class SmartAimerUI : MonoBehaviour
 
     void Update()
     {
+        hitmarkerFade -= Time.deltaTime * 5;
+        var c = hitmarker.color;
+        hitmarker.color = new Color(c.r, c.g, c.b, hitmarkerFade);
+        
         Ray r = mainCamera.ScreenPointToRay(_rect.position);
         
         Debug.DrawLine(r.origin, r.direction*100f + r.origin);
@@ -139,6 +149,10 @@ public class SmartAimerUI : MonoBehaviour
 
     [SerializeField] GameObject test;
 
+    public void Hitmarker()
+    {
+        hitmarkerFade = 1;
+    }
 
     private EntityBase nearest;
     private float nearest_mag;
