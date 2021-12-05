@@ -91,9 +91,6 @@ public class BezierCurveTracer : MonoBehaviour {
     [SerializeField] private Transform Enemy = null;
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            ShowTracer(Gun, Enemy.position);
-        }
     }
 
     public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition) {

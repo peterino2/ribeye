@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Game;
 using Gameplay.Gunner;
+using Gameplay.Stats;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -134,13 +135,21 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField] private LayerMask mask;
 
     [SerializeField] GameObject test;
-    
+
+
+    private EntityBase nearest;
+    private float nearest_mag;
     void HandleSmartTargetingVisuals()
     {
-        var targets = FindObjectsOfType<Targetable>();
+        var targets = FindObjectsOfType<RibTargetable>();
         confirmedTargets.Clear();
         targetPointsOnScreen.Clear();
 
+        nearest_mag = 100000f; 
+        nearest = null;
+        
+        print(targets.Length);
+        
         foreach(var target in targets)
         {
             Vector3 targetWorldPos;
@@ -154,8 +163,6 @@ public class SmartAimerUI : MonoBehaviour
             {
                 targetWorldPos = target.targetingLoc.transform.position;
             }
-
-            Debug.DrawLine(targetWorldPos, mainCamera.transform.position);
 
             var castv = targetWorldPos - mainCamera.transform.position;
             if (
@@ -178,6 +185,7 @@ public class SmartAimerUI : MonoBehaviour
             
             var r = _rect.rect;
             var targetPoint = point - _rect.position;
+            var close = targetPoint.magnitude;
             
             if (
                 targetPoint.x > (-0.5 * r.width) && 
@@ -187,7 +195,37 @@ public class SmartAimerUI : MonoBehaviour
             ) {
                 AddTargetingObject(point);
                 confirmedTargets.Add(target.gameObject);
+                if (close < nearest_mag)
+                {
+                    nearest_mag = close;
+                    nearest = target.target;
+                }
             }
+        }
+    }
+
+    public bool GetCenterTarget(out Transform objectHit, out RaycastHit rayhit)
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        objectHit = transform;
+        
+        if (Physics.Raycast(ray, out rayhit)) {
+            objectHit = rayhit.transform;
+            return true;
+        }
+
+        return false;
+    }
+
+    public EntityBase GetNearestTarget()
+    {
+        if (confirmedTargets.Count() > 0)
+        {
+            return nearest;
+        }
+        else
+        {
+            return null;
         }
     }
 
