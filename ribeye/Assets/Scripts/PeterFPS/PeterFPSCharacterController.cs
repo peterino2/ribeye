@@ -218,6 +218,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (!wallGrappler._wall)
         {
             wallgrabbed = false;
+            StopCoroutine(doWallGrab());
         }
 
 
@@ -262,6 +263,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         string dbgString = string.Format("jumping: {0}, sliding{1}, dashing{2}, doublejump{3}\n", jumping, sliding, dashing, doubleJump);
         dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
+        dbgString += string.Format("\ntravel{0}", travelVector);
         dbgui.text = dbgString;
     }
 
@@ -279,7 +281,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private float wallrunningInitialSpeed = 8;
     IEnumerator DoWallRun()
     {
-        if (!wallrunning&& travelVector.x > 0.1f)
+        if (!wallrunning && inputScript.vertical > 0.1f)
         {
             print("wallrunning started!");
             wallgrabbed = false;
@@ -512,6 +514,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (wallJumpDebounce)
         {
             wallgrabbed = false;
+            StopCoroutine(doWallGrab());
             _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
             _rigidbody.AddForce(transform.up * 10, ForceMode.Impulse);
             yield return new WaitForSeconds(0.1f);
