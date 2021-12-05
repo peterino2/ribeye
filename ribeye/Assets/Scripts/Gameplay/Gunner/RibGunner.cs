@@ -18,8 +18,8 @@ public class RibGunner : MonoBehaviour
     
     [SerializeField]
     private int weaponIndexStart = 0;
-    
-    void Start()
+
+    private void Awake()
     {
         gunrack = GetComponentsInChildren<RibWeaponBase>();
         Array.Resize(ref guns, 9);
@@ -28,6 +28,10 @@ public class RibGunner : MonoBehaviour
             guns[gun.GetWeaponActivationIndex()] = gun;
             gun.DeactivateWeapon();
         }
+    }
+
+    void Start()
+    {
         ActivateGun(weaponIndexStart);
     }
 

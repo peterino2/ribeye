@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 1829725469934545326}
   - component: {fileID: 1829725469934545315}
   - component: {fileID: 1829725469934545321}
+  - component: {fileID: 1400026184659669375}
   m_Layer: 3
   m_Name: CharacterController
   m_TagString: CharacterControllerTag
@@ -324,6 +325,20 @@ MonoBehaviour:
     m_Bits: 64
   maxAccelSpeed: 8
   maxSlideSpeed: 8
+--- !u!114 &1400026184659669375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829725469934545320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763118eb9ece414fb184c21aa30edfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHp: 100
 --- !u!1 &6891534868258378588
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7597b5949058f4181c31e9a1379bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  o: {fileID: 0}
   _wall: {fileID: 0}
   wallNormal: {x: 0, y: 0, z: 0}
   wallDir: {x: 0, y: 0, z: 0}
