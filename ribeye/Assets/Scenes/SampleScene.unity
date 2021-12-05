@@ -13267,7 +13267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6190291c84a4b1fb8628fe643866420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetingLoc: {fileID: 805762970}
+  targetingLoc: {fileID: 2080746578}
   targetSet: 0
 --- !u!136 &2080746575
 CapsuleCollider:
@@ -13381,7 +13381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 805762970}
-  startingState: 1
+  startingState: 2
 --- !u!4 &2088705496 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1829725469934545314, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
@@ -13539,6 +13539,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 144332529228792486, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 384917706378697644, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251157430426214803, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4327545609371969827, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -13585,7 +13597,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5220653994334745284, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5679177344061759392, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5757988985097113376, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: m_Name
