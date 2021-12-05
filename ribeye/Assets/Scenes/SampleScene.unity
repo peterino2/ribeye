@@ -1372,6 +1372,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034256170}
   m_CullTransparentMesh: 1
+--- !u!4 &1039610125 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2033262864, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+  m_PrefabInstance: {fileID: 1896785903}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040091027
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,9 +2301,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundObjects:
-  - SoundPrefab: {fileID: 0}
+  - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
     TheAudioClips:
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 1b8a4a8da2768554c83d542c1b28ddb2, type: 3}
     NumberOfObjects: 30
 --- !u!1 &1568081950
 GameObject:
@@ -2775,6 +2780,11 @@ Transform:
   m_Father: {fileID: 546227736}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: -8.809, y: -90.012, z: 0}
+--- !u!4 &1769919033 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6891534869680529583, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
+  m_PrefabInstance: {fileID: 1800425343}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1787912697
 GameObject:
   m_ObjectHideFlags: 0
@@ -3066,6 +3076,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1014630368}
     - target: {fileID: 1829725469934545321, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
+      propertyPath: camParent
+      value: 
+      objectReference: {fileID: 1039610125}
+    - target: {fileID: 1829725469934545321, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
       propertyPath: cameraLook
       value: 
       objectReference: {fileID: 992060223}
@@ -3241,6 +3255,10 @@ PrefabInstance:
       propertyPath: _controller
       value: 
       objectReference: {fileID: 2040449517}
+    - target: {fileID: 7339034457650441598, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: camP
+      value: 
+      objectReference: {fileID: 1769919033}
     - target: {fileID: 7339034457650441598, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: player
       value: 
