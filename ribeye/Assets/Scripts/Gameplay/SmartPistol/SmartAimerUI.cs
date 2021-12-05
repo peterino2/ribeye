@@ -205,7 +205,7 @@ public class SmartAimerUI : MonoBehaviour
 
     public bool GetCenterTarget(out Transform objectHit, out RaycastHit rayhit)
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(_rect.position);
         objectHit = transform;
         
         if (Physics.Raycast(ray, out rayhit)) {

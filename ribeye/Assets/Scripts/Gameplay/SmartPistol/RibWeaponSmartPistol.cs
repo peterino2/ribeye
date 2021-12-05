@@ -29,7 +29,7 @@ namespace Gameplay.Gunner
         [SerializeField] private AnimationCurve smartPistolBasePosition;
         
         [SerializeField] private float damageSmart = 1.0f;
-        [SerializeField] private float damageRevolver = 1.0f;
+        [SerializeField] private float damageRevolver = 1.5f;
         
         [SerializeField] private SmartAimerUI ui;
 
@@ -77,12 +77,11 @@ namespace Gameplay.Gunner
             var target = ui.GetNearestTarget();
             if (target != null)
             {
-                target.TakeDamage(1f);
-
+                target.TakeDamage(damageSmart);
                 bcurveGen.ShowTracer(model.transform, target.transform.position);
+                GameManager._soundManager.PlaySound(0, transform.position, volume:0.3f);
+                StartCoroutine(playFireAnim());
             } 
-            GameManager._soundManager.PlaySound(0, transform.position, volume:0.3f);
-            StartCoroutine(playFireAnim());
             fireready = true;
         }
 
@@ -109,14 +108,14 @@ namespace Gameplay.Gunner
                     EntityBase x = objectHit.gameObject.GetComponent<EntityBase>();
                     if (x != null)
                     {
-                        x.TakeDamage(1);
+                        x.TakeDamage(damageRevolver);
                     }
                 }
                 StartCoroutine(playFireAnim());
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(0.20f);
                 
                 float t = 0f;
-                while (t < 0.15f)
+                while (t < 0.10f)
                 {
                     t += Time.deltaTime;
                     if (Input.GetKeyDown(KeyCode.Mouse0))
