@@ -32,9 +32,9 @@ namespace Gameplay.Gunner
         [SerializeField] private float damageRevolver = 1.0f;
         
         [SerializeField] private SmartAimerUI ui;
-        
-        private BezierCurveTracer bcurveGen;
-        private void Start()
+
+
+        private void Awake()
         {
             if (!active)
             {
@@ -43,8 +43,14 @@ namespace Gameplay.Gunner
 
             bcurveGen = GetComponent<BezierCurveTracer>();
             Assert.IsTrue(bcurveGen != null);
+            Assert.IsTrue(ui != null);
             
             if(ui == null) ui = FindObjectOfType<SmartAimerUI>();
+        }
+
+        private BezierCurveTracer bcurveGen;
+        private void Start()
+        {
             StartCoroutine(switchModes(mode));
         }
         
