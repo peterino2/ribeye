@@ -28,7 +28,7 @@ public class Bobber : MonoBehaviour
         if (true)
         {
             Vector3 moveDirection = controller._rigidbody.velocity;
-            if (Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+            if (controller.groundState == PeterFPSCharacterController.groundStates.Grounded && (Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f))
             {
                 //Player is moving
                 timer += Time.deltaTime * walkingBobbingSpeed;

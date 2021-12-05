@@ -8,8 +8,10 @@ public class WallRunLean : MonoBehaviour
     public Transform camP;
     //[SerializeField] private Transform player;
     [SerializeField] private AnimationCurve animCurve;
+    public bool isLeaning = false;
     public IEnumerator Lean(float dir)
     {
+        isLeaning = true;
         float pos = 0;
         Vector3 ogPos = camP.localPosition;
         while (pos < 1)
@@ -19,19 +21,27 @@ public class WallRunLean : MonoBehaviour
             camP.localPosition = new Vector3(0, ogPos.y + animCurve.Evaluate(pos) * 1.25f, 0);
             yield return null;
         }
-        StartCoroutine(ResetLean());
+        //StartCoroutine(ResetLean());
     }
-    public IEnumerator ResetLean()
+    private void Update()
     {
-        float w = 0;
-        while (w < 2)
+        if (!isLeaning)
         {
-            w += Time.deltaTime;
             camP.localPosition = Vector3.Lerp(camP.localPosition, Vector3.zero, Time.deltaTime * 5);
             cam.localRotation = Quaternion.Lerp(cam.localRotation, Quaternion.identity, Time.deltaTime * 5);
-            yield return null;
         }
-        camP.localPosition = Vector3.zero;
-        cam.localRotation = Quaternion.identity;
     }
+    //public IEnumerator ResetLean()
+    //{
+    //    float w = 0;
+    //    while (w < 2)
+    //    {
+    //        w += Time.deltaTime;
+    //        camP.localPosition = Vector3.Lerp(camP.localPosition, Vector3.zero, Time.deltaTime * 5);
+    //        cam.localRotation = Quaternion.Lerp(cam.localRotation, Quaternion.identity, Time.deltaTime * 5);
+    //        yield return null;
+    //    }
+    //    camP.localPosition = Vector3.zero;
+    //    cam.localRotation = Quaternion.identity;
+    //}
 }

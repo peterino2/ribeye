@@ -14,7 +14,7 @@ public class RibGunner : MonoBehaviour
     [SerializeField]
     private RibWeaponBase[] guns;
 
-    private RibWeaponBase activeGun;
+    public RibWeaponBase activeGun;
     
     [SerializeField]
     private int weaponIndexStart = 0;
