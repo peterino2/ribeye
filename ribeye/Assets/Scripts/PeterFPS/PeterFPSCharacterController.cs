@@ -47,7 +47,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private bool slideLock = false;
     [SerializeField] float slideImpulse = 20f;
     [SerializeField] float slideForce = 10f;
-
+ 
     #endregion
 
     [SerializeField] private Transform cameraTransform;
@@ -72,10 +72,17 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
 
     private bool slideStart = false;
+    private bool postPound = false;
     private void HandleSlideActivate()
     {
         bool lastSliding = sliding;
         sliding = Input.GetKey(KeyCode.LeftControl);
+        if (postPound)
+        {
+            sliding = false;
+            lastSliding = false;
+        }
+        
         if(!sliding)
             pounding = false;
 
@@ -238,6 +245,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
             }
         }
+
+        if (!Input.GetKey(KeyCode.LeftControl))
+        {
+            postPound = false;
+        }
     }
 
     private void EndDashing()
@@ -342,8 +354,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
                     _rigidbody.AddForce(trueDown * 35f, ForceMode.Impulse);
                     pounding = true;
                 }
-                if(groundState == groundStates.Grounded)
+
+                if (groundState == groundStates.Grounded)
+                {
                     _rigidbody.AddForce(trueForward * 10f, ForceMode.Impulse);
+                }
             }
 
             if (groundState == groundStates.InAir)
@@ -435,7 +450,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (pounding)
         {
             if (groundState == groundStates.Grounded)
+            {
                 _rigidbody.velocity = Vector3.zero;
+                pounding = false;
+                postPound = true;
+            }
         }
 
         if (wallgrabbed)
