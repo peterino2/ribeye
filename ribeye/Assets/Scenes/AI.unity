@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 1354956443}
   - component: {fileID: 1354956442}
   - component: {fileID: 1354956441}
+  - component: {fileID: 1354956439}
   - component: {fileID: 1354956440}
   m_Layer: 0
   m_Name: AIController
@@ -305,6 +306,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1354956439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354956438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b905864053db744698dfcc94812ae29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {fileID: 0}
+  startingState: 0
 --- !u!195 &1354956440
 NavMeshAgent:
   m_ObjectHideFlags: 0
