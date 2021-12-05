@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using TMPro;
 using UnityEngine;
 using Cursor = UnityEngine.Cursor;
 using Quaternion = UnityEngine.Quaternion;
@@ -34,6 +35,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     [SerializeField] private Transform cameraPos;
     [SerializeField] private Transform cameraPosP;
     //[SerializeField] private Transform cameraParent;
+    
+    [SerializeField] private TextMeshProUGUI dbgui;
 
     [Header("Rigidbody Stuff")]
     private Vector3 cachedvelocity;
@@ -154,18 +157,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
     private bool wallgrabbed = false;
     IEnumerator doWallGrab()
     {
-        if (wallgrabready)
+        if (wallgrabready && !wallgrabbed && !wallrunning && !jumping)
         {
             //print(wallgrabbed);
+            wallgrabready = false;
+            wallgrabbed = true;
             cachedvelocity = _rigidbody.velocity;
             float dir = Vector3.Dot(-cameraTransform.right, wallGrappler.wallNormal);
-            lean.StopAllCoroutines();
+            lean.isLeaning = false;
             lean.StartCoroutine(lean.Lean(dir));
-            wallgrabbed = true;
-            wallgrabready = false;
+            doubleJump = false;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.useGravity = false;
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(1f);
             _rigidbody.useGravity = true;
             wallgrabbed = false;
         }
@@ -179,8 +183,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
             StartCoroutine(doDash());
         }
     }
+
+    private bool spacePressed = false;
     private void Update() {
         //Set input
+        spacePressed = Input.GetKeyDown(KeyCode.Space);
         Lean();
         inputScript.SetInput();
         Debug.DrawLine(transform.position, transform.position + m_trueForward);
@@ -214,22 +221,20 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallgrabbed = false;
         }
 
-        if (wallgrabbed)
-        {
-            StartCoroutine(DoWallRun());
-            //if (travelVector.magnitude > 0.5f)
-            //{
-            //    StartCoroutine(DoWallRun());
-            //}
-        }
 
         int layer = 1 << 3;
         layer = ~layer;
         underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
+        Input.GetKeyDown(KeyCode.Space);
         if (wallrunning)
         {
-            if (!wallGrappler._wall || Input.GetKeyDown(KeyCode.Space))
+            if (!wallGrappler._wall || spacePressed)
             {
+                if (spacePressed)
+                {
+                    _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+                    wallgrabready = true;
+                }
                 EndWallRun();
             }
         }
@@ -250,6 +255,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             postPound = false;
         }
+
+        HandleDebugUi();
+    }
+
+    private void HandleDebugUi()
+    {
+        string dbgString = string.Format("jumping: {0}, sliding{1}, dashing{2}, doublejump{3}\n", jumping, sliding, dashing, doubleJump);
+        dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
+        dbgui.text = dbgString;
     }
 
     private void EndDashing()
@@ -281,20 +295,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallrunning = false;
             
             // jump off if we're still on the wall.
-            if (wallGrappler._wall)
-            {
-                //_rigidbody.AddForce(wallGrappler.wallNormal * (jumpImpulse * 100));
-                wallrunning = false;
-            }
+            // if (wallGrappler._wall)
+            // {
+                 //_rigidbody.AddForce(wallGrappler.wallNormal * (jumpImpulse * 100));
+                 // wallrunning = false;
+            // }
         }
     }
     void EndWallRun()
     {
         wallrunning = false;
         _rigidbody.AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
-        _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
 
-        lean.StopAllCoroutines();
+        // lean.StopAllCoroutines();
         lean.isLeaning = false;
         //lean.StartCoroutine(lean.ResetLean());
 
@@ -460,10 +473,23 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (wallgrabbed)
         {
             _rigidbody.useGravity = false;
+            
+            if (wallgrabbed)
+            {
+                if (Vector3.Dot(travelVector, wallGrappler.wallDir.normalized)  > 0.5f)
+                {
+                    StartCoroutine(DoWallRun());
+                }
+            }
+            
+            if (spacePressed)
+            {
+                StartCoroutine(doWallGrabJump());
+            }
             //_rigidbody.velocity = -Vector3.up * 0.2f;
         }
 
-        if (groundState == groundStates.InAir && !dashing)
+        if (groundState == groundStates.InAir && !dashing && !wallgrabbed)
         {
             //_capsule.center = new Vector3(0, 0.09f, 0);
             //cameraPos.localPosition = Vector3.Lerp(cameraPos.localPosition, new Vector3(0, -0.5f, 0), Time.deltaTime * 8);
@@ -478,6 +504,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
         if (wallrunning)
         {
             _rigidbody.velocity = Wallrunning_vect;
+        }
+    }
+
+    private bool wallJumpDebounce = true;
+    IEnumerator doWallGrabJump()
+    {
+        if (wallJumpDebounce)
+        {
+            wallgrabbed = false;
+            _rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.up * 10, ForceMode.Impulse);
+            yield return new WaitForSeconds(0.1f);
+            wallJumpDebounce = true;
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -530,6 +569,9 @@ public class PeterFPSCharacterController : MonoBehaviour {
                     Vector3 vel = _rigidbody.velocity;
                     _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
                     doubleJump = true;
+                    jumping = true;
+                    yield return new WaitForSeconds(0.1f);
+                    jumping = false;
                 }
             }
         }
