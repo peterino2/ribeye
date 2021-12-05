@@ -6,17 +6,13 @@ namespace Game
     public class Targetable: MonoBehaviour
     {
         [SerializeField] public Transform targetingLoc = null;
-        public bool targetSet;
+        public bool targetSet = true;
 
         private void Start()
         {
-            if (targetingLoc != null)
+            if (targetingLoc == null)
             {
-                targetSet = true;
-            }
-            else
-            {
-                targetSet = false;
+                targetingLoc = transform;
             }
         }
     }

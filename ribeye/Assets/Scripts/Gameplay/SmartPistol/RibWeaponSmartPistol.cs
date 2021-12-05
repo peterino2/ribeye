@@ -74,15 +74,27 @@ namespace Gameplay.Gunner
 
 
         private bool revolverReady = true;
+        private bool retriggerRevolver = false;
         IEnumerator RevolverHeavy()
         {
             if (revolverReady)
             {
                 revolverReady = false;
                 GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.3f);
-                StopCoroutine(playFireAnim());
                 StartCoroutine(playFireAnim());
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.25f);
+                
+                float t = 0f;
+                while (t < 0.15f)
+                {
+                    t += Time.deltaTime;
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        retriggerRevolver = true;
+                    }
+
+                    yield return null;
+                }
                 revolverReady = true;
             }
         }
@@ -111,6 +123,18 @@ namespace Gameplay.Gunner
         public override void ActivateWeapon()
         {
             modelBase.SetActive(true);
+        }
+
+        private void Update()
+        {
+            if (retriggerRevolver && revolverReady)
+            {
+                retriggerRevolver = false;
+                if (mode == SmartPistolModes.Revolver)
+                {
+                    StartCoroutine(RevolverHeavy());
+                }
+            }
         }
 
         public override void DeactivateWeapon()
