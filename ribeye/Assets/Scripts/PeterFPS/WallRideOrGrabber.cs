@@ -9,6 +9,7 @@ public class WallRideOrGrabber : MonoBehaviour
     // When this comes into a collision with a wall set the parent controller's wallGrappled to  
 
     private CapsuleCollider _capsule;
+    public Collider o;
     public GameObject _wall;
     public Vector3 wallNormal;
     public Vector3 wallDir;
@@ -27,12 +28,13 @@ public class WallRideOrGrabber : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall"))
         {
-            closestPoint = other.ClosestPoint(transform.position);
+            o = other;
+            _wall = other.gameObject;
+            closestPoint = o.ClosestPoint(transform.position);
                 
             wallDir = closestPoint - transform.position;
             Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
             wallNormal = hitInfo.normal;
-            _wall = other.gameObject;
         }
     }
 
@@ -54,6 +56,19 @@ public class WallRideOrGrabber : MonoBehaviour
         {
             string x = string.Format("wall at {0} with normal {1}", closestPoint, wallNormal);
             _debugText.text = x;
+
+            if (_wall)
+            {
+                if (wallNormal.y > 0.3f)
+                {
+                    _wall = null;
+                    closestPoint = o.ClosestPoint(transform.position);
+                        
+                    wallDir = closestPoint - transform.position;
+                    Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
+                    wallNormal = hitInfo.normal;
+                }
+            }
         }
         else
         {
