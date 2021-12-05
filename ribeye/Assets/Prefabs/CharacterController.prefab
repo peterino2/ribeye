@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607684447}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: CamP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1829725468805613095}
   - component: {fileID: 1829725468805613089}
   - component: {fileID: 1829725468805613088}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,8 @@ GameObject:
   - component: {fileID: 1829725469934545326}
   - component: {fileID: 1829725469934545315}
   - component: {fileID: 1829725469934545321}
-  m_Layer: 3
+  - component: {fileID: 1400026184659669375}
+  m_Layer: 7
   m_Name: CharacterController
   m_TagString: CharacterControllerTag
   m_Icon: {fileID: 0}
@@ -324,6 +325,20 @@ MonoBehaviour:
     m_Bits: 64
   maxAccelSpeed: 8
   maxSlideSpeed: 8
+--- !u!114 &1400026184659669375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829725469934545320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763118eb9ece414fb184c21aa30edfdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  maxHp: 100
 --- !u!1 &6891534868258378588
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6891534868258378591}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CamPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +380,7 @@ GameObject:
   - component: {fileID: 6891534868528301755}
   - component: {fileID: 6891534868528301754}
   - component: {fileID: 705478513430715662}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallGrabber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,6 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7597b5949058f4181c31e9a1379bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  o: {fileID: 0}
   _wall: {fileID: 0}
   wallNormal: {x: 0, y: 0, z: 0}
   wallDir: {x: 0, y: 0, z: 0}
@@ -426,7 +442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6891534869680529583}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CamP
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading;
 using Game;
 using Gameplay.Gunner;
+using Gameplay.Stats;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
@@ -20,6 +20,9 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField]
     public Sprite aimerRevolverEnemy;
     
+    [SerializeField]
+    public Sprite aimerSmartEnemy;
+    
     [SerializeField] public Color smartColor;
     [SerializeField] public Color enemyTargetColor;
     [SerializeField] public Color neutralColor;
@@ -32,7 +35,10 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField] public Camera mainCamera;
     
     [SerializeField] public Image reticuleMain;
+    [SerializeField] public Image hitmarker;
 
+
+    private float hitmarkerFade = 0.0f;
 
     [SerializeField] public GameObject imagePrefab;
     [SerializeField] private GameObject poolParent;
@@ -52,7 +58,7 @@ public class SmartAimerUI : MonoBehaviour
         {
             var o = Instantiate(imagePrefab, poolParent.transform);
             positionPool[i] = o.GetComponent<Image>();
-            positionPool[i].sprite = aimerRevolverEnemy;
+            positionPool[i].sprite = aimerSmartEnemy;
             positionPool[i].color = enemyTargetColor;
             positionPool[i].enabled = false;
         }
@@ -107,6 +113,14 @@ public class SmartAimerUI : MonoBehaviour
 
     void Update()
     {
+        hitmarkerFade -= Time.deltaTime * 5;
+        var c = hitmarker.color;
+        hitmarker.color = new Color(c.r, c.g, c.b, hitmarkerFade);
+        
+        Ray r = mainCamera.ScreenPointToRay(_rect.position);
+        
+        Debug.DrawLine(r.origin, r.direction*100f + r.origin);
+        
         if (mode == RibWeaponSmartPistol.SmartPistolModes.Smart)
         {
             HandleSmartTargetingVisuals();
@@ -134,13 +148,25 @@ public class SmartAimerUI : MonoBehaviour
     [SerializeField] private LayerMask mask;
 
     [SerializeField] GameObject test;
-    
+
+    public void Hitmarker()
+    {
+        hitmarkerFade = 1;
+    }
+
+    private EntityBase nearest;
+    private float nearest_mag;
     void HandleSmartTargetingVisuals()
     {
-        var targets = FindObjectsOfType<Targetable>();
+        var targets = FindObjectsOfType<RibTargetable>();
         confirmedTargets.Clear();
         targetPointsOnScreen.Clear();
 
+        nearest_mag = 100000f; 
+        nearest = null;
+        
+        print(targets.Length);
+        
         foreach(var target in targets)
         {
             Vector3 targetWorldPos;
@@ -154,8 +180,6 @@ public class SmartAimerUI : MonoBehaviour
             {
                 targetWorldPos = target.targetingLoc.transform.position;
             }
-
-            Debug.DrawLine(targetWorldPos, mainCamera.transform.position);
 
             var castv = targetWorldPos - mainCamera.transform.position;
             if (
@@ -178,6 +202,7 @@ public class SmartAimerUI : MonoBehaviour
             
             var r = _rect.rect;
             var targetPoint = point - _rect.position;
+            var close = targetPoint.magnitude;
             
             if (
                 targetPoint.x > (-0.5 * r.width) && 
@@ -187,7 +212,39 @@ public class SmartAimerUI : MonoBehaviour
             ) {
                 AddTargetingObject(point);
                 confirmedTargets.Add(target.gameObject);
+                if (close < nearest_mag)
+                {
+                    nearest_mag = close;
+                    nearest = target.target;
+                }
             }
+        }
+    }
+
+
+    public LayerMask playermask;
+    public bool GetCenterTarget(out Transform objectHit, out RaycastHit rayhit)
+    {
+        Ray ray = mainCamera.ScreenPointToRay(_rect.position);
+        objectHit = transform;
+        
+        if (Physics.Raycast(ray, out rayhit, Mathf.Infinity, playermask)) {
+            objectHit = rayhit.transform;
+            return true;
+        }
+
+        return false;
+    }
+
+    public EntityBase GetNearestTarget()
+    {
+        if (confirmedTargets.Count() > 0)
+        {
+            return nearest;
+        }
+        else
+        {
+            return null;
         }
     }
 

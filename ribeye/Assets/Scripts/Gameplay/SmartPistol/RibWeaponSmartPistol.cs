@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Gameplay.Stats;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Gameplay.Gunner
 {
@@ -26,15 +28,29 @@ namespace Gameplay.Gunner
         [SerializeField] private AnimationCurve smartPistolFire;
         [SerializeField] private AnimationCurve smartPistolBasePosition;
         
-        [SerializeField] private SmartAimerUI ui;
+        [SerializeField] private float damageSmart = 1.0f;
+        [SerializeField] private float damageRevolver = 1.5f;
         
-        private void Start()
+        [SerializeField] private SmartAimerUI ui;
+
+
+        private void Awake()
         {
             if (!active)
             {
                 modelBase.SetActive(false);
             }
+
+            bcurveGen = GetComponent<BezierCurveTracer>();
+            Assert.IsTrue(bcurveGen != null);
+            Assert.IsTrue(ui != null);
+            
             if(ui == null) ui = FindObjectOfType<SmartAimerUI>();
+        }
+
+        private BezierCurveTracer bcurveGen;
+        private void Start()
+        {
             StartCoroutine(switchModes(mode));
         }
         
@@ -55,11 +71,19 @@ namespace Gameplay.Gunner
             }
         }
 
-        void DoFire()
+        void DoSmartFire()
         {
             fireready = false;
-            GameManager._soundManager.PlaySound(0, transform.position, volume:0.3f);
-            StartCoroutine(playFireAnim());
+            var target = ui.GetNearestTarget();
+            if (target != null)
+            {
+                target.TakeDamage(damageSmart);
+                ui.Hitmarker();
+                bcurveGen.ShowTracer(model.transform, target.transform.position);
+                GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
+                GameManager.playHitSound(transform.position);
+                StartCoroutine(playFireAnim());
+            } 
             fireready = true;
         }
 
@@ -67,7 +91,7 @@ namespace Gameplay.Gunner
         {
             while (Input.GetKey(KeyCode.Mouse0) && fireready)
             {
-                DoFire();
+                DoSmartFire();
                 yield return new WaitForSeconds(1 / FireRate);
             }
         }
@@ -80,9 +104,19 @@ namespace Gameplay.Gunner
             if (revolverReady)
             {
                 revolverReady = false;
-                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.3f);
+                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.2f);
+                if (ui.GetCenterTarget(out Transform objectHit, out RaycastHit rayhit))
+                {
+                    EntityBase x = objectHit.gameObject.GetComponent<EntityBase>();
+                    if (x != null)
+                    {
+                        x.TakeDamage(damageRevolver);
+                        GameManager.playHitSound(transform.position);
+                        ui.Hitmarker();
+                    }
+                }
                 StartCoroutine(playFireAnim());
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(0.20f);
                 
                 float t = 0f;
                 while (t < 0.15f)
@@ -123,6 +157,7 @@ namespace Gameplay.Gunner
         public override void ActivateWeapon()
         {
             modelBase.SetActive(true);
+            ui.gameObject.SetActive(true);
         }
 
         private void Update()
@@ -140,6 +175,7 @@ namespace Gameplay.Gunner
         public override void DeactivateWeapon()
         {
             modelBase.SetActive(false);
+            ui.gameObject.SetActive(false);
         }
 
         public override string GetWeaponName()
