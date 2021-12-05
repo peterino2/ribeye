@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     public static void playHitSound(Vector3 loc)
     {
-        _soundManager.PlaySound(hitSoundIndex, loc, volume:1f);
+        _soundManager.PlaySound(critSoundIndex, loc, volume:1f);
     }
     
     public static void playCritSound(Vector3 loc)
