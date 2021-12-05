@@ -107,6 +107,10 @@ public class SmartAimerUI : MonoBehaviour
 
     void Update()
     {
+        Ray r = mainCamera.ScreenPointToRay(_rect.position);
+        
+        Debug.DrawLine(r.origin, r.direction*100f + r.origin);
+        
         if (mode == RibWeaponSmartPistol.SmartPistolModes.Smart)
         {
             HandleSmartTargetingVisuals();
@@ -203,12 +207,14 @@ public class SmartAimerUI : MonoBehaviour
         }
     }
 
+
+    public LayerMask playermask;
     public bool GetCenterTarget(out Transform objectHit, out RaycastHit rayhit)
     {
         Ray ray = mainCamera.ScreenPointToRay(_rect.position);
         objectHit = transform;
         
-        if (Physics.Raycast(ray, out rayhit)) {
+        if (Physics.Raycast(ray, out rayhit, Mathf.Infinity, playermask)) {
             objectHit = rayhit.transform;
             return true;
         }

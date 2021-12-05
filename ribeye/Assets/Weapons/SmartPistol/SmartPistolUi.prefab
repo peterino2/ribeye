@@ -354,6 +354,15 @@ MonoBehaviour:
   poolParent: {fileID: 6422495669832771695}
   targetingPoolSize: 40
   positionPool: []
+  confirmedTargets: []
+  targetPointsOnScreen: []
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  test: {fileID: 0}
+  playermask:
+    serializedVersion: 2
+    m_Bits: 119
 --- !u!1 &4209128256027794518
 GameObject:
   m_ObjectHideFlags: 0
