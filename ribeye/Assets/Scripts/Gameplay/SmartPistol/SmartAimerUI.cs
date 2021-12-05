@@ -166,12 +166,7 @@ public class SmartAimerUI : MonoBehaviour
                     )
                 )
             {
-                //test.transform.position = hit.transform.position;
-                // print(mask);
-                //if ((hit.transform.gameObject.layer & mask) > 0)
-                //{
                 continue;
-                //}
             }
 
             point = mainCamera.WorldToScreenPoint(targetWorldPos);

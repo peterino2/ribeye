@@ -13,13 +13,13 @@ namespace Gameplay.Gunner
         }
 
         [SerializeField] private SmartPistolModes mode = SmartPistolModes.Smart;
-        [SerializeField] private int gunshotIndex = 0; // see soundmanager prefab this needs to match
-        [SerializeField] private float FireRate = 25; // see soundmanager prefab this needs to match
+        [SerializeField] private int smartShotIndex = 0; // see soundmanager prefab this needs to match
+        [SerializeField] private int revolverShotIndex = 1; // see soundmanager prefab this needs to match
+        [SerializeField] private float FireRate = 25;
         [SerializeField] private GameObject AimerPrefab;
         [SerializeField] private string weaponName = "SmartPistol";
         
-        [SerializeField]
-        private bool active = false;
+        [SerializeField] private bool active = false;
 
         [SerializeField] private GameObject model;
         [SerializeField] private GameObject modelBase;
@@ -35,6 +35,7 @@ namespace Gameplay.Gunner
                 modelBase.SetActive(false);
             }
             if(ui == null) ui = FindObjectOfType<SmartAimerUI>();
+            StartCoroutine(switchModes(mode));
         }
         
         private bool fireready = true;
@@ -45,10 +46,12 @@ namespace Gameplay.Gunner
             {
                 StartCoroutine(FullAutoSmart());
             }
-
-            if (mode == SmartPistolModes.Revolver)
+            else if (mode == SmartPistolModes.Revolver)
             {
-                
+                if (revolverReady)
+                {
+                    StartCoroutine(RevolverHeavy());
+                }
             }
         }
 
@@ -69,6 +72,21 @@ namespace Gameplay.Gunner
             }
         }
 
+
+        private bool revolverReady = true;
+        IEnumerator RevolverHeavy()
+        {
+            if (revolverReady)
+            {
+                revolverReady = false;
+                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.3f);
+                StopCoroutine(playFireAnim());
+                StartCoroutine(playFireAnim());
+                yield return new WaitForSeconds(0.4f);
+                revolverReady = true;
+            }
+        }
+
         IEnumerator switchModes(SmartPistolModes newMode)
         {
             mode = newMode;
@@ -86,6 +104,8 @@ namespace Gameplay.Gunner
                 model.transform.localRotation = Quaternion.Euler(0, 0, yoffset * 15f);
                 yield return null;
             }
+            
+            model.transform.localRotation = Quaternion.Euler(0, 0, 0);
         } 
 
         public override void ActivateWeapon()
