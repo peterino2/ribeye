@@ -24,6 +24,12 @@ ModelImporter:
   - first:
       74: -8118085603667230786
     second: Armature|SmartPistolShoot
+  - first:
+      74: -4528270657951867006
+    second: Armature|BladeEquip
+  - first:
+      74: 8576591457078069526
+    second: Armature|SmartPistolEquip
   externalObjects: {}
   materials:
     materialImportMode: 2
