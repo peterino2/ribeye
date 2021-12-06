@@ -113,25 +113,25 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -6201218146421323594}
-    m_Position: {x: 710, y: -680, z: 0}
+    m_Position: {x: 540, y: -680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6899306545767689129}
-    m_Position: {x: 270, y: -130, z: 0}
+    m_Position: {x: 220, y: -240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -900618743274097136}
-    m_Position: {x: 710, y: -850, z: 0}
+    m_Position: {x: 540, y: -850, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6921642994871012432}
-    m_Position: {x: 330, y: 160, z: 0}
+    m_Position: {x: 620, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8471966032539616354}
     m_Position: {x: 220, y: -360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3859888491632191972}
-    m_Position: {x: 980, y: -850, z: 0}
+    m_Position: {x: 810, y: -850, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3329795017437461742}
-    m_Position: {x: 710, y: -520, z: 0}
+    m_Position: {x: 540, y: -520, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 544694509996846844}
     m_Position: {x: 750, y: -360, z: 0}
@@ -143,16 +143,16 @@ AnimatorStateMachine:
     m_Position: {x: 620, y: -240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2760128269515469299}
-    m_Position: {x: 1290, y: -680, z: 0}
+    m_Position: {x: 1110, y: -680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4005803844528020923}
-    m_Position: {x: 1290, y: -820, z: 0}
+    m_Position: {x: 1110, y: -850, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5004120805417027601}
-    m_Position: {x: 1550, y: -820, z: 0}
+    m_Position: {x: 1370, y: -850, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 873417097899146140}
-    m_Position: {x: 1000, y: -680, z: 0}
+    m_Position: {x: 830, y: -680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7706669678366158808}
     m_Position: {x: 1020, y: -360, z: 0}
@@ -161,8 +161,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 280, y: -640, z: 0}
-  m_EntryPosition: {x: 60, y: 160, z: 0}
+  m_AnyStatePosition: {x: 150, y: -770, z: 0}
+  m_EntryPosition: {x: 640, y: -70, z: 0}
   m_ExitPosition: {x: 930, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -6921642994871012432}
