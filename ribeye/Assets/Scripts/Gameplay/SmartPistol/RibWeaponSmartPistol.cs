@@ -15,19 +15,18 @@ namespace Gameplay.Gunner
             Revolver
         }
 
+        private bool isActive = false;
+
         [SerializeField] private SmartPistolModes mode = SmartPistolModes.Smart;
         [SerializeField] private int smartShotIndex = 0; // see soundmanager prefab this needs to match
         [SerializeField] private int revolverShotIndex = 1; // see soundmanager prefab this needs to match
         [SerializeField] private float FireRate = 25;
-        [SerializeField] private GameObject AimerPrefab;
         [SerializeField] private string weaponName = "SmartPistol";
         
         [SerializeField] private bool active = false;
 
         [SerializeField] private GameObject model;
         [SerializeField] private GameObject modelBase;
-        [SerializeField] private AnimationCurve smartPistolFire;
-        [SerializeField] private AnimationCurve smartPistolBasePosition;
         
         [SerializeField] private float damageSmart = 1.0f;
         [SerializeField] private float damageRevolver = 1.5f;
@@ -84,7 +83,8 @@ namespace Gameplay.Gunner
                 bcurveGen.ShowTracer(model.transform, obj.targetingLoc.position);
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
-                StartCoroutine(playFireAnim());
+                gunAnimator.Play("PistolSmartModeShoot");
+                    // StartCoroutine(playFireAnim());
             } 
             fireready = true;
         }
@@ -96,6 +96,8 @@ namespace Gameplay.Gunner
                 DoSmartFire();
                 yield return new WaitForSeconds(1 / FireRate);
             }
+
+            fireready = true;
         }
 
 
@@ -117,7 +119,7 @@ namespace Gameplay.Gunner
                         ui.Hitmarker();
                     }
                 }
-                StartCoroutine(playFireAnim());
+                gunAnimator.Play("PistolShoot");
                 yield return new WaitForSeconds(0.20f);
                 
                 float t = 0f;
@@ -139,27 +141,36 @@ namespace Gameplay.Gunner
         {
             mode = newMode;
             ui.SetMode(mode);
+            if (newMode == SmartPistolModes.Revolver)
+            {
+                gunAnimator.Play("PistolSmartModeDeactivate");
+            }
+            else
+            {
+                gunAnimator.Play("PistolSmartModeActivate");
+            }
             yield return null;
         }
 
-        IEnumerator playFireAnim()
+        IEnumerator doEquip()
         {
-            float time = 0;
-            while (time < smartPistolFire.length)
+            gunAnimator.Play("PistolEquip");
+            if (mode == SmartPistolModes.Smart)
             {
-                float yoffset = smartPistolFire.Evaluate(time);
-                time += Time.deltaTime;
-                model.transform.localRotation = Quaternion.Euler(0, 0, yoffset * 15f);
-                yield return null;
+                yield return new WaitForSeconds(0.100f);
+            gunAnimator.Play("PistolSmartModeActivate");
             }
-            
-            model.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        } 
+        }
 
+        public override void OnReloadPressed()
+        {
+        }
+        
         public override void ActivateWeapon()
         {
             modelBase.SetActive(true);
             ui.gameObject.SetActive(true);
+            gunAnimator.Play("PistolEquip");
         }
 
         private void Update()
@@ -175,6 +186,13 @@ namespace Gameplay.Gunner
         }
 
         public override void DeactivateWeapon()
+        {
+            isActive = false;
+            modelBase.SetActive(false);
+            ui.gameObject.SetActive(false);
+        }
+        
+        public override void DeactivateWeaponNoAnim()
         {
             modelBase.SetActive(false);
             ui.gameObject.SetActive(false);

@@ -16,9 +16,12 @@ public class RibGunner : MonoBehaviour
 
     public RibWeaponBase activeGun;
     
+    [SerializeField] private Animator gunAnimator;
+    
     [SerializeField]
     private int weaponIndexStart = 0;
 
+    private int gunIndex;
     private void Awake()
     {
         gunrack = GetComponentsInChildren<RibWeaponBase>();
@@ -26,7 +29,8 @@ public class RibGunner : MonoBehaviour
         foreach (var gun in gunrack)
         {
             guns[gun.GetWeaponActivationIndex()] = gun;
-            gun.DeactivateWeapon();
+            gun.gunAnimator = gunAnimator;
+            gun.DeactivateWeaponNoAnim();
         }
     }
 
@@ -38,6 +42,20 @@ public class RibGunner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gunAnimator.Play("BladeSwingSeq2");
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            gunAnimator.Play("BladeSwingSeq1");
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            print("hello");
+            gunAnimator.Play("Armature|HookToss");
+        }
+        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             activeGun.OnFire();
@@ -53,21 +71,24 @@ public class RibGunner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
     }
 
-    void TryActivateGun(int gunIndex)
+    void TryActivateGun(int newGunIndex)
     {
-        if (guns[gunIndex])
+        if (gunIndex == newGunIndex) return;
+        if (guns[newGunIndex])
         {
-            ActivateGun(gunIndex);
+            ActivateGun(newGunIndex);
         }
     }
 
-    void ActivateGun(int gunIndex)
+
+    void ActivateGun(int newGunIndex)
     {
         if(activeGun) activeGun.DeactivateWeapon();
-        if (guns[gunIndex])
+        if (guns[newGunIndex])
         {
-            guns[gunIndex].ActivateWeapon();
-            activeGun = guns[gunIndex];
+            gunIndex = newGunIndex;
+            guns[newGunIndex].ActivateWeapon();
+            activeGun = guns[newGunIndex];
         }
     }
 }
