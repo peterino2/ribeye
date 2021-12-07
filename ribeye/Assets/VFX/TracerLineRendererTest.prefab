@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7526272197592111368}
   - component: {fileID: 2626362448962805015}
+  - component: {fileID: -3611158427581734733}
   m_Layer: 0
   m_Name: TracerLineRendererTest
   m_TagString: Untagged
@@ -103,7 +104,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.7951523, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -138,3 +139,15 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &-3611158427581734733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6511448528798660148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534278f3c2a9ee0419fa7ed39b449bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
