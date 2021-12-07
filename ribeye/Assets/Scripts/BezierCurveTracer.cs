@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class BezierCurveTracer : MonoBehaviour {
 
@@ -29,17 +31,23 @@ public class BezierCurveTracer : MonoBehaviour {
     private class TracerClass {
         //Declare
         public GameObject TheGameObject = null;
-        public LineRenderer TheLineRenderer = null;
+        //public LineRenderer TheLineRenderer = null;
+        public CurvedBullet curvedBullet = null;
         //Constructor
         public TracerClass(GameObject theGameObject, int numberOfPoints) {
             //Set
             TheGameObject = theGameObject;
             //Set
-            TheLineRenderer = TheGameObject.GetComponent<LineRenderer>();
+            //TheLineRenderer = TheGameObject.GetComponent<LineRenderer >();
+            curvedBullet = TheGameObject.GetComponent<CurvedBullet>();
+            curvedBullet.points = new Vector3[numberOfPoints];
+            curvedBullet.pointIndex = 256;
+            //Assert.IsNotNull(curvedBullet);
             //Disable
-            TheGameObject.SetActive(false);
+            // TheGameObject.SetActive(false);
             //Set positions count
-            TheLineRenderer.positionCount = numberOfPoints;
+            // TheLineRenderer.positionCount = numberOfPoints;
+            // curvedBullet.numberOfPoints = numberOfPoints;
         }
     }
 
@@ -79,7 +87,7 @@ public class BezierCurveTracer : MonoBehaviour {
         //Loop
         for (int i = 0; i < tracers.Length; i++) {
             //Create
-            tracers[i] = new TracerClass(Instantiate(tracerPrefab, transform), numberOfPoints);
+            tracers[i] = new TracerClass(Instantiate(tracerPrefab), numberOfPoints);
         }
     }
 
@@ -97,9 +105,9 @@ public class BezierCurveTracer : MonoBehaviour {
         //Declare
         float m = multiplerCurving;
 
-        m = Random.Range(-6, 6);
-        float u = Random.Range(-4, 2);
-        Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * m) + (gunMuzzlePoint.forward * multiplerForwarding) + (-gunMuzzlePoint.up * u);
+        m = Random.Range(-2, 6);
+        float u = Random.Range(-2, 6);
+        Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * m) + (gunMuzzlePoint.forward * multiplerForwarding) + (Vector3.up * u);
         
         // Vector3 startingCurve = gunMuzzlePoint.position + ()
         Vector3 endingCurve = endingPosition + (-gunMuzzlePoint.right * m) + (-gunMuzzlePoint.forward * multiplerForwarding) + (-gunMuzzlePoint.up * u);
@@ -111,9 +119,10 @@ public class BezierCurveTracer : MonoBehaviour {
         //Set last
         linePositions.Positions[lengthCalculated] = endingPosition;
         //Set positions
-        tracers[nextTracer].TheLineRenderer.SetPositions(linePositions.Positions);
+        tracers[nextTracer].curvedBullet.transform.position = transform.position;
         //Enable
         tracers[nextTracer].TheGameObject.SetActive(true);
+        tracers[nextTracer].curvedBullet.SetPositions(linePositions.Positions);
         //Increase
         nextTracer = (nextTracer + 1) % numberOfPoints;
     }
