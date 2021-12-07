@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WallRideOrGrabber : MonoBehaviour
 {
-    // When this comes into a collision with a wall set the parent controller's wallGrappled to  
+    // When this comes into a collision with a wall set the parent controller's wallGrappled to
 
     private CapsuleCollider _capsule;
     public Collider o;
@@ -16,7 +16,7 @@ public class WallRideOrGrabber : MonoBehaviour
     public Vector3 closestPoint;
 
     [SerializeField] private TextMeshProUGUI _debugText;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +24,14 @@ public class WallRideOrGrabber : MonoBehaviour
         _wall = null;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Wall"))
+        if (_wall == null && other.gameObject.CompareTag("Wall"))
         {
             o = other;
             _wall = other.gameObject;
+            Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
+            wallNormal = hitInfo.normal;
         }
     }
 
@@ -50,11 +52,11 @@ public class WallRideOrGrabber : MonoBehaviour
         if (_wall)
         {
             closestPoint = o.ClosestPoint(transform.position);
-                
+
             wallDir = closestPoint - transform.position;
             Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
             wallNormal = hitInfo.normal;
-            
+
             string x = string.Format("wall at {0} with normal {1}", closestPoint, wallNormal);
             _debugText.text = x;
 
@@ -62,7 +64,7 @@ public class WallRideOrGrabber : MonoBehaviour
             {
                 _wall = null;
                 closestPoint = o.ClosestPoint(transform.position);
-                    
+
                 wallDir = closestPoint - transform.position;
                 wallNormal = hitInfo.normal;
             }
