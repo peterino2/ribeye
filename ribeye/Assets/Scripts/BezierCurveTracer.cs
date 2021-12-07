@@ -107,8 +107,8 @@ public class BezierCurveTracer : MonoBehaviour {
         //Declare
         float m = multiplerCurving;
 
-        m = Random.Range(-2, 6);
-        float u = Random.Range(-2, 6);
+        m = Random.Range(-1, 3);
+        float u = Random.Range(-1, 3);
         Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * m) + (gunMuzzlePoint.forward * multiplerForwarding) + (Vector3.up * u);
         
         // Vector3 startingCurve = gunMuzzlePoint.position + ()

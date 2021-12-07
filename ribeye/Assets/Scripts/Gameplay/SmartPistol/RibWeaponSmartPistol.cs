@@ -24,6 +24,7 @@ namespace Gameplay.Gunner
         [SerializeField] private string weaponName = "SmartPistol";
         
         [SerializeField] private bool active = false;
+        [SerializeField] private float range = 38;
 
         [SerializeField] private GameObject muzzle;
         [SerializeField] private GameObject model;
@@ -53,6 +54,7 @@ namespace Gameplay.Gunner
         private void Start()
         {
             StartCoroutine(switchModes(mode));
+            ui.range = range;
         }
         
         private bool fireready = true;
@@ -85,7 +87,7 @@ namespace Gameplay.Gunner
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
                 gunAnimator.Play("PistolSmartModeShoot");
-                    // StartCoroutine(playFireAnim());
+                // StartCoroutine(playFireAnim());
             } 
             fireready = true;
         }

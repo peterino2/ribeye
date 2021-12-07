@@ -46,6 +46,8 @@ public class SmartAimerUI : MonoBehaviour
     
     public Image[] positionPool;
     private RectTransform _rect;
+
+    public float range;
     
     void Start()
     {
@@ -172,13 +174,10 @@ public class SmartAimerUI : MonoBehaviour
             Vector3 targetWorldPos;
             Vector3 point;
             
-            if (target.targetSet)
+            targetWorldPos = target.targetingLoc.transform.position;
+            if ((targetWorldPos - mainCamera.transform.position).magnitude > range)
             {
-                 targetWorldPos = target.targetingLoc.transform.position;
-            }
-            else
-            {
-                targetWorldPos = target.targetingLoc.transform.position;
+                continue;
             }
 
             var castv = targetWorldPos - mainCamera.transform.position;
