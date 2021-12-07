@@ -300,11 +300,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         wallrunning = false;
         _rigidbody.AddForce(Vector3.up * 1.5f, ForceMode.Impulse);
-
         // lean.StopAllCoroutines();
         lean.isLeaning = false;
-        //lean.StartCoroutine(lean.ResetLean());
-
         //_rigidbody.velocity += wallGrappler.wallNormal *  (jumpImpulse * 10);
         doubleJump = false;
     }
