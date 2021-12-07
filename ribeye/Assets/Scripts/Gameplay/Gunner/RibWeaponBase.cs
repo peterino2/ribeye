@@ -7,6 +7,8 @@ namespace Gameplay.Gunner
         public int activationIndex = 0;
         private float sprayDeg = 25;
 
+        public RibGunner gunner;
+        
         public Animator gunAnimator;
         public abstract void ActivateWeapon();
         
@@ -14,6 +16,8 @@ namespace Gameplay.Gunner
         
         public abstract void DeactivateWeaponNoAnim();
         public abstract void OnFire();
+        
+        public abstract bool CanActivate();
         
         public abstract void OnReloadPressed();
         public abstract string GetWeaponName();

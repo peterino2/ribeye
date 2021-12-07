@@ -38,6 +38,12 @@ namespace Gameplay.Gunner
 
         public override void DeactivateWeaponNoAnim()
         {
+            model.SetActive(false);
+        }
+        
+        public override bool CanActivate()
+        {
+            return gunner.upgrades.Contains("Sword");
         }
 
         public override string GetWeaponName()
