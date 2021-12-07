@@ -31,22 +31,24 @@ public class BezierCurveTracer : MonoBehaviour {
     private class TracerClass {
         //Declare
         public GameObject TheGameObject = null;
-        //public LineRenderer TheLineRenderer = null;
-        public CurvedBullet curvedBullet = null;
+        public LineRenderer TheLineRenderer = null;
+        public CurvedLine curvedLine = null;
+        //public CurvedBullet curvedBullet = null;
         //Constructor
         public TracerClass(GameObject theGameObject, int numberOfPoints) {
             //Set
             TheGameObject = theGameObject;
             //Set
-            //TheLineRenderer = TheGameObject.GetComponent<LineRenderer >();
-            curvedBullet = TheGameObject.GetComponent<CurvedBullet>();
-            curvedBullet.points = new Vector3[numberOfPoints];
-            curvedBullet.pointIndex = 256;
+            TheLineRenderer = TheGameObject.GetComponent<LineRenderer >();
+            curvedLine = TheGameObject.GetComponent<CurvedLine>();
+            //curvedBullet = TheGameObject.GetComponent<CurvedBullet>();
+            // curvedBullet.points = new Vector3[numberOfPoints];
+            // curvedBullet.pointIndex = 256;
             //Assert.IsNotNull(curvedBullet);
             //Disable
-            // TheGameObject.SetActive(false);
+            TheGameObject.SetActive(false);
             //Set positions count
-            // TheLineRenderer.positionCount = numberOfPoints;
+            TheLineRenderer.positionCount = numberOfPoints;
             // curvedBullet.numberOfPoints = numberOfPoints;
         }
     }
@@ -119,10 +121,12 @@ public class BezierCurveTracer : MonoBehaviour {
         //Set last
         linePositions.Positions[lengthCalculated] = endingPosition;
         //Set positions
-        tracers[nextTracer].curvedBullet.transform.position = transform.position;
+        //tracers[nextTracer].curvedBullet.transform.position = transform.position;
         //Enable
         tracers[nextTracer].TheGameObject.SetActive(true);
-        tracers[nextTracer].curvedBullet.SetPositions(linePositions.Positions);
+        tracers[nextTracer].TheLineRenderer.SetPositions(linePositions.Positions);
+        tracers[nextTracer].curvedLine.Fade();
+        //tracers[nextTracer].curvedBullet.SetPositions(linePositions.Positions);
         //Increase
         nextTracer = (nextTracer + 1) % numberOfPoints;
     }

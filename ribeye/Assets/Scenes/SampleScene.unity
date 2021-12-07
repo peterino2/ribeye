@@ -34318,6 +34318,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1829725468805613088, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
+      propertyPath: mask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 1829725469934545314, guid: 3d391c478ffc66145903f1480c16b082, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -40676,10 +40680,14 @@ PrefabInstance:
     - target: {fileID: 6686307392051976602, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: tracerPrefab
       value: 
-      objectReference: {fileID: 4584830584712626748, guid: 21963c10b6c3acc41a9097f30887cca9, type: 3}
+      objectReference: {fileID: 6511448528798660148, guid: 4698ed23951661e469e6c66d7e70375e, type: 3}
     - target: {fileID: 6686307392051976602, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: numberOfPoints
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686307392051976602, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
+      propertyPath: numberOfTracers
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6686307392051976602, guid: d92a3bd2d8df20040b5e42101d3d1d8b, type: 3}
       propertyPath: multiplerForwarding
