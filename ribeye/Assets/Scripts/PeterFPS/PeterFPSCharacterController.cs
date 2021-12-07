@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Gameplay.Core;
+using Gameplay.Gunner;
 using TMPro;
 using UnityEngine;
 using Cursor = UnityEngine.Cursor;
@@ -38,6 +40,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
     
     [SerializeField] private TextMeshProUGUI dbgui;
 
+    public RibGunner gunner;
+
     [Header("Rigidbody Stuff")]
     private Vector3 cachedvelocity;
     private Vector3 f;
@@ -72,6 +76,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         originalConstraints = _rigidbody.constraints;
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 60;
+        // gunner = cameraLook.gameObject.GetComponent<RibGunner>();
         //_capsule = GetComponent<CapsuleCollider>();
     }
 
@@ -248,7 +253,29 @@ public class PeterFPSCharacterController : MonoBehaviour {
             postPound = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (_interactable)
+            {
+                _interactable.Activate(this);
+            }
+        }
+
         HandleDebugUi();
+    }
+
+    public RibInteractable _interactable = null;
+    public void SetInteractable(RibInteractable i)
+    {
+        _interactable = i;
+    }
+
+    public void ClearInteractable(RibInteractable i)
+    {
+        if (_interactable == i)
+        {
+            _interactable = null;
+        }
     }
 
     private void HandleDebugUi()
@@ -256,6 +283,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
         string dbgString = string.Format("jumping: {0}, sliding{1}, dashing{2}, doublejump{3}\n", jumping, sliding, dashing, doubleJump);
         dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
         dbgString += string.Format("\ntravel{0}", travelVector);
+        dbgString += string.Format("\nupgrades (gunner_index = {0}):", gunner.gunIndex);
+        foreach (var upgrade in gunner.upgrades)
+        {
+            dbgString += string.Format("\n{0}", upgrade);
+        }
+            
         dbgui.text = dbgString;
     }
 

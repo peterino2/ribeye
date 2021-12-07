@@ -7,6 +7,7 @@ public class PeterFPSCameraLook : MonoBehaviour
 {
     private Transform cameraTransform;
     [SerializeField] private PeterFPSCharacterController _controller;
+    [SerializeField] public RibGunner gunner;
     private void Start()
     {
         cameraTransform = transform;

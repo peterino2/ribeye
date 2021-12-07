@@ -158,7 +158,7 @@ namespace Gameplay.Gunner
             if (mode == SmartPistolModes.Smart)
             {
                 yield return new WaitForSeconds(0.100f);
-            gunAnimator.Play("PistolSmartModeActivate");
+                gunAnimator.Play("PistolSmartModeActivate");
             }
         }
 
@@ -170,7 +170,7 @@ namespace Gameplay.Gunner
         {
             modelBase.SetActive(true);
             ui.gameObject.SetActive(true);
-            gunAnimator.Play("PistolEquip");
+            StartCoroutine(doEquip());
         }
 
         private void Update()
@@ -187,15 +187,14 @@ namespace Gameplay.Gunner
 
         public override void DeactivateWeapon()
         {
-            isActive = false;
-            modelBase.SetActive(false);
-            ui.gameObject.SetActive(false);
+            DeactivateWeaponNoAnim();
         }
         
         public override void DeactivateWeaponNoAnim()
         {
             modelBase.SetActive(false);
             ui.gameObject.SetActive(false);
+            mode = SmartPistolModes.Revolver;
         }
 
         public override string GetWeaponName()
@@ -207,7 +206,19 @@ namespace Gameplay.Gunner
         {
             SmartPistolModes newmode =
                 mode == SmartPistolModes.Smart ? SmartPistolModes.Revolver : SmartPistolModes.Smart;
-            StartCoroutine(switchModes(newmode));
+            
+            if (
+                (newmode == SmartPistolModes.Smart && 
+                    gunner.upgrades.Contains("PistolSmart")) || 
+                (newmode == SmartPistolModes.Revolver)
+            ) {
+                StartCoroutine(switchModes(newmode));
+            }
+        }
+
+        public override bool CanActivate()
+        {
+            return gunner.upgrades.Contains("PistolBasic");
         }
 
     }
