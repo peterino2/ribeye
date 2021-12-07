@@ -8,14 +8,15 @@ public class TurretObjectPool : MonoBehaviour {
 
     //Declare serializables
     [Header("Setup")]
+    [SerializeField] private TurretBehavior turretBehavior = null;
     [SerializeField] private GameObject prefabBullet = null;
-    [SerializeField] private Transform turretMuzzlePoint = null;
 
     [Header("Specifications")]
     [SerializeField] private int numberOfBullets = 100;
 
     //Declare privates
     private BulletPool[] bulletPool = null;
+    private int index = 0;
 
     #endregion
 
@@ -47,6 +48,37 @@ public class TurretObjectPool : MonoBehaviour {
             //Create
             bulletPool[i] = new BulletPool(Instantiate(prefabBullet, transform));
         }
+    }
+
+    #endregion
+
+    #region Public functions
+
+    public void Shoot() {
+        //Reset physics
+        ResetPhysicsOfBullet(index);
+        //Position object
+        bulletPool[index].TheGameObject.transform.SetPositionAndRotation(turretBehavior.turretMuzzlePoint.transform.position, turretBehavior.turretMuzzlePoint.transform.rotation);
+        //Enable
+        bulletPool[index].TheGameObject.SetActive(true);
+        //Add force
+        bulletPool[index].TheRigidbody.AddForce(turretBehavior.turretMuzzlePoint.forward * turretBehavior.shootingForce);
+        //Increase
+        index = (index + 1) % numberOfBullets;
+    }
+
+    private void ResetPhysicsOfBullet(int indexToBe) {
+        //Reset
+        bulletPool[indexToBe].TheRigidbody.velocity = Vector3.zero;
+        bulletPool[indexToBe].TheRigidbody.angularVelocity = Vector3.zero;
+    }
+
+    #endregion
+
+    #region Update
+
+    private void Update() {
+        
     }
 
     #endregion

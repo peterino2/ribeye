@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 172524403}
   - component: {fileID: 172524402}
   - component: {fileID: 172524401}
+  - component: {fileID: 172524404}
   m_Layer: 0
   m_Name: TurretTarget
   m_TagString: Untagged
@@ -204,6 +205,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &172524404
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172524400}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &194709500 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3029506368048398367, guid: 7602bf2f7bb19624abd9440277fb7c03, type: 3}
@@ -221,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cdf3dec14b7f94088d438482027669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretBehavior: {fileID: 3187256509575217072}
   prefabBullet: {fileID: 1978246589321100149, guid: 8c7ab3bd204992f49a383ae7a048e5ec, type: 3}
-  turretMuzzlePoint: {fileID: 1311581385}
   numberOfBullets: 100
 --- !u!1 &412498219
 GameObject:
@@ -269,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 172524403}
-  Speed: 100
+  Speed: 10
   Axis: 1
   CanLock: 0
   LowerBoundGreen: 90
@@ -690,6 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3937450894584411620}
   - component: {fileID: 3187256509575217071}
+  - component: {fileID: 3187256509575217072}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -716,6 +731,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3187256509575217072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3187256509575217070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5dd379eadd06a4688cf7b27ef2cb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turretManager: {fileID: 4710667646962827201}
+  turretMuzzlePoint: {fileID: 1311581385}
+  animator: {fileID: 3187256509575217071}
+  turretObjectPool: {fileID: 194709501}
+  detectionDistance: 25
+  shootingForce: 7000
+  targetingState: 0
+  shootingState: 0
 --- !u!4 &3937450894584411620
 Transform:
   m_ObjectHideFlags: 0
@@ -826,7 +861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 172524403}
-  Speed: 100
+  Speed: 10
   Axis: 0
   CanLock: 1
   LowerBoundGreen: 10
