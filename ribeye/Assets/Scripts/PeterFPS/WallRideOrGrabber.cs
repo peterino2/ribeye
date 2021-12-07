@@ -24,14 +24,14 @@ public class WallRideOrGrabber : MonoBehaviour
         _wall = null;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Wall"))
+        if (_wall == null && other.gameObject.CompareTag("Wall"))
         {
             o = other;
-            _wall = other.gameObject;
             closestPoint = o.ClosestPoint(transform.position);
-                
+
+            _wall = other.gameObject;
             wallDir = closestPoint - transform.position;
             Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
             wallNormal = hitInfo.normal;

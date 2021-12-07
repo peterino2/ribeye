@@ -206,7 +206,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0d211b86dae9546498b67a8d46842a3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -291,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 3830850257143328157}
+  camP: {fileID: 0}
   animCurve:
     serializedVersion: 2
     m_Curve:
@@ -333,6 +334,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isLeaning: 0
 --- !u!1 &9193560873156914957
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +382,8 @@ MonoBehaviour:
   activationIndex: 0
   sprayDeg: 25
   mode: 0
-  gunshotIndex: 0
+  smartShotIndex: 0
+  revolverShotIndex: 1
   FireRate: 15
   AimerPrefab: {fileID: 0}
   weaponName: SmartPistol
@@ -435,6 +438,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  damageSmart: 1
+  damageRevolver: 1.5
   ui: {fileID: 0}
 --- !u!1 &9193560874032003345
 GameObject:

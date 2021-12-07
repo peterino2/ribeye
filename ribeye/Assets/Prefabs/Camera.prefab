@@ -396,6 +396,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  damageSmart: 1
+  damageRevolver: 1.5
   ui: {fileID: 0}
 --- !u!1001 &5928559390186209974
 PrefabInstance:
@@ -508,6 +510,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -6095119559073912281, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d211b86dae9546498b67a8d46842a3b, type: 2}
     - target: {fileID: -5728967619238557315, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -524,6 +530,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: -4731029571240481571, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d211b86dae9546498b67a8d46842a3b, type: 2}
     - target: {fileID: -4475284159958914065, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -728,6 +738,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8662617239381368188, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d211b86dae9546498b67a8d46842a3b, type: 2}
     - target: {fileID: 8867820340813155973, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
       propertyPath: m_Layer
       value: 7
