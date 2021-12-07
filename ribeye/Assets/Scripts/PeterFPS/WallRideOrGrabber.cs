@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WallRideOrGrabber : MonoBehaviour
 {
-    // When this comes into a collision with a wall set the parent controller's wallGrappled to  
+    // When this comes into a collision with a wall set the parent controller's wallGrappled to
 
     private CapsuleCollider _capsule;
     public Collider o;
@@ -16,7 +16,7 @@ public class WallRideOrGrabber : MonoBehaviour
     public Vector3 closestPoint;
 
     [SerializeField] private TextMeshProUGUI _debugText;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +29,7 @@ public class WallRideOrGrabber : MonoBehaviour
         if (_wall == null && other.gameObject.CompareTag("Wall"))
         {
             o = other;
-            closestPoint = o.ClosestPoint(transform.position);
-
             _wall = other.gameObject;
-            wallDir = closestPoint - transform.position;
             Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
             wallNormal = hitInfo.normal;
         }
@@ -54,20 +51,22 @@ public class WallRideOrGrabber : MonoBehaviour
     {
         if (_wall)
         {
+            closestPoint = o.ClosestPoint(transform.position);
+
+            wallDir = closestPoint - transform.position;
+            Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
+            wallNormal = hitInfo.normal;
+
             string x = string.Format("wall at {0} with normal {1}", closestPoint, wallNormal);
             _debugText.text = x;
 
-            if (_wall)
+            if (wallNormal.y > 0.3f)
             {
-                if (wallNormal.y > 0.3f)
-                {
-                    _wall = null;
-                    closestPoint = o.ClosestPoint(transform.position);
-                        
-                    wallDir = closestPoint - transform.position;
-                    Physics.Raycast(transform.position, closestPoint - transform.position, out RaycastHit hitInfo, 5f, LayerMask.GetMask("Ground"));
-                    wallNormal = hitInfo.normal;
-                }
+                _wall = null;
+                closestPoint = o.ClosestPoint(transform.position);
+
+                wallDir = closestPoint - transform.position;
+                wallNormal = hitInfo.normal;
             }
         }
         else

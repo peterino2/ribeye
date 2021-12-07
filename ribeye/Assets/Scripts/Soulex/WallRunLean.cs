@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WallRunLean : MonoBehaviour
@@ -25,7 +27,7 @@ public class WallRunLean : MonoBehaviour
     {
         isLeaning = true;
         float pos = 0;
-        while (pos < 1)
+        while (pos < 1 && isLeaning)
         {
             pos += Time.deltaTime * 0.65f;
             cam.localRotation = Quaternion.Slerp(cam.localRotation, Quaternion.Euler(new Vector3(0, 0, animCurve.Evaluate(pos) * 12 * dir)), Time.deltaTime * 8);

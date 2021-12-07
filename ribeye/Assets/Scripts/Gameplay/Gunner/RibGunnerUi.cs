@@ -32,4 +32,9 @@ public class RibGunnerUi : MonoBehaviour
             gunnerDebug.text = m_debugText;
         }
     }
+
+    void SetInteractiveText()
+    {
+        
+    }
 }
