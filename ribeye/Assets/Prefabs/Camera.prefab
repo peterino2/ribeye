@@ -286,12 +286,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2272633388444709848}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0331, y: -0.0309, z: 0.0027}
+  m_LocalRotation: {x: -0.000000073055205, y: -0.58639735, z: -0.81002355, w: 0.0000001551917}
+  m_LocalPosition: {x: -0.00034692642, y: 0.014147863, z: -0.014538246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2234895104372184921}
-  m_RootOrder: 0
+  m_Father: {fileID: 961283249999341836}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2715528817881422659
 GameObject:
@@ -423,6 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2030345143004389692}
   - component: {fileID: 5497888477276164553}
+  - component: {fileID: 5260519872010812058}
   m_Layer: 0
   m_Name: Blade
   m_TagString: Untagged
@@ -438,7 +439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544150427202341448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.199, y: -0.595, z: 0.524}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 144332529228792486}
@@ -459,7 +460,25 @@ MonoBehaviour:
   activationIndex: 1
   gunner: {fileID: 0}
   gunAnimator: {fileID: 0}
+  damage: 5
   model: {fileID: 5220653994334745284}
+  targets: []
+  playermask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!65 &5260519872010812058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5544150427202341448}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5757988985097113376
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,9 +629,11 @@ MonoBehaviour:
   FireRate: 25
   weaponName: SmartPistol
   active: 0
+  range: 38
   muzzle: {fileID: 0}
   model: {fileID: 5679177344061759392}
   modelBase: {fileID: 5679177344061759392}
+  bulletImpact: {fileID: 0}
   damageSmart: 1
   damageRevolver: 1.5
   ui: {fileID: 0}
@@ -635,6 +656,63 @@ MonoBehaviour:
   multiplerForwarding: 2
   Gun: {fileID: 0}
   Enemy: {fileID: 0}
+--- !u!1001 &5201066432496524258
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4161594591982974182}
+    m_Modifications:
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0010381918
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.042796813
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00034757613
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8832462
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.04361264
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.028058033
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.4660332
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626723, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584830584712626748, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
+      propertyPath: m_Name
+      value: SwordTrailTip
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b09b2f7c420ef643912c46d6d043f3f, type: 3}
 --- !u!1001 &5928559390186209974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -984,6 +1062,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+--- !u!4 &4161594591982974182 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1475336377019140528, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+  m_PrefabInstance: {fileID: 5928559390186209974}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &961283249999341836 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6850348176053201850, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
+  m_PrefabInstance: {fileID: 5928559390186209974}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5220653994334745284 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7334951474422550414, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
@@ -992,11 +1080,6 @@ GameObject:
 --- !u!1 &5679177344061759392 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2059839302785064214, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
-  m_PrefabInstance: {fileID: 5928559390186209974}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2234895104372184921 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5568006165595821551, guid: 2d5879e5924301b4493fbb47634752eb, type: 3}
   m_PrefabInstance: {fileID: 5928559390186209974}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6182527665420264797 stripped
