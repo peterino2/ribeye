@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class AIController : MonoBehaviour {
 
@@ -10,12 +11,13 @@ public class AIController : MonoBehaviour {
     //Declare serializables
     [Header("Setup")]
     [SerializeField] private Transform destination = null;
+    [SerializeField] private Patrolling patrolling = null;
 
     [Header("Specifcations")]
     [SerializeField] private States startingState = States.Stand;
 
     //Declare privates
-    private NavMeshAgent navMeshAgent = null;
+    [NonSerialized] public NavMeshAgent navMeshAgent = null;
     private Vector3 previousTargetLocation = Vector3.zero;
     private States state = States.Stand;
 
@@ -41,6 +43,8 @@ public class AIController : MonoBehaviour {
             //Set destination now
             SetDestinationNow();
         }
+        //Check to initialize
+        patrolling?.Initialize();
     }
 
     private void SetDestinationNow() {
@@ -61,6 +65,11 @@ public class AIController : MonoBehaviour {
                 GoToDestinationState();
                 break;
             case States.Patrol:
+                //Check
+                if (patrolling != null) {
+                    //Patrol
+                    patrolling.Patrol();
+                }
                 break;
         }
     }
