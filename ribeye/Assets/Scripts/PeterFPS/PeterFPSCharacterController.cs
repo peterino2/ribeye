@@ -541,26 +541,26 @@ public class PeterFPSCharacterController : MonoBehaviour {
             wallJumpDebounce = true;
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (Physics.Raycast(transform.position, Vector3.down, 1.1f) && !(groundState == groundStates.Grounded))
-        {
-            if (collision.relativeVelocity.magnitude > 0.3f)
-            {
-                StartCoroutine(LerpCamDown());
-            }
-        }
-    }
-    IEnumerator LerpCamDown()
-    {
-        float pos = 0;
-        while (pos < 1)
-        {
-            pos += Time.deltaTime * 2.5f;
-            cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, fallCurve.Evaluate(pos), cameraPos.localPosition.z);
-            yield return null;
-        }
-    }
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     if (Physics.Raycast(transform.position, Vector3.down, 1.1f) && !(groundState == groundStates.Grounded))
+    //     {
+    //         if (collision.relativeVelocity.magnitude > 0.3f)
+    //         {
+    //             StartCoroutine(LerpCamDown());
+    //         }
+    //     }
+    // }
+    // IEnumerator LerpCamDown()
+    // {
+    //     float pos = 0;
+    //     while (pos < 1)
+    //     {
+    //         pos += Time.deltaTime * 2.5f;
+    //         cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, fallCurve.Evaluate(pos), cameraPos.localPosition.z);
+    //         yield return null;
+    //     }
+    // }
 
     private void HandleJumpFixedUpdate()
     {

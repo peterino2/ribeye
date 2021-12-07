@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SplineMesh;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,7 @@ public class PeterFPSGroundCheck : MonoBehaviour {
     [Header("Setup")]
     [SerializeField] private GameObject[] notAccepts = default;
     [SerializeField] private string[] tagNotAccepts = default;
+    [SerializeField] private LayerMask mask = default;
 
     //Declare privates
     [Header("Debugging")]
@@ -33,23 +35,29 @@ public class PeterFPSGroundCheck : MonoBehaviour {
 
     private bool CanBeAccepted(GameObject objGameObject) {
         //Loop
-        for (int i = 0; i < notAccepts.Length; i++) {
-            //Check
-            if (notAccepts[i].GetInstanceID() == objGameObject.GetInstanceID()) {
-                //Return
-                return false;
-            }
-        }
-        //Loop
-        for (int i = 0; i < tagNotAccepts.Length; i++) {
-            //Check
-            if (objGameObject.CompareTag(tagNotAccepts[i])) {
-                //Return
-                return false;
-            }
+        // for (int i = 0; i < notAccepts.Length; i++) {
+        //     //Check
+        //     if (notAccepts[i].GetInstanceID() == objGameObject.GetInstanceID()) {
+        //         //Return
+        //         return false;
+        //     }
+        // }
+        // //Loop
+        // for (int i = 0; i < tagNotAccepts.Length; i++) {
+        //     //Check
+        //     if (objGameObject.CompareTag(tagNotAccepts[i])) {
+        //         //Return
+        //         return false;
+        //     }
+        // }
+        // Layer check
+
+        if ((( 1 << objGameObject.layer) & mask.value) > 0)
+        {
+            return true;
         }
         //Return
-        return true;
+        return false;
     }
 
     private void OnTriggerExit(Collider other) {

@@ -25,6 +25,7 @@ namespace Gameplay.Gunner
         
         [SerializeField] private bool active = false;
 
+        [SerializeField] private GameObject muzzle;
         [SerializeField] private GameObject model;
         [SerializeField] private GameObject modelBase;
         
@@ -80,7 +81,7 @@ namespace Gameplay.Gunner
                 var obj = target.gameObject.GetComponent<RibTargetable>();
                 target.TakeDamage(damageSmart);
                 ui.Hitmarker();
-                bcurveGen.ShowTracer(model.transform, obj.targetingLoc.position);
+                bcurveGen.ShowTracer(muzzle.transform, obj.targetingLoc.position);
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
                 gunAnimator.Play("PistolSmartModeShoot");
@@ -195,6 +196,7 @@ namespace Gameplay.Gunner
             modelBase.SetActive(false);
             ui.gameObject.SetActive(false);
             mode = SmartPistolModes.Revolver;
+            ui.SetMode(mode);
         }
 
         public override string GetWeaponName()

@@ -35,6 +35,5 @@ public class WallRunLean : MonoBehaviour
             yield return null;
         }
         isLeaning = false;
-        isLeaning = false;
     }
 }
