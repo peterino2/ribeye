@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Gameplay.Core;
 using Gameplay.Gunner;
 using TMPro;
 using UnityEngine;
@@ -252,7 +253,29 @@ public class PeterFPSCharacterController : MonoBehaviour {
             postPound = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (_interactable)
+            {
+                _interactable.Activate(this);
+            }
+        }
+
         HandleDebugUi();
+    }
+
+    public RibInteractable _interactable = null;
+    public void SetInteractable(RibInteractable i)
+    {
+        _interactable = i;
+    }
+
+    public void ClearInteractable(RibInteractable i)
+    {
+        if (_interactable == i)
+        {
+            _interactable = null;
+        }
     }
 
     private void HandleDebugUi()

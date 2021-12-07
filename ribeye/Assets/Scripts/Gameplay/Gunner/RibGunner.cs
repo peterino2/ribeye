@@ -52,10 +52,18 @@ public class RibGunner : MonoBehaviour
         print("upgrade granted +++" + upgrade);
         if (gunIndex == -1)
         {
-            gunAnimator.gameObject.SetActive(true);
             // automatically equip the new weapon if it's smart pistol or sword
-            if (upgrade == "PistolBasic") TryActivateGun(0); // smart pistol index
-            if (upgrade == "Sword") TryActivateGun(1); // smart pistol index
+            if (upgrade == "PistolBasic")
+            {
+                gunAnimator.gameObject.SetActive(true);
+                TryActivateGun(0); // smart pistol index
+            }
+
+            if (upgrade == "Sword")
+            {
+                gunAnimator.gameObject.SetActive(true);
+                TryActivateGun(1); // smart pistol index
+            }
         }
     }
 
@@ -68,20 +76,7 @@ public class RibGunner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            gunAnimator.Play("BladeSwingSeq2");
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            gunAnimator.Play("BladeSwingSeq1");
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            print("hello");
-            gunAnimator.Play("Armature|HookToss");
-        }
-
+        
         if (gunIndex == -1)
         {
             return;

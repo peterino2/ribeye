@@ -1,24 +1,26 @@
 ﻿using System;
+using Gameplay.Core;
 using UnityEngine;
 
 namespace Gameplay.Gunner
 {
-    public class RibWeaponUpgrade : MonoBehaviour
+    public class RibWeaponUpgrade : RibInteractable
     {
         public string[] upgrades;
         public string name;
 
-        private void OnTriggerEnter(Collider other)
+        private void Awake()
         {
-            PeterFPSCharacterController go = other.gameObject.GetComponent<PeterFPSCharacterController>();
-            if (go)
+            FindObjectOfType<RibGunnerUi>();
+        }
+
+        public override void Activate(PeterFPSCharacterController controller)
+        {
+            foreach (var upgrade in upgrades)
             {
-                foreach (var upgrade in upgrades)
-                {
-                    go.gunner.GiveUpgrade(upgrade);
-                }
-                Destroy(gameObject);
+                controller.gunner.GiveUpgrade(upgrade);
             }
+            Destroy(gameObject);
         }
     }
 }
