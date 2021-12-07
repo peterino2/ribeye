@@ -103,12 +103,12 @@ public class BezierCurveTracer : MonoBehaviour {
     private void Update() {
     }
 
-    public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition) {
+    public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition, GameObject particlePrefab) {
         //Declare
         float m = multiplerCurving;
 
-        m = Random.Range(-2, 6);
-        float u = Random.Range(-2, 6);
+        m = Random.Range(-1, 3);
+        float u = Random.Range(-1, 3);
         Vector3 startingCurve = gunMuzzlePoint.position + (gunMuzzlePoint.right * m) + (gunMuzzlePoint.forward * multiplerForwarding) + (Vector3.up * u);
         
         // Vector3 startingCurve = gunMuzzlePoint.position + ()
@@ -126,6 +126,14 @@ public class BezierCurveTracer : MonoBehaviour {
         tracers[nextTracer].TheGameObject.SetActive(true);
         tracers[nextTracer].TheLineRenderer.SetPositions(linePositions.Positions);
         tracers[nextTracer].curvedLine.Fade();
+        // spawn a particle for the shot
+        //if (particlePrefab)
+        //{
+        //    var dir =(endingPosition - linePositions.Positions[lengthCalculated - 1]).normalized;
+        //    var start = (endingPosition - dir);
+        //    Physics.Raycast(start, dir, out RaycastHit r);
+        //    Instantiate(particlePrefab, r.point, Quaternion.LookRotation(r.normal));
+        //}
         //tracers[nextTracer].curvedBullet.SetPositions(linePositions.Positions);
         //Increase
         nextTracer = (nextTracer + 1) % numberOfPoints;

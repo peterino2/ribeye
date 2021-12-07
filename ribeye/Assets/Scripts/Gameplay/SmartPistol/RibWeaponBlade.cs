@@ -5,9 +5,15 @@ namespace Gameplay.Gunner
 {
     public class RibWeaponBlade : RibWeaponBase
     {
+        private Collider hurtbox;
         private void Awake()
         {
             activationIndex = 1;
+        }
+
+        private void Start()
+        {
+            hurtbox = GetComponent<Collider>();
         }
 
         [SerializeField] private GameObject model;
