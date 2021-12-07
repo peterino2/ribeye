@@ -30,6 +30,7 @@ namespace Gameplay.Gunner
         [SerializeField] private GameObject model;
         [SerializeField] private GameObject modelBase;
         
+        [SerializeField] private GameObject bulletImpact;
         [SerializeField] private float damageSmart = 1.0f;
         [SerializeField] private float damageRevolver = 1.5f;
         
@@ -81,9 +82,12 @@ namespace Gameplay.Gunner
             if (target != null)
             {
                 var obj = target.gameObject.GetComponent<RibTargetable>();
+                
+                Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,Mathf.Infinity, layerMask:ui.playermask);
                 target.TakeDamage(damageSmart);
                 ui.Hitmarker();
-                bcurveGen.ShowTracer(muzzle.transform, obj.targetingLoc.position);
+                bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
+                Instantiate(bulletImpact, r.point, Quaternion.LookRotation(r.normal));
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
                 GameManager.playHitSound(transform.position);
                 gunAnimator.Play("PistolSmartModeShoot");
@@ -121,6 +125,7 @@ namespace Gameplay.Gunner
                         GameManager.playHitSound(transform.position);
                         ui.Hitmarker();
                     }
+                    Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
                 }
                 gunAnimator.Play("PistolShoot");
                 yield return new WaitForSeconds(0.20f);

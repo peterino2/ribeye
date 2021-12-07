@@ -103,7 +103,7 @@ public class BezierCurveTracer : MonoBehaviour {
     private void Update() {
     }
 
-    public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition) {
+    public void ShowTracer(Transform gunMuzzlePoint, Vector3 endingPosition, GameObject particlePrefab) {
         //Declare
         float m = multiplerCurving;
 
@@ -126,6 +126,14 @@ public class BezierCurveTracer : MonoBehaviour {
         tracers[nextTracer].TheGameObject.SetActive(true);
         tracers[nextTracer].TheLineRenderer.SetPositions(linePositions.Positions);
         tracers[nextTracer].curvedLine.Fade();
+        // spawn a particle for the shot
+        //if (particlePrefab)
+        //{
+        //    var dir =(endingPosition - linePositions.Positions[lengthCalculated - 1]).normalized;
+        //    var start = (endingPosition - dir);
+        //    Physics.Raycast(start, dir, out RaycastHit r);
+        //    Instantiate(particlePrefab, r.point, Quaternion.LookRotation(r.normal));
+        //}
         //tracers[nextTracer].curvedBullet.SetPositions(linePositions.Positions);
         //Increase
         nextTracer = (nextTracer + 1) % numberOfPoints;
