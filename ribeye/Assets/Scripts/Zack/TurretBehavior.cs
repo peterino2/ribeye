@@ -22,6 +22,7 @@ public class TurretBehavior : MonoBehaviour {
     [Header("Specifications")]
     [SerializeField] private float detectionDistance = 25f;
     public float shootingForce = 7000f;
+    [SerializeField] private float speedWhenScanning = 5f;
 
     [Header("Debugging")]
     [SerializeField] private TargetingStates targetingState = TargetingStates.DoingNothing;
@@ -111,7 +112,7 @@ public class TurretBehavior : MonoBehaviour {
 
     private void Scanning() {
         //Target
-        turretManager.Target();
+        turretManager.Target(speedWhenScanning, true);
         //Check state
         switch (scanningState) {
             case ScanningStates.Right:
@@ -144,7 +145,7 @@ public class TurretBehavior : MonoBehaviour {
 
     private void Targeting() {
         //Target
-        turretManager.Target();
+        turretManager.Target(0f);
         //Raycast
         if (Physics.Raycast(turretMuzzlePoint.position, turretMuzzlePoint.forward, out RaycastHit raycastHit, detectionDistance * 2f)) {
             //Check
@@ -183,7 +184,7 @@ public class TurretBehavior : MonoBehaviour {
 
     private void LostTarget() {
         //Target
-        turretManager.Target();
+        turretManager.Target(0f);
         //Check
         if (turretManager.lookAtAndLockerScripts[0].transform.localEulerAngles == Vector3.zero && turretManager.lookAtAndLockerScripts[1].transform.localEulerAngles == Vector3.zero) {
             //Change rotation

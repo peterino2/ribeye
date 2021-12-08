@@ -10,7 +10,7 @@ public class LookAtAndLocker : MonoBehaviour {
     public Transform target = default;
 
     [Header("Specifications")]
-    [SerializeField] private float Speed = 100f;
+    public float Speed = 100f;
     [SerializeField] public enumAxis Axis = enumAxis.X;
 
     [Header("Locking")]
@@ -113,7 +113,7 @@ public class LookAtAndLocker : MonoBehaviour {
         return Vector3.ProjectOnPlane(target.position - transform.position, GetTransformDirection(transform)) + transform.position;
     }
 
-    public void RotateTowardsTarget() {
+    public void RotateTowardsTarget(float speedChange, bool change = false) {
         //Declare
         float fltAngle = Vector3.SignedAngle(GetAngleDirection(), GetAxisMatching() - transform.position, GetTransformDirection(transform));
         //Check if can lock
@@ -161,10 +161,10 @@ public class LookAtAndLocker : MonoBehaviour {
                     break;
             }
             //Rotate towards
-            AngleRotation(transform, ref fltAngleCache, fltAngle, fltGetSpeed(), (enumRotationAxes)Axis, false);
+            AngleRotation(transform, ref fltAngleCache, fltAngle, fltGetSpeed(speedChange, change), (enumRotationAxes)Axis, false);
         } else {
             //Rotate towards
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, quaGetRotation(fltAngle), fltGetSpeed());
+            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, quaGetRotation(fltAngle), fltGetSpeed(speedChange, change));
         }
     }
 
@@ -262,9 +262,15 @@ public class LookAtAndLocker : MonoBehaviour {
         }
     }
 
-    private float fltGetSpeed() {
-        //Return
-        return Speed * Time.deltaTime;
+    private float fltGetSpeed(float speed, bool change) {
+        //Check for speed change
+        if (change) {
+            //Return
+            return speed * Time.deltaTime;
+        } else {
+            //Return
+            return Speed * Time.deltaTime;
+        }
     }
 
     #endregion
