@@ -75,6 +75,8 @@ namespace Gameplay.Gunner
             }
         }
 
+        public LayerMask curveMask;
+
         void DoSmartFire()
         {
             fireready = false;
@@ -82,8 +84,7 @@ namespace Gameplay.Gunner
             if (target != null)
             {
                 var obj = target.gameObject.GetComponent<RibTargetable>();
-                
-                Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,Mathf.Infinity, layerMask:ui.playermask);
+                Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,Mathf.Infinity, curveMask);
                 target.TakeDamage(damageSmart);
                 ui.Hitmarker();
                 bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
