@@ -7,7 +7,7 @@ public class LookAtAndLocker : MonoBehaviour {
 
     //Declare serializables
     [Header("Setup")]
-    [SerializeField] private Transform target = default;
+    public Transform target = default;
 
     [Header("Specifications")]
     [SerializeField] private float Speed = 100f;
