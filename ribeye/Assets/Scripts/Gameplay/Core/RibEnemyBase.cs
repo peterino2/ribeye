@@ -9,6 +9,7 @@ namespace Gameplay.Core
         {
             health = Mathf.Max(health - damage, 0);
 
+            GameManager.playHitSound(transform.position);
             if (health <= 0.01f)
             {
                 GameManager.playHeavySound(transform.position);

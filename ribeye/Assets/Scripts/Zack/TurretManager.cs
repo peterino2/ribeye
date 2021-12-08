@@ -9,13 +9,13 @@ public class TurretManager : MonoBehaviour {
 
     //Declare serializables
     [Header("Setup")]
-    [SerializeField] private LookAtAndLocker[] lookAtAndLockerScripts = default;
+    public LookAtAndLocker[] lookAtAndLockerScripts = default;
 
     #endregion
 
     #region Update
 
-    private void Update() {
+    public void Target() {
         //Loop
         for (int intLoop = 0; intLoop < lookAtAndLockerScripts.Length; intLoop++) {
             //Look at
