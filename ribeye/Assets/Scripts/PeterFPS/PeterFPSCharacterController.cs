@@ -122,6 +122,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             dashReady = false;
             dashing = true;
+            hookingToTarget = false;
             //Vector3 cachedVelocity = _rigidbody.velocity;
             f = travelVector;
             if (f.magnitude < 0.5f)
@@ -228,109 +229,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
 
     private bool spacePressed = false;
-    private void Update() {
-        //Set input
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            spacePressed = true;
-        }
-        Lean();
-        inputScript.SetInput();
-
-        if (wallgrabtime > 0)
-        {
-            wallgrabtime -= Time.deltaTime;
-            if (wallgrabtime <= 0)
-            {
-                wallgrabbed = false;
-            }
-        }
-
-        HandleSlideActivate();
-        HandleDash();
-        HandleWallGrabberUpdate();
-
-        //Set state
-        if (groundCheck.OnGround()) {
-            //Change state
-            groundState = groundStates.Grounded;
-        } else {
-            //Change state
-            groundState = groundStates.InAir;
-        }
-        //Check
-        switch (inputScript.inputType) {
-            case PeterFPSInput.inputTypes.KeyboardAndMouse:
-                UseMouseInput();
-                break;
-            case PeterFPSInput.inputTypes.Controller:
-                UseControllerInput();
-                break;
-        }
-
-        if (!wallGrappler._wall)
-        {
-            wallgrabbed = false;
-            //StopCoroutine(doWallGrab());
-        }
-
-
-        int layer = 1 << 3;
-        layer = ~layer;
-        underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
-
-        if (wallgrabbed)
-        {
-            _rigidbody.useGravity = false;
-        }
-
-
-        if (!Input.GetKey(KeyCode.LeftControl))
-        {
-            postPound = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (_interactable)
-            {
-                _interactable.Activate(this);
-            }
-        }
-
-        if (wallgrabbed)
-        {
-            if (inputScript.vertical > 0.2f)
-            {
-                wallgrabbed = false;
-                //StopCoroutine(doWallGrab());
-                StartCoroutine(DoWallRun());
-            }
-        }
-        
-        if (wallrunning)
-        {
-            if (spacePressed)
-            {
-                //_rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
-                print("jumped from wallrun");
-                WallJumpSync();
-            } 
-            else if (!wallGrappler._wall)
-            {
-                wallgrabready = false;
-                wallrunning = false;
-                StartCoroutine(ResetWallgrabDebounce());
-                EndWallRun();
-            }
-        }
-        else if (wallgrabbed && spacePressed)
-        {
-            WallJumpSync();
-        }
-        
-        HandleDebugUi();
-    }
 
     public RibInteractable _interactable = null;
     public void SetInteractable(RibInteractable i)
@@ -397,6 +295,34 @@ public class PeterFPSCharacterController : MonoBehaviour {
                  // wallrunning = false;
             // }
         }
+    }
+    
+    public void HookTargetToMe(GameObject other)
+    {
+        StartCoroutine(CoroHookTargetToMe());
+    }
+    
+    IEnumerator CoroHookTargetToMe()
+    {
+        yield return null;
+    }
+
+    private bool hookingToTarget = false;
+    private Vector3 hookPoint;
+    public void HookToTarget(Vector3 attachPoint, Vector3 _hookPoint)
+    {
+        hookPoint = _hookPoint;
+        StartCoroutine(CoroHookToTarget());
+    }
+
+
+    IEnumerator CoroHookToTarget()
+    {
+        hookingToTarget = true;
+        wallgrabbed = false;
+        wallrunning = false;
+        yield return new WaitForSeconds(1.5f);
+        hookingToTarget = false;
     }
 
     private bool wallRunEndPush = false;
@@ -465,6 +391,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 {
                     _rigidbody.AddForce(trueForward * 10f, ForceMode.Impulse);
                 }
+
+                hookingToTarget = false;
             }
 
             if (groundState == groundStates.InAir)
@@ -520,17 +448,22 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         _rigidbody.useGravity = true;
 
+        if (hookingToTarget)
+        {
+            _rigidbody.useGravity = false;
+        }
+
         if (dashing)
         {
             _rigidbody.velocity = dash_f;
         }
         
-        if (groundState == groundStates.InAir && dashing)
+        if (groundState == groundStates.InAir && dashing && !hookingToTarget)
         {
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
         }
         
-        if (!sliding && !jumping && !dashing && !underObject)
+        if (!sliding && !jumping && !dashing && !underObject && !hookingToTarget)
         {
             _capsule.center = new Vector3(0, -0.25f, 0);
             _capsule.height = 1.5f;
@@ -567,8 +500,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             }
         }
 
-
-        if (groundState == groundStates.InAir && !dashing && !wallgrabbed)
+        if (groundState == groundStates.InAir && !dashing && !wallgrabbed && !hookingToTarget)
         {
             //_capsule.center = new Vector3(0, 0.09f, 0);
             //cameraPos.localPosition = Vector3.Lerp(cameraPos.localPosition, new Vector3(0, -0.5f, 0), Time.deltaTime * 8);
@@ -587,6 +519,20 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
         HandleWallGrabberFixedUpdate();
         HandleJumpFixedUpdate();
+        HandleHookFixedUpdate();
+    }
+
+    public float hookforce = 32f;
+    private void HandleHookFixedUpdate()
+    {
+        if (!hookingToTarget) return;
+        var force = (hookPoint - transform.position).normalized;
+        _rigidbody.AddForce(force*hookforce + Vector3.Cross(travelVector, force).magnitude * travelVector*hookforce*0.2f);
+        
+        if ((hookPoint - transform.position).magnitude < 3)
+        {
+            hookingToTarget = false;
+        }
     }
 
     private bool wallJumpDebounce = true;
@@ -712,4 +658,110 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #endregion
 
+    private void Update() {
+        //Set input
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spacePressed = true;
+        }
+        Lean();
+        inputScript.SetInput();
+
+        if (wallgrabtime > 0)
+        {
+            wallgrabtime -= Time.deltaTime;
+            if (wallgrabtime <= 0)
+            {
+                wallgrabbed = false;
+            }
+        }
+
+        HandleSlideActivate();
+        HandleDash();
+        HandleWallGrabberUpdate();
+
+        //Set state
+        if (groundCheck.OnGround()) {
+            //Change state
+            groundState = groundStates.Grounded;
+        } else {
+            //Change state
+            groundState = groundStates.InAir;
+        }
+        //Check
+        switch (inputScript.inputType) {
+            case PeterFPSInput.inputTypes.KeyboardAndMouse:
+                UseMouseInput();
+                break;
+            case PeterFPSInput.inputTypes.Controller:
+                UseControllerInput();
+                break;
+        }
+
+        if (!wallGrappler._wall)
+        {
+            wallgrabbed = false;
+            //StopCoroutine(doWallGrab());
+        }
+
+
+        int layer = 1 << 3;
+        layer = ~layer;
+        underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
+
+        if (wallgrabbed)
+        {
+            _rigidbody.useGravity = false;
+        }
+
+
+        if (!Input.GetKey(KeyCode.LeftControl))
+        {
+            postPound = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (_interactable)
+            {
+                _interactable.Activate(this);
+            }
+        }
+
+        if (wallgrabbed)
+        {
+            if (inputScript.vertical > 0.2f)
+            {
+                wallgrabbed = false;
+                //StopCoroutine(doWallGrab());
+                StartCoroutine(DoWallRun());
+            }
+        }
+        
+        if (wallrunning)
+        {
+            if (spacePressed)
+            {
+                //_rigidbody.AddForce(wallGrappler.wallNormal * 10, ForceMode.Impulse);
+                print("jumped from wallrun");
+                WallJumpSync();
+            } 
+            else if (!wallGrappler._wall)
+            {
+                wallgrabready = false;
+                wallrunning = false;
+                StartCoroutine(ResetWallgrabDebounce());
+                EndWallRun();
+            }
+        }
+        else if (wallgrabbed && spacePressed)
+        {
+            WallJumpSync();
+        }
+        
+        HandleDebugUi();
+    }
+    
+    public GameObject TestHookTarget;
 }
+

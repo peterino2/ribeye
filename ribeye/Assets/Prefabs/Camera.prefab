@@ -461,12 +461,14 @@ MonoBehaviour:
   gunner: {fileID: 0}
   gunAnimator: {fileID: 0}
   damage: 5
-  impactEffect: {fileID: 0}
+  impactEffect: {fileID: 191434988125605650, guid: d3426ceae7d025040b825d574e64915d, type: 3}
   model: {fileID: 5220653994334745284}
   targets: []
   playermask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  hookPrefab: {fileID: 191434988125605650, guid: d3426ceae7d025040b825d574e64915d, type: 3}
+  hookStartTransform: {fileID: 0}
 --- !u!65 &5260519872010812058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -475,11 +477,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544150427202341448}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.073349, y: 1, z: 2.237376}
+  m_Center: {x: 0.021614611, y: 0, z: 0.12903905}
 --- !u!1 &5757988985097113376
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,14 +629,14 @@ MonoBehaviour:
   mode: 0
   smartShotIndex: 0
   revolverShotIndex: 1
-  FireRate: 25
+  FireRate: 15
   weaponName: SmartPistol
   active: 0
   range: 38
-  muzzle: {fileID: 0}
+  muzzle: {fileID: 2272633388444709848}
   model: {fileID: 5679177344061759392}
   modelBase: {fileID: 5679177344061759392}
-  bulletImpact: {fileID: 0}
+  bulletImpact: {fileID: 191434988125605650, guid: d3426ceae7d025040b825d574e64915d, type: 3}
   damageSmart: 1
   damageRevolver: 1.5
   ui: {fileID: 0}
@@ -654,10 +656,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracerPrefab: {fileID: 6511448528798660148, guid: 4698ed23951661e469e6c66d7e70375e, type: 3}
-  numberOfTracers: 30
-  numberOfPoints: 15
+  numberOfTracers: 100
+  numberOfPoints: 30
   multiplerCurving: 30
-  multiplerForwarding: 2
+  multiplerForwarding: 0
   Gun: {fileID: 0}
   Enemy: {fileID: 0}
 --- !u!1001 &5201066432496524258

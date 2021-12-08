@@ -16,6 +16,7 @@ public class RibGunner : MonoBehaviour
     private RibWeaponBase[] guns;
 
     public RibWeaponBase activeGun;
+    public LayerMask playermask;
     
     [SerializeField] private Animator gunAnimator;
     

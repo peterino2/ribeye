@@ -90,7 +90,6 @@ namespace Gameplay.Gunner
                 bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
                 Instantiate(bulletImpact, r.point, Quaternion.LookRotation(r.normal));
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
-                GameManager.playHitSound(transform.position);
                 gunAnimator.Play("PistolSmartModeShoot");
                 // StartCoroutine(playFireAnim());
             } 
@@ -123,7 +122,6 @@ namespace Gameplay.Gunner
                     if (x != null)
                     {
                         x.TakeDamage(damageRevolver);
-                        GameManager.playHitSound(transform.position);
                         ui.Hitmarker();
                     }
                     Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
@@ -177,6 +175,7 @@ namespace Gameplay.Gunner
         
         public override void ActivateWeapon()
         {
+            isActive = true;
             modelBase.SetActive(true);
             ui.gameObject.SetActive(true);
             StartCoroutine(doEquip());
@@ -187,7 +186,7 @@ namespace Gameplay.Gunner
             if (retriggerRevolver && revolverReady)
             {
                 retriggerRevolver = false;
-                if (mode == SmartPistolModes.Revolver)
+                if (mode == SmartPistolModes.Revolver && isActive)
                 {
                     StartCoroutine(RevolverHeavy());
                 }
@@ -201,6 +200,7 @@ namespace Gameplay.Gunner
         
         public override void DeactivateWeaponNoAnim()
         {
+            isActive = false;
             modelBase.SetActive(false);
             ui.gameObject.SetActive(false);
             mode = SmartPistolModes.Revolver;
