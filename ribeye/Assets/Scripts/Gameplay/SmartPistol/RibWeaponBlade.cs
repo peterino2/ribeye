@@ -52,7 +52,7 @@ namespace Gameplay.Gunner
             
             if (!hooked && hookready)
             {
-                gunAnimator.Play("Armature|HookToss");
+                gunAnimator.Play("HookToss");
                 hookTossTime = 0.22f;
             }
         }
@@ -192,7 +192,7 @@ namespace Gameplay.Gunner
             if (swingReady && !hooked)
             {
                 swingReady = false;
-                gunAnimator.Play("BladeSwingSeq1");
+                gunAnimator.Play("BladeSlash_1");
                 swingDamageDelay = 0.1f;
                 swingCooldown = 0.3f;
             }

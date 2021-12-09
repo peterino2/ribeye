@@ -6,6 +6,69 @@ ModelImporter:
   - first:
       74: 6395629589799213319
     second: ROBOT ARMS RIG|IdleTest
+  - first:
+      74: 8440248360967096626
+    second: Camera|CameraAction
+  - first:
+      74: 2300263658965673395
+    second: ROBOT ARMS RIG|CameraAction
+  - first:
+      74: -6422326113366602510
+    second: ROBOT ARMS RIG|ROBOT ARMS RIGAction
+  - first:
+      74: -6703872809026503222
+    second: ROBOT ARMS RIG|RevolverFire
+  - first:
+      74: -2381915274624968617
+    second: ROBOT ARMS RIGAction
+  - first:
+      74: 5862081822112025050
+    second: ROBOT ARMS RIGAction.001
+  - first:
+      74: -4102744836010665959
+    second: IdleTest
+  - first:
+      74: -5490782891370384101
+    second: IdleTest.001
+  - first:
+      74: 9167137686388773332
+    second: ROBOT ARMS RIG|BladeBounce
+  - first:
+      74: 1947572840823892046
+    second: ROBOT ARMS RIG|BladeIdle
+  - first:
+      74: -5877742828868598379
+    second: ROBOT ARMS RIG|BladeIdleHigh
+  - first:
+      74: 8130028032917717317
+    second: ROBOT ARMS RIG|BladeSlashSeq1
+  - first:
+      74: -4802056517222901770
+    second: ROBOT ARMS RIG|HookPull
+  - first:
+      74: 1277905766207193231
+    second: ROBOT ARMS RIG|HookToss
+  - first:
+      74: -2290537846224586612
+    second: ROBOT ARMS RIG|RevolverShot
+  - first:
+      74: -8520413608365427098
+    second: ROBOT ARMS RIG|SmartPistolActivate
+  - first:
+      74: 8653846778074083537
+    second: ROBOT ARMS RIG|SmartPistolDeactivate
+  - first:
+      74: 7369573673951826166
+    second: ROBOT ARMS RIG|SmartPistolDeActivate_old
+  - first:
+      74: 1353480416635001402
+    second: ROBOT ARMS RIG|SmartPistolIdleFixed
+  - first:
+      74: 2725634659799677677
+    second: ROBOT ARMS RIG|SmartPistolIdleShoot
+  - first:
+      74: 5558832613296006656
+    second: ROBOT ARMS RIG|StartupSequence
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -40,7 +103,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleCurves: 0
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -51,7 +114,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5

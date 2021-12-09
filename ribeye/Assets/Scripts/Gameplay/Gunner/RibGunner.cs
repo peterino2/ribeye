@@ -93,6 +93,11 @@ public class RibGunner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            gunAnimator.Play("HookToss");
+        }
+        
         if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
         // if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
