@@ -15,11 +15,11 @@ public class TurretManager : MonoBehaviour {
 
     #region Update
 
-    public void Target() {
+    public void Target(float speed, bool change = false) {
         //Loop
         for (int intLoop = 0; intLoop < lookAtAndLockerScripts.Length; intLoop++) {
             //Look at
-            lookAtAndLockerScripts[intLoop].RotateTowardsTarget();
+            lookAtAndLockerScripts[intLoop].RotateTowardsTarget(speed, change);
         }
     }
 
