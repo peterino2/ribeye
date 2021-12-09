@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game;
 using Gameplay.Stats;
@@ -12,9 +13,11 @@ namespace Gameplay.Gunner
         private Collider hurtbox;
         private bool activated = false;
         [SerializeField] private GameObject impactEffect;
+        private PeterFPSCharacterController _character;
         private void Awake()
         {
             activationIndex = 1;
+            _character = FindObjectOfType<PeterFPSCharacterController>();
         }
 
         private void Start()
@@ -35,9 +38,23 @@ namespace Gameplay.Gunner
             model.SetActive(false);
         }
 
+        private GameObject hookTarget;
+        private bool hookready = true;
         public override void OnAltFire()
         {
-            gunAnimator.Play("Armature|HookToss");
+            if (hooked)
+            {
+                // yang yourself to the hooked target
+                hooked = false;
+                print("Yanking target to you");
+                _character.HookTargetToMe(hookTarget);
+            }
+            
+            if (!hooked && hookready)
+            {
+                gunAnimator.Play("Armature|HookToss");
+                hookTossTime = 0.22f;
+            }
         }
 
         [SerializeField]
@@ -47,7 +64,6 @@ namespace Gameplay.Gunner
 
         private void OnTriggerEnter(Collider other)
         {
-            print("nigga");
             if (other.gameObject.GetComponent<EntityBase>()
                 && ((( 1 << other.gameObject.layer) | playermask.value) > 0)
             )
@@ -69,14 +85,16 @@ namespace Gameplay.Gunner
             }
         }
 
+        
         private float swingDamageDelay = 0;
-        private void Update()
+        private void HandleSwingDamage()
         {
             if(swingDamageDelay > 0)
             {
                 swingDamageDelay -= Time.deltaTime;
-                if (swingDamageDelay < 0)
+                if (swingDamageDelay <= 0)
                 {
+                    bool hit = false;
                     foreach (var target in targets)
                     {
                         if (target != null)
@@ -86,34 +104,96 @@ namespace Gameplay.Gunner
                                 gunner.transform.position,
                                 target.transform.position - gunner.transform.position,
                                 out RaycastHit r, Mathf.Infinity, ~playermask);
-                            
                             Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
+                            hit = true;
                         }
+                    }
+
+                    if (hit)
+                    {
+                        
                     }
                 }
             }
-            
+        }
+        
+        private float hookTossTime = 0;
 
-            if (cooldown > 0)
+        private void HandleHookToss()
+        {
+            if (hookTossTime > 0)
             {
-                cooldown -= Time.deltaTime;
-                if (cooldown < 0)
+                hookTossTime -= Time.deltaTime;
+                if (hookTossTime <= 0)
+                {
+                    TossHook();
+                }
+            }
+        }
+
+        private void HandleHooking()
+        {
+            if (hookingTime > 0)
+            {
+                hookingTime -= Time.deltaTime;
+            }
+        }
+
+        private void HandleSwingCooldown()
+        {
+            if (swingCooldown > 0)
+            {
+                swingCooldown -= Time.deltaTime;
+                if (swingCooldown < 0)
                 {
                     swingReady = true;
                 }
             }
         }
+        
+        private float hookingTime = 0;
+        private void Update()
+        {
+            HandleSwingDamage();
+            HandleHookToss();
+            HandleHooking();
+            HandleSwingDamage();
+            HandleSwingCooldown();
+        }
+
+        public float hookRange;
+        public GameObject hookPrefab;
+        public Transform hookStartTransform;
+        void TossHook()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit r, hookRange, ~gunner.playermask))
+            {
+                Instantiate(hookPrefab, r.point, Quaternion.LookRotation(r.normal));
+                _character.HookToTarget(r.point, r.point);
+            }
+        }
+
+        private bool hooked;
 
         private bool swingReady = true;
-        private float cooldown = 0f;
+        private float swingCooldown = 0f;
         public override void OnFire()
         {
-            if (swingReady)
+            if (hooked)
+            {
+                // yang yourself to the hooked target
+                hooked = false;
+                print("Yanking to target");
+                var v = hookTarget.transform.position;
+                _character.HookToTarget(v, v);
+            }
+            
+            if (swingReady && !hooked)
             {
                 swingReady = false;
                 gunAnimator.Play("BladeSwingSeq1");
                 swingDamageDelay = 0.1f;
-                cooldown = 0.3f;
+                swingCooldown = 0.3f;
             }
         }
         
