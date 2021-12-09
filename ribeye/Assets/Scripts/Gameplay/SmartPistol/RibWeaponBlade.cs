@@ -166,6 +166,7 @@ namespace Gameplay.Gunner
         public Transform hookStartTransform;
         void TossHook()
         {
+            print("TossingHook");
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit r, hookRange, ~gunner.playermask))
             {
                 Instantiate(hookPrefab, r.point, Quaternion.LookRotation(r.normal));
@@ -209,7 +210,7 @@ namespace Gameplay.Gunner
         
         public override bool CanActivate()
         {
-            return gunner.upgrades.Contains("Sword");
+            return gunner.HasUpgrade("Sword");
         }
 
         public override string GetWeaponName()

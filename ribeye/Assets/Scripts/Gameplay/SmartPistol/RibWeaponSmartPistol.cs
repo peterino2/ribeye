@@ -219,7 +219,7 @@ namespace Gameplay.Gunner
             
             if (
                 (newmode == SmartPistolModes.Smart && 
-                    gunner.upgrades.Contains("PistolSmart")) || 
+                    gunner.HasUpgrade("PistolSmart")) || 
                 (newmode == SmartPistolModes.Revolver)
             ) {
                 StartCoroutine(switchModes(newmode));
@@ -228,7 +228,7 @@ namespace Gameplay.Gunner
 
         public override bool CanActivate()
         {
-            return gunner.upgrades.Contains("PistolBasic");
+            return gunner.HasUpgrade("PistolBasic");
         }
 
     }

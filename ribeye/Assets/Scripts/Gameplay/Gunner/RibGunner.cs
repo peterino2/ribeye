@@ -13,28 +13,33 @@ public class RibGunner : MonoBehaviour
     private RibWeaponBase[] gunrack;
 
     [SerializeField]
-    private RibWeaponBase[] guns;
+    public RibWeaponBase[] guns;
 
     public RibWeaponBase activeGun;
     public LayerMask playermask;
-    
+
+    public ParticleSystem speedLines;
     [SerializeField] private Animator gunAnimator;
     
-    private int weaponIndexStart = -1;
-
-    public HashSet<string> upgrades = new HashSet<string>();
+    private HashSet<string> upgrades = new HashSet<string>();
 
     public string[] initialUpgrades;
 
+    public bool HasUpgrade(string check)
+    {
+        return upgrades.Contains(check.ToLower());
+    }
+
+    public HashSet<string> GetUpgrades()
+    {
+        return upgrades;
+    }
+    
     public int gunIndex;
     private void Awake()
     {
         upgrades = new HashSet<string>();
         upgrades.Clear();
-        foreach(var upgrade in initialUpgrades)
-        {
-            GiveUpgrade(upgrade);
-        }
         
         gunrack = GetComponentsInChildren<RibWeaponBase>();
         Array.Resize(ref guns, 9);
@@ -47,10 +52,15 @@ public class RibGunner : MonoBehaviour
         }
     }
 
+    public void GiveUpgradeInner(string upgrade)
+    {
+        upgrades.Add(upgrade.ToLower());
+    }
+
     public void GiveUpgrade(string upgrade)
     {
-        upgrades.Add(upgrade);
         print("upgrade granted +++" + upgrade);
+        GiveUpgradeInner(upgrade);
         if (gunIndex == -1)
         {
             // automatically equip the new weapon if it's smart pistol or sword
@@ -59,24 +69,33 @@ public class RibGunner : MonoBehaviour
                 gunAnimator.gameObject.SetActive(true);
                 TryActivateGun(0); // smart pistol index
             }
-
             if (upgrade == "Sword")
             {
                 gunAnimator.gameObject.SetActive(true);
-                TryActivateGun(1); // smart pistol index
+                TryActivateGun(1); // sword index
             }
         }
     }
 
+    public int WeaponStartIndex = -1;
+
     void Start()
     {
-        gunIndex = weaponIndexStart;
-        TryActivateGun(weaponIndexStart);
+        gunIndex = WeaponStartIndex;
+        TryActivateGun(gunIndex);
+        
+        foreach(var upgrade in initialUpgrades)
+        {
+            GiveUpgrade(upgrade);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
+        // if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
         
         if (gunIndex == -1)
         {
@@ -92,10 +111,6 @@ public class RibGunner : MonoBehaviour
         {
             activeGun.OnAltFire();
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
     }
 
     void TryActivateGun(int newGunIndex)
@@ -106,8 +121,12 @@ public class RibGunner : MonoBehaviour
             gunIndex = newGunIndex;
             return;
         }
+        print(String.Format("{0} -> {1}", gunIndex, newGunIndex));
+        
+        gunAnimator.gameObject.SetActive(true);
         
         if (gunIndex == newGunIndex) return;
+        
         if (guns[newGunIndex].CanActivate())
         {
             ActivateGun(newGunIndex);
@@ -117,12 +136,16 @@ public class RibGunner : MonoBehaviour
 
     void ActivateGun(int newGunIndex) // do not call directly only call from tryactivate gun
     {
+        print(String.Format("Trying activation"));
         if(activeGun) activeGun.DeactivateWeapon();
+        
         if (guns[newGunIndex])
         {
+            print("doing activation");
             gunIndex = newGunIndex;
             guns[newGunIndex].ActivateWeapon();
             activeGun = guns[newGunIndex];
+            gunIndex = newGunIndex;
         }
     }
 }
