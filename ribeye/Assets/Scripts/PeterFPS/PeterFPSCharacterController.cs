@@ -781,7 +781,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             }
         }
         
-        HandleDebugUi();
+        //HandleDebugUi();
     }
 
     
