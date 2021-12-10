@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: 680a40b37ca6fb04db6097382889de4b
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: 6395629589799213319
+    second: ROBOT ARMS RIG|IdleTest
+  - first:
+      74: 8440248360967096626
+    second: Camera|CameraAction
+  - first:
+      74: 2300263658965673395
+    second: ROBOT ARMS RIG|CameraAction
+  - first:
+      74: -6422326113366602510
+    second: ROBOT ARMS RIG|ROBOT ARMS RIGAction
+  - first:
+      74: -6703872809026503222
+    second: ROBOT ARMS RIG|RevolverFire
+  - first:
+      74: -2381915274624968617
+    second: ROBOT ARMS RIGAction
+  - first:
+      74: 5862081822112025050
+    second: ROBOT ARMS RIGAction.001
+  - first:
+      74: -4102744836010665959
+    second: IdleTest
+  - first:
+      74: -5490782891370384101
+    second: IdleTest.001
+  - first:
+      74: 9167137686388773332
+    second: ROBOT ARMS RIG|BladeBounce
+  - first:
+      74: 1947572840823892046
+    second: ROBOT ARMS RIG|BladeIdle
+  - first:
+      74: -5877742828868598379
+    second: ROBOT ARMS RIG|BladeIdleHigh
+  - first:
+      74: 8130028032917717317
+    second: ROBOT ARMS RIG|BladeSlashSeq1
+  - first:
+      74: -4802056517222901770
+    second: ROBOT ARMS RIG|HookPull
+  - first:
+      74: 1277905766207193231
+    second: ROBOT ARMS RIG|HookToss
+  - first:
+      74: -2290537846224586612
+    second: ROBOT ARMS RIG|RevolverShot
+  - first:
+      74: -8520413608365427098
+    second: ROBOT ARMS RIG|SmartPistolActivate
+  - first:
+      74: 8653846778074083537
+    second: ROBOT ARMS RIG|SmartPistolDeactivate
+  - first:
+      74: 7369573673951826166
+    second: ROBOT ARMS RIG|SmartPistolDeActivate_old
+  - first:
+      74: 1353480416635001402
+    second: ROBOT ARMS RIG|SmartPistolIdleFixed
+  - first:
+      74: 2725634659799677677
+    second: ROBOT ARMS RIG|SmartPistolIdleShoot
+  - first:
+      74: 5558832613296006656
+    second: ROBOT ARMS RIG|StartupSequence
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: METAL GREY
+    second: {fileID: 2100000, guid: 180c957cfda88044e90b1ab6b4591865, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: cf6e8863421c4ce48aaf2b93f037640a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ORANGE RUBBER
+    second: {fileID: 2100000, guid: 62a74eb6020b26c4f91e4289f1dcfbd7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ORANGE RUBBER.001
+    second: {fileID: 2100000, guid: e852a10f1bd38164fab640994d613a6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SHINY METAL
+    second: {fileID: 2100000, guid: 667fdae072729534b90e426b27396fac, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

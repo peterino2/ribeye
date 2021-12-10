@@ -27,8 +27,9 @@ namespace Gameplay.Gunner
         [SerializeField] private float range = 38;
 
         [SerializeField] private GameObject muzzle;
-        [SerializeField] private GameObject model;
         [SerializeField] private GameObject modelBase;
+        [SerializeField] private GameObject modelBase1;
+        [SerializeField] private GameObject modelBase2;
         
         [SerializeField] private GameObject bulletImpact;
         [SerializeField] private float damageSmart = 1.0f;
@@ -42,6 +43,8 @@ namespace Gameplay.Gunner
             if (!active)
             {
                 modelBase.SetActive(false);
+                modelBase1.SetActive(false);
+                modelBase2.SetActive(false);
             }
 
             bcurveGen = GetComponent<BezierCurveTracer>();
@@ -54,7 +57,9 @@ namespace Gameplay.Gunner
         private BezierCurveTracer bcurveGen;
         private void Start()
         {
-            StartCoroutine(switchModes(mode));
+            //StartCoroutine(switchModes(mode));
+            mode = SmartPistolModes.Revolver;
+            ui.SetMode(mode);
             ui.range = range;
         }
         
@@ -90,7 +95,7 @@ namespace Gameplay.Gunner
                 bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
                 Instantiate(bulletImpact, r.point, Quaternion.LookRotation(r.normal));
                 GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
-                gunAnimator.Play("PistolSmartModeShoot");
+                gunAnimator.Play("SmartPistolShoot");
                 // StartCoroutine(playFireAnim());
             } 
             fireready = true;
@@ -107,7 +112,7 @@ namespace Gameplay.Gunner
             fireready = true;
         }
 
-
+        [SerializeField] Vector3 revolverRecoilEuler = new Vector3(0,5, -5);
         private bool revolverReady = true;
         private bool retriggerRevolver = false;
         IEnumerator RevolverHeavy()
@@ -126,8 +131,12 @@ namespace Gameplay.Gunner
                     }
                     Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
                 }
-                gunAnimator.Play("PistolShoot");
-                yield return new WaitForSeconds(0.20f);
+                gunAnimator.Play("RevolverShot");
+                gunner.rotationTarget = Quaternion.Euler(revolverRecoilEuler);
+                yield return new WaitForSeconds(0.10f);
+                
+                gunner.rotationTarget = Quaternion.identity;
+                yield return new WaitForSeconds(0.10f);
                 
                 float t = 0f;
                 while (t < 0.15f)
@@ -150,22 +159,22 @@ namespace Gameplay.Gunner
             ui.SetMode(mode);
             if (newMode == SmartPistolModes.Revolver)
             {
-                gunAnimator.Play("PistolSmartModeDeactivate");
+                gunAnimator.Play("SmartPistolDeactivate");
             }
             else
             {
-                gunAnimator.Play("PistolSmartModeActivate");
+                gunAnimator.Play("SmartPistolActivate");
             }
             yield return null;
         }
 
         IEnumerator doEquip()
         {
-            gunAnimator.Play("PistolEquip");
+            gunAnimator.Play("RevolverEquip");
             if (mode == SmartPistolModes.Smart)
             {
                 yield return new WaitForSeconds(0.100f);
-                gunAnimator.Play("PistolSmartModeActivate");
+                gunAnimator.Play("SmartPistolActivate");
             }
         }
 
@@ -177,6 +186,8 @@ namespace Gameplay.Gunner
         {
             isActive = true;
             modelBase.SetActive(true);
+            modelBase1.SetActive(true);
+            modelBase2.SetActive(true);
             ui.gameObject.SetActive(true);
             StartCoroutine(doEquip());
         }
@@ -202,6 +213,8 @@ namespace Gameplay.Gunner
         {
             isActive = false;
             modelBase.SetActive(false);
+            modelBase1.SetActive(false);
+            modelBase2.SetActive(false);
             ui.gameObject.SetActive(false);
             mode = SmartPistolModes.Revolver;
             ui.SetMode(mode);
@@ -219,7 +232,7 @@ namespace Gameplay.Gunner
             
             if (
                 (newmode == SmartPistolModes.Smart && 
-                    gunner.upgrades.Contains("PistolSmart")) || 
+                    gunner.HasUpgrade("PistolSmart")) || 
                 (newmode == SmartPistolModes.Revolver)
             ) {
                 StartCoroutine(switchModes(newmode));
@@ -228,7 +241,7 @@ namespace Gameplay.Gunner
 
         public override bool CanActivate()
         {
-            return gunner.upgrades.Contains("PistolBasic");
+            return gunner.HasUpgrade("PistolBasic");
         }
 
     }
