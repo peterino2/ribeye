@@ -86,6 +86,11 @@ public class TurretBehavior : MonoBehaviour {
             case TargetingStates.LostTarget:
                 break;
         }
+
+        if (!target)
+        {
+            target = FindObjectOfType<PeterFPSCharacterController>().transform;
+        }
     }
 
     #endregion
