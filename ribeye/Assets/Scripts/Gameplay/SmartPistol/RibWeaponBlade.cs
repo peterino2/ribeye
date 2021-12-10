@@ -189,6 +189,16 @@ namespace Gameplay.Gunner
                     model.SetActive(true);
                 }
             }
+
+            if (swingRecoilResetTime > 0)
+            {
+                swingRecoilResetTime -= Time.deltaTime;
+
+                if (swingRecoilResetTime <= 0)
+                {
+                    gunner.rotationTarget = Quaternion.identity;
+                }
+            }
         }
 
 
@@ -253,13 +263,20 @@ namespace Gameplay.Gunner
             }
         }
 
+        [SerializeField] 
+        private Vector3[] slashRotations_v3 = { };
+
+        private float swingRecoilResetTime = 0.1f;
+
         private void DoSlash()
         {
             swingReady = false;
             gunAnimator.Play(SlashAnims[slashIndex]);
+            gunner.rotationTarget = Quaternion.Euler(slashRotations_v3[slashIndex]);
             incrementSlash();
             swingDamageDelay = 0.1f;
             swingCooldown = 0.3f;
+            swingRecoilResetTime = 0.100f;
         }
 
         private float slashResetTime = 0f;

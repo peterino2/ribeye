@@ -112,7 +112,7 @@ namespace Gameplay.Gunner
             fireready = true;
         }
 
-
+        [SerializeField] Vector3 revolverRecoilEuler = new Vector3(0,5, -5);
         private bool revolverReady = true;
         private bool retriggerRevolver = false;
         IEnumerator RevolverHeavy()
@@ -132,7 +132,11 @@ namespace Gameplay.Gunner
                     Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
                 }
                 gunAnimator.Play("RevolverShot");
-                yield return new WaitForSeconds(0.20f);
+                gunner.rotationTarget = Quaternion.Euler(revolverRecoilEuler);
+                yield return new WaitForSeconds(0.10f);
+                
+                gunner.rotationTarget = Quaternion.identity;
+                yield return new WaitForSeconds(0.10f);
                 
                 float t = 0f;
                 while (t < 0.15f)

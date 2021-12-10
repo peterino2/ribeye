@@ -25,6 +25,10 @@ public class RibGunner : MonoBehaviour
 
     public string[] initialUpgrades;
 
+    public Vector3 positionTarget;
+    public Quaternion rotationTarget;
+    public GameObject cameraBoom;
+
     public bool HasUpgrade(string check)
     {
         return upgrades.Contains(check.ToLower());
@@ -95,9 +99,15 @@ public class RibGunner : MonoBehaviour
         
     }
 
+    void HandleCameraTransforms()
+    {
+        cameraBoom.transform.localPosition = Vector3.Lerp(positionTarget, cameraBoom.transform.localPosition,   0.8f);
+        cameraBoom.transform.localRotation = Quaternion.Lerp(rotationTarget, cameraBoom.transform.localRotation, 0.8f);
+    }
     // Update is called once per frame
     void Update()
     {
+        HandleCameraTransforms();
         if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
         // if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
