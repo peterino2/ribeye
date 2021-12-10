@@ -1,11 +1,53 @@
 fileFormatVersion: 2
-guid: f2d6b0656e0b75b40a89358fd54848b6
+guid: d66850cb6534bac42a7d47f677dce329
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -203655887218126122
-    second: mixamo.com
+      74: -5242240981210691432
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire
+  - first:
+      74: 269162260202277164
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.001
+  - first:
+      74: -3873475778730416077
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.002
+  - first:
+      74: 6877672239413410629
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.003
+  - first:
+      74: -8329485831827965554
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.004
+  - first:
+      74: -407722309176920062
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.005
+  - first:
+      74: -615943638100010442
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.006
+  - first:
+      74: 1483935853546723469
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.007
+  - first:
+      74: -6595363733938138027
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.008
+  - first:
+      74: 7962841117988723724
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.009
+  - first:
+      74: 7666179735898426325
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.010
+  - first:
+      74: -6354153696918703337
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.011
+  - first:
+      74: -2674882675289617360
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.012
+  - first:
+      74: 719981489418483618
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.013
+  - first:
+      74: 4258162470911237272
+    second: Armature.003|Armature|Armature|Fire|Armature|Fire.014
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -33,43 +75,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: mixamo.com
-      takeName: mixamo.com
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 80
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 1
-        functionName: MutantSwipingHasFinishedNow
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -133,7 +139,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

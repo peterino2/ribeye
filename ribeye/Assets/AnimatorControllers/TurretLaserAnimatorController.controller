@@ -58,7 +58,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TurretAnimatorController
+  m_Name: TurretLaserAnimatorController
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: State
@@ -66,19 +66,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Idle
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Shoot
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 1
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -112,7 +112,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4bf7ed87ea4bdce48ba3ff58ed48cedc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 39f4f5c656b172f44b927dd9b629095c, type: 2}
   m_Tag: 
   m_SpeedParameter: ShootSpeed
   m_MirrorParameter: 
@@ -163,7 +163,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a59f5d8ec0ad1de4a96f04b54ad77b12, type: 2}
+  m_Motion: {fileID: 7400000, guid: dd3418318158fb54f9e80be705b731c7, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
