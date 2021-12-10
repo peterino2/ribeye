@@ -64,6 +64,9 @@ public class TurretBehavior : MonoBehaviour {
     #region Start and initialization
 
     private void Start() {
+        if (!target) {
+            target = GameObject.Find("CharacterController").transform;
+        }
         //Set
         hash = Animator.StringToHash(STATE);
         //Set animator speed
@@ -85,11 +88,6 @@ public class TurretBehavior : MonoBehaviour {
                 break;
             case TargetingStates.LostTarget:
                 break;
-        }
-
-        if (!target)
-        {
-            target = FindObjectOfType<PeterFPSCharacterController>().transform;
         }
     }
 
