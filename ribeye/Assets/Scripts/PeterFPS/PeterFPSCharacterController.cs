@@ -92,8 +92,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
             lastSliding = false;
         }
         
-        if(!sliding)
-            pounding = false;
+        // if(!sliding)
+        //     pounding = false;
 
         if (slideLock)
         {
@@ -388,7 +388,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 if (doubleJump)
                 {
                     _rigidbody.AddForce(trueDown * 35f, ForceMode.Impulse);
-                    pounding = true;
+                    //pounding = true;
                 }
 
                 if (groundState == groundStates.Grounded)
@@ -476,7 +476,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (groundState == groundStates.Grounded)
             {
                 if (travelVector.magnitude > 0)
-                    _rigidbody.velocity = speed * (travelVector);
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed*travelVector, Time.deltaTime * 10);
                 else
                     _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 10);
                 _rigidbody.useGravity = false;
@@ -484,7 +484,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         else if(sliding)
         {
-            if(groundState == groundStates.Grounded && !pounding)
+            if(groundState == groundStates.Grounded)
             {
                 _capsule.center = new Vector3(0, -0.5f, 0);
                 _capsule.height = 0.75f;
@@ -494,15 +494,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
 
-        if (pounding)
-        {
-            if (groundState == groundStates.Grounded)
-            {
-                _rigidbody.velocity = Vector3.zero;
-                pounding = false;
-                postPound = true;
-            }
-        }
+        // if (pounding)
+        // {
+        //     if (groundState == groundStates.Grounded)
+        //     {
+        //         _rigidbody.velocity = Vector3.zero;
+        //         pounding = false;
+        //         postPound = true;
+        //     }
+        // }
 
         if (groundState == groundStates.InAir && !dashing && !wallgrabbed && !hookingToTarget)
         {

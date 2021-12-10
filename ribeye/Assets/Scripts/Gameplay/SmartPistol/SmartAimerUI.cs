@@ -52,7 +52,6 @@ public class SmartAimerUI : MonoBehaviour
     void Start()
     {
         _rect = GetComponent<RectTransform>(); // scale this based on FOV and screen size
-        if (!mainCamera) mainCamera = FindObjectOfType<Camera>();
         SetMode(mode);
         Array.Resize(ref positionPool, targetingPoolSize);
 

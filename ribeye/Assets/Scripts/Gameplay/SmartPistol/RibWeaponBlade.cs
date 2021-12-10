@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using Game;
 using Gameplay.Stats;
 using UnityEngine;
@@ -19,6 +21,8 @@ namespace Gameplay.Gunner
             activationIndex = 1;
             _character = FindObjectOfType<PeterFPSCharacterController>();
         }
+
+        public String[] SlashAnims;
 
         private void Start()
         {
@@ -94,6 +98,7 @@ namespace Gameplay.Gunner
                 swingDamageDelay -= Time.deltaTime;
                 if (swingDamageDelay <= 0)
                 {
+                    List<EntityBase> shouldRemove = new List<EntityBase>();
                     bool hit = false;
                     foreach (var target in targets)
                     {
@@ -107,12 +112,21 @@ namespace Gameplay.Gunner
                             Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
                             hit = true;
                         }
+                        else {
+                            shouldRemove.Append(target);
+                        }
                     }
 
+                    foreach (var t in shouldRemove)
+                    {
+                        targets.Remove(t);
+                    }
+                    
                     if (hit)
                     {
                         
                     }
+                    
                 }
             }
         }
@@ -139,6 +153,8 @@ namespace Gameplay.Gunner
             }
         }
 
+        private bool retriggerSlash = false;
+
         private void HandleSwingCooldown()
         {
             if (swingCooldown > 0)
@@ -147,6 +163,11 @@ namespace Gameplay.Gunner
                 if (swingCooldown < 0)
                 {
                     swingReady = true;
+                    if (retriggerSlash)
+                    {
+                        DoSlash();
+                        retriggerSlash = false;
+                    }
                 }
             }
         }
@@ -159,23 +180,52 @@ namespace Gameplay.Gunner
             HandleHooking();
             HandleSwingDamage();
             HandleSwingCooldown();
+            HandleSlashReset();
+            if (modelresetTimeout > 0)
+            {
+                modelresetTimeout -= Time.deltaTime;
+                if (modelresetTimeout <= 0)
+                {
+                    model.SetActive(true);
+                }
+            }
+        }
+
+
+        private void HandleSlashReset()
+        {
+            if (slashResetTime > 0)
+            {
+                slashResetTime -= Time.deltaTime;
+                if (slashResetTime <= 0)
+                {
+                    slashIndex = 0;
+                }
+            }
         }
 
         public float hookRange;
         public GameObject hookPrefab;
+
+        private float modelresetTimeout = 0;
         public Transform hookStartTransform;
         void TossHook()
         {
             print("TossingHook");
+            model.SetActive(false);
+            modelresetTimeout = 0.2f;
+            
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit r, hookRange, ~gunner.playermask))
             {
                 Instantiate(hookPrefab, r.point, Quaternion.LookRotation(r.normal));
                 _character.HookToTarget(r.point, r.point);
+                gunAnimator.Play("HookPull");
+                modelresetTimeout = 0.12f;
             }
         }
 
         private bool hooked;
-
+        private int slashIndex = 0;
         private bool swingReady = true;
         private float swingCooldown = 0f;
         public override void OnFire()
@@ -191,11 +241,33 @@ namespace Gameplay.Gunner
             
             if (swingReady && !hooked)
             {
-                swingReady = false;
-                gunAnimator.Play("BladeSlash_1");
-                swingDamageDelay = 0.1f;
-                swingCooldown = 0.3f;
+                DoSlash();
             }
+
+            if (!swingReady && !hooked)
+            {
+                if (swingCooldown < 0.3f)
+                {
+                    retriggerSlash = true;
+                }
+            }
+        }
+
+        private void DoSlash()
+        {
+            swingReady = false;
+            gunAnimator.Play(SlashAnims[slashIndex]);
+            incrementSlash();
+            swingDamageDelay = 0.1f;
+            swingCooldown = 0.3f;
+        }
+
+        private float slashResetTime = 0f;
+
+        private void incrementSlash()
+        {
+            slashIndex = slashIndex + 1 < SlashAnims.Length ? slashIndex + 1 : 0;
+            slashResetTime = 1.0f;
         }
         
         public override void OnReloadPressed()

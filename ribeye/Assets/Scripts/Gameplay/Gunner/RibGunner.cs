@@ -82,25 +82,26 @@ public class RibGunner : MonoBehaviour
     void Start()
     {
         gunIndex = WeaponStartIndex;
-        TryActivateGun(gunIndex);
-        
         foreach(var upgrade in initialUpgrades)
         {
-            GiveUpgrade(upgrade);
+            GiveUpgradeInner(upgrade);
         }
+
+        gunAnimator.Play("StartupSequence");
+        if (gunIndex != -1)
+        {
+            TryActivateGun(gunIndex);
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            gunAnimator.Play("HookToss");
-        }
-        
         if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
         // if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
+        
         
         if (gunIndex == -1)
         {
@@ -122,8 +123,8 @@ public class RibGunner : MonoBehaviour
     {
         if (newGunIndex == -1)
         {
-            gunAnimator.gameObject.SetActive(false);
-            gunIndex = newGunIndex;
+            gunAnimator.Play("DefaultIdle");
+                gunIndex = newGunIndex;
             return;
         }
         print(String.Format("{0} -> {1}", gunIndex, newGunIndex));
