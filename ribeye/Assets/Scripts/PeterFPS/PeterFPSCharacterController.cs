@@ -92,8 +92,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
             lastSliding = false;
         }
         
-        if(!sliding)
-            pounding = false;
+        // if(!sliding)
+        //     pounding = false;
 
         if (slideLock)
         {
@@ -250,11 +250,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
         dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
         dbgString += string.Format("\ntravel{0}", travelVector);
         dbgString += string.Format("\nupgrades (gunner_index = {0}):", gunner.gunIndex);
-        foreach (var upgrade in gunner.upgrades)
+        foreach (var upgrade in gunner.GetUpgrades())
         {
             dbgString += string.Format("\n{0}", upgrade);
         }
         dbgString += string.Format("\ndebouncer {0}", wallJumpDebounce);
+        dbgString += string.Format("\npistol can activate {0}", gunner.guns[0].CanActivate());
+        dbgString += string.Format("\nblade can activate {0}", gunner.guns[1].CanActivate());
+        dbgString += string.Format("\nJank can activate {0}", false);
             
         dbgui.text = dbgString;
     }
@@ -381,10 +384,11 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (slideStart)
             {
                 slideStart = false;
+                slideTimeStart = 0.2f;
                 if (doubleJump)
                 {
                     _rigidbody.AddForce(trueDown * 35f, ForceMode.Impulse);
-                    pounding = true;
+                    //pounding = true;
                 }
 
                 if (groundState == groundStates.Grounded)
@@ -472,7 +476,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (groundState == groundStates.Grounded)
             {
                 if (travelVector.magnitude > 0)
-                    _rigidbody.velocity = speed * (travelVector);
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed*travelVector, Time.deltaTime * 10);
                 else
                     _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 10);
                 _rigidbody.useGravity = false;
@@ -480,7 +484,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         else if(sliding)
         {
-            if(groundState == groundStates.Grounded && !pounding)
+            if(groundState == groundStates.Grounded)
             {
                 _capsule.center = new Vector3(0, -0.5f, 0);
                 _capsule.height = 0.75f;
@@ -490,15 +494,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
             HandleSlidingFixedUpdate(trueForward, trueRight, trueDown);
         }
 
-        if (pounding)
-        {
-            if (groundState == groundStates.Grounded)
-            {
-                _rigidbody.velocity = Vector3.zero;
-                pounding = false;
-                postPound = true;
-            }
-        }
+        // if (pounding)
+        // {
+        //     if (groundState == groundStates.Grounded)
+        //     {
+        //         _rigidbody.velocity = Vector3.zero;
+        //         pounding = false;
+        //         postPound = true;
+        //     }
+        // }
 
         if (groundState == groundStates.InAir && !dashing && !wallgrabbed && !hookingToTarget)
         {
@@ -658,7 +662,9 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #endregion
 
-    private void Update() {
+    private float slideTimeStart = 0f;
+    private void Update() 
+    {
         //Set input
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -714,7 +720,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
             _rigidbody.useGravity = false;
         }
 
-
         if (!Input.GetKey(KeyCode.LeftControl))
         {
             postPound = false;
@@ -758,9 +763,27 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             WallJumpSync();
         }
+
+        slideTimeStart -= Time.deltaTime;
         
-        HandleDebugUi();
+        if (dashing || wallrunning || (slideTimeStart > 0))
+        {
+            if (!gunner.speedLines.isPlaying)
+            {
+                gunner.speedLines.Play();
+            }
+        }
+        else
+        {
+            if (gunner.speedLines.isPlaying)
+            {
+                gunner.speedLines.Stop();
+            }
+        }
+        
+        //HandleDebugUi();
     }
+
     
     public GameObject TestHookTarget;
 }
