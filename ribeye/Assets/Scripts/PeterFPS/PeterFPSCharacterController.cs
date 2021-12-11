@@ -6,6 +6,7 @@ using Gameplay.Core;
 using Gameplay.Gunner;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Cursor = UnityEngine.Cursor;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -662,6 +663,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #endregion
 
+    
     private float slideTimeStart = 0f;
     private void Update() 
     {
@@ -670,6 +672,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             spacePressed = true;
         }
+        
         Lean();
         inputScript.SetInput();
 

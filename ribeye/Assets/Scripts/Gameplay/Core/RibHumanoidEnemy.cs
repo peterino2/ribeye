@@ -41,7 +41,9 @@ namespace Gameplay.Core
             if (health <= 0.01f)
             {
                 head.transform.localScale = Vector3.zero;
-                Destroy(Instantiate(bloodPrefab, head.transform.position, Quaternion.identity), 2.5f);
+                float randx = UnityEngine.Random.Range(-90, 90);
+                float randz = UnityEngine.Random.Range(-90, 90);
+                Destroy(Instantiate(bloodPrefab, head.transform.position, Quaternion.Euler(randx, 0, randz)), 2.5f);
             }
         }
 

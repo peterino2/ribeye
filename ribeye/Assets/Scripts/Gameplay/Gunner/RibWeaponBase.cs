@@ -20,6 +20,8 @@ namespace Gameplay.Gunner
         
         public abstract bool CanActivate();
         
+        public abstract void GrantAmmo(int ammo);
+        
         public abstract void OnReloadPressed();
         public abstract string GetWeaponName();
         

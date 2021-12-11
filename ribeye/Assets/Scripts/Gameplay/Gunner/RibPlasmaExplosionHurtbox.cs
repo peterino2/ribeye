@@ -11,15 +11,24 @@ namespace DefaultNamespace
         [SerializeField]
         private List<EntityBase> targets = new List<EntityBase>();
         
-        private void OnCollisionEnter(Collision other)
-        {
-        }
-
-        private void OnCollisionExit(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<EntityBase>())
             {
                 targets.Add(other.gameObject.GetComponent<EntityBase>());
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            var e = other.gameObject.GetComponent<EntityBase>();
+            if (e == null)
+            {
+                targets.Remove(e);
+            }
+            if (targets.Contains(e))
+            {
+                targets.Remove(e);
             }
         }
 
@@ -31,7 +40,23 @@ namespace DefaultNamespace
             {
                 if (target != null)
                 {
-                    target.TakeDamage(damage);
+                    if (target.GetComponent<RibPlayer>())
+                    {
+                        var r =target.GetComponent<PeterFPSCharacterController>()._rigidbody;
+                        r.AddExplosionForce(20f, transform.position, GetComponent<SphereCollider>().radius, 1.0f, ForceMode.Impulse);
+                        target.GetComponent<RibPlayer>().DoFilmGrainExplosion();
+                    }
+                    else
+                    {
+                        var damageFactor = damage * (1 - (target.transform.position - transform.position).magnitude / GetComponent<SphereCollider>().radius);
+                        print(damageFactor);
+                        target.TakeDamage(damageFactor);
+                        var rag = target.GetComponent<RagDoll>();
+                        if (rag)
+                        {
+                            rag.rigidbodies[0].AddExplosionForce(200f, transform.position, GetComponent<SphereCollider>().radius, 1.0f, ForceMode.Impulse);
+                        }
+                    }
                 }
                 else {
                     shouldRemove.Append(target);
