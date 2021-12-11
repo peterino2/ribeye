@@ -84,6 +84,7 @@ namespace Gameplay.Gunner
             var target = gunner.ui.GetNearestTarget();
             if (target != null)
             {
+                smartAmmo -= 1;
                 print("firing innerinner");
                 var obj = target.gameObject.GetComponent<RibTargetable>();
                 Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,
@@ -91,7 +92,7 @@ namespace Gameplay.Gunner
                 var wrather = r.transform.gameObject.GetComponent<RibHumanoidEnemy>();
                 if (wrather)
                 {
-                    wrather.TakeHeadShotDamage(damageSmart*0.25f);
+                    wrather.TakeHeadShotDamage(damageSmart);
                 }
                 else
                 {
@@ -112,7 +113,6 @@ namespace Gameplay.Gunner
             while (Input.GetKey(KeyCode.Mouse0) && fireready && (smartAmmo > 0))
             {
                 print("smartFiring");
-                smartAmmo -= 1;
                 DoSmartFire();
                 yield return new WaitForSeconds(1 / FireRate);
             }
@@ -160,6 +160,7 @@ namespace Gameplay.Gunner
                     else if (x != null)
                     {
                         x.TakeDamage(damageRevolver);
+                        smartAmmo = smartAmmo + 1 > smartAmmoMax? smartAmmoMax: smartAmmo + 1;
                         gunner.ui.Hitmarker();
                     }
                 

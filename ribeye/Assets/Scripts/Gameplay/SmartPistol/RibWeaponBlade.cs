@@ -119,19 +119,22 @@ namespace Gameplay.Gunner
                             if (h != null)
                             {
                                 h.TakeSwordDamage(damage);
+                                max_hits = -1;
                             }
                             else
                             {
+                                max_hits = -1;
                                 target.TakeDamage(damage);
                             }
 
-                            Physics.Raycast(
+                            if (Physics.Raycast(
                                 gunner.transform.position,
                                 target.transform.position - gunner.transform.position,
-                                out RaycastHit r, Mathf.Infinity, ~playermask);
-                            Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
-                            hit = true;
-                            max_hits = -1;
+                                out RaycastHit r, Mathf.Infinity, ~playermask))
+                            {
+                                Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
+                                hit = true;
+                            }
                         }
                         else {
                             shouldRemove.Append(target);
