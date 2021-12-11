@@ -13,12 +13,11 @@ GameObject:
   - component: {fileID: 96981179624809809}
   - component: {fileID: 96981179624809810}
   - component: {fileID: 96981179624809811}
-  - component: {fileID: 96981179624809812}
   - component: {fileID: 96981179624809813}
   - component: {fileID: 96981179624809814}
   - component: {fileID: 868495630}
   - component: {fileID: 1148556552947244869}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Wrather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,20 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetingLoc: {fileID: 96981179624809839}
   targetSet: 1
-  target: {fileID: 96981179624809812}
---- !u!114 &96981179624809812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96981179624809815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a39642ebc2c14f5a802abd61aa5d3cac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
+  target: {fileID: 0}
 --- !u!114 &96981179624809813
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -599,9 +599,9 @@ GameObject:
   - component: {fileID: 7702502185527255780}
   - component: {fileID: 7038871410067241055}
   - component: {fileID: 7038871410067241026}
-  - component: {fileID: 7038871410067241053}
   - component: {fileID: 7038871410067241052}
   - component: {fileID: 2979262512087444399}
+  - component: {fileID: 840426189857306558}
   m_Layer: 9
   m_Name: TurretInfo
   m_TagString: Untagged
@@ -653,19 +653,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.3151116
   m_Center: {x: -4.79359e-15, y: 0.54216486, z: 0.03}
---- !u!114 &7038871410067241053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7038871410067241054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a39642ebc2c14f5a802abd61aa5d3cac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
 --- !u!114 &7038871410067241052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,7 +667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetingLoc: {fileID: 5400663812007951773}
   targetSet: 1
-  target: {fileID: 7038871410067241053}
+  target: {fileID: 0}
 --- !u!54 &2979262512087444399
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -697,6 +684,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &840426189857306558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7038871410067241054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a1fdb332784dd9b56074572942dc66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  deathExplosionParticle: {fileID: 5520183136176676627, guid: c4a627c0909d8a84a8c42c52ca51e2df, type: 3}
+  deathExplosionCenterPoint: {fileID: 5400663812007951773}
 --- !u!1 &8482093669920791893
 GameObject:
   m_ObjectHideFlags: 0

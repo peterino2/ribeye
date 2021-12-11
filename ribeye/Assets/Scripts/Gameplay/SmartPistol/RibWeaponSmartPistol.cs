@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Game;
+using Gameplay.Core;
 using Gameplay.Stats;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -122,11 +123,29 @@ namespace Gameplay.Gunner
                 if (ui.GetCenterTarget(out Transform objectHit, out RaycastHit rayhit))
                 {
                     EntityBase x = objectHit.gameObject.GetComponent<EntityBase>();
-                    if (x != null)
+
+                    var wrather = objectHit.gameObject.GetComponent<RibHumanoidEnemy>();
+                    if (wrather)
+                    {
+                        print("wrather shot");
+                        if (((wrather.head.transform.position + wrather.head.transform.up * 0.06f) - rayhit.point).magnitude < 0.25f)
+                        {
+                            print("Taking Headshot Damage");
+                            wrather.TakeHeadShotDamage(damageRevolver);
+                            ui.Hitmarker();
+                        }
+                        else
+                        {
+                            x.TakeDamage(damageRevolver);
+                            ui.Hitmarker();
+                        }
+                    }
+                    else if (x != null)
                     {
                         x.TakeDamage(damageRevolver);
                         ui.Hitmarker();
                     }
+                
                     Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
                 }
                 gunAnimator.Play("RevolverShot");
