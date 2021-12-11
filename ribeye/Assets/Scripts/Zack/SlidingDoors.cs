@@ -11,18 +11,19 @@ public class SlidingDoors : MonoBehaviour {
     [Header("Setup")]
     [SerializeField] private Door[] doors = null;
     [SerializeField] private Trigger trigger = null;
+    [SerializeField] private Lever lever = null;
 
     [Header("Specifications")]
     [SerializeField] private float speed = 25f;
 
     [Header("Debugging")]
-    [SerializeField] private States state = States.Closed;
+    public States state = States.Closed;
 
     #endregion
 
     #region Enumerators
 
-    private enum States {
+    public enum States {
         Closed, Opening, Open, Closing
     }
 
@@ -61,26 +62,49 @@ public class SlidingDoors : MonoBehaviour {
     }
 
     private void Closed() {
-        //Check if triggered
-        if (trigger.HasObjects()) {
-            //Change state
-            state = States.Opening;
+        //Check if not null
+        if (trigger != null) {
+            //Check if triggered
+            if (trigger != null && trigger.HasObjects()) {
+                //Change state
+                state = States.Opening;
+            }
         }
     }
 
     private void Opening() {
-        //Check if not triggered
-        if (!trigger.HasObjects()) {
-            //Change state
-            state = States.Closing;
-        } else {
-            //Loop
-            for (int i = 0; i < doors.Length; i++) {
-                //Move door
-                doors[i].DoorTransform.position = Vector3.MoveTowards(doors[i].DoorTransform.position, doors[i].DoorOpen.position, speed);
+        //Check if not null
+        if (trigger != null) {
+            //Check if not triggered
+            if (!trigger.HasObjects()) {
+                //Change state
+                state = States.Closing;
+            } else {
+                //Opening now
+                OpeningNow();
             }
+        } else {
+            //Opening now
+            OpeningNow();
+        }
+    }
+
+    private void OpeningNow() {
+        //Loop
+        for (int i = 0; i < doors.Length; i++) {
+            //Move door
+            doors[i].DoorTransform.position = Vector3.MoveTowards(doors[i].DoorTransform.position, doors[i].DoorOpen.position, speed);
+        }
+        //Check
+        if (doors.Length > 1) {
             //Check
             if (doors[0].DoorTransform.position == doors[0].DoorOpen.position && doors[1].DoorTransform.position == doors[1].DoorOpen.position) {
+                //Change state
+                state = States.Open;
+            }
+        } else {
+            //Check
+            if (doors[0].DoorTransform.position == doors[0].DoorOpen.position) {
                 //Change state
                 state = States.Open;
             }
@@ -88,28 +112,43 @@ public class SlidingDoors : MonoBehaviour {
     }
 
     private void Open() {
-        //Check if not triggered
-        if (!trigger.HasObjects()) {
-            //Change state
-            state = States.Closing;
+        //Check if not null
+        if (trigger != null) {
+            //Check if not triggered
+            if (!trigger.HasObjects()) {
+                //Change state
+                state = States.Closing;
+            }
         }
     }
 
     private void Closing() {
-        //Check if triggered
-        if (trigger.HasObjects()) {
-            //Change state
-            state = States.Opening;
-        } else {
-            //Loop
-            for (int i = 0; i < doors.Length; i++) {
-                //Move door
-                doors[i].DoorTransform.position = Vector3.MoveTowards(doors[i].DoorTransform.position, doors[i].DoorClosed.position, speed);
-            }
-            //Check
-            if (doors[0].DoorTransform.position == doors[0].DoorClosed.position && doors[1].DoorTransform.position == doors[1].DoorClosed.position) {
+        //Check if not null
+        if (trigger != null) {
+            //Check if triggered
+            if (trigger.HasObjects()) {
                 //Change state
-                state = States.Closed;
+                state = States.Opening;
+            } else {
+                //Loop
+                for (int i = 0; i < doors.Length; i++) {
+                    //Move door
+                    doors[i].DoorTransform.position = Vector3.MoveTowards(doors[i].DoorTransform.position, doors[i].DoorClosed.position, speed);
+                }
+                //Check
+                if (doors.Length > 1) {
+                    //Check
+                    if (doors[0].DoorTransform.position == doors[0].DoorClosed.position && doors[1].DoorTransform.position == doors[1].DoorClosed.position) {
+                        //Change state
+                        state = States.Closed;
+                    }
+                } else {
+                    //Check
+                    if (doors[0].DoorTransform.position == doors[0].DoorClosed.position) {
+                        //Change state
+                        state = States.Closed;
+                    }
+                }
             }
         }
     }
