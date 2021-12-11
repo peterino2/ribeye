@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 384c4d03a551c44448145f4093304119, type: 3}
   m_Name: ScreenSpaceReflection
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   quality:
     m_OverrideState: 1
@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd4f2a752f876740a55e3c7139496e5, type: 3}
   m_Name: VHSPro
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   g_pixel: 1
   g_color: 1
@@ -932,7 +932,7 @@ MonoBehaviour:
     m_Value: 0
   bleedAmount:
     m_OverrideState: 1
-    m_Value: 0.62
+    m_Value: 0.26
     min: 0
     max: 5
   noiseResGlobal:
@@ -945,24 +945,24 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 480
   filmgrainOn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   filmGrainAmount:
-    m_OverrideState: 0
-    m_Value: 0.014
+    m_OverrideState: 1
+    m_Value: 0.01
     min: 0
     max: 1
   signalNoiseOn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   signalNoiseAmount:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
     min: 0
     max: 1
   signalNoisePower:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.839
     min: 0
     max: 1
   lineNoiseOn:
@@ -970,12 +970,12 @@ MonoBehaviour:
     m_Value: 1
   lineNoiseAmount:
     m_OverrideState: 1
-    m_Value: 1.22
+    m_Value: 0.27
     min: 0
     max: 10
   lineNoiseSpeed:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 2
     min: 0
     max: 10
   tapeNoiseOn:
@@ -1013,8 +1013,8 @@ MonoBehaviour:
     min: -3
     max: 3
   stretchOn:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   jitterHOn:
     m_OverrideState: 0
     m_Value: 0

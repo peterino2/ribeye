@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Gameplay.Stats
 {
@@ -13,6 +16,33 @@ namespace Gameplay.Stats
         {
             _controller = FindObjectOfType<PeterFPSCharacterController>();
         }
+        
+        private bool filmGrainAnimating = false;
+
+        IEnumerator filmGrainExplosion()
+        {
+            float t = 0;
+            vhs.profile.TryGet(out VHSPro vhsInner);
+            while (t < 0.7f)
+            {
+                t += Time.deltaTime;
+                var f = filmGrainCurve.Evaluate(t);
+
+                vhsInner.filmGrainAmount.value = f;
+                vhsInner.bleedAmount.value = f*5;
+                vhsInner.signalNoiseAmount.value = f;
+                yield return null;
+            }
+        }
+        public void  DoFilmGrainExplosion()
+        {
+            filmGrainAnimating = false;
+            StopCoroutine(filmGrainExplosion());
+            StartCoroutine(filmGrainExplosion());
+        }
+        
+        public AnimationCurve filmGrainCurve;
+        public Volume vhs;
 
         public override void TakeDamage(float damage)
         {

@@ -10,7 +10,7 @@ public class RagDoll : MonoBehaviour {
     //Declare serializables
     [Header("Setup")]
     [SerializeField] private Animator animator = null;
-    [SerializeField] private Rigidbody[] rigidbodies = null;
+    [SerializeField] public Rigidbody[] rigidbodies = null;
     [SerializeField] private NavMeshAgent navMeshAgent = null;
     [SerializeField] private AIController AIControllerScript = null;
     [SerializeField] private Collider collider = null;

@@ -36,6 +36,7 @@ public class SmartAimerUI : MonoBehaviour
     
     [SerializeField] public Image reticuleMain;
     [SerializeField] public Image hitmarker;
+    [SerializeField] public TextMeshProUGUI plasmaCasterText;
 
 
     private float hitmarkerFade = 0.0f;
@@ -52,7 +53,7 @@ public class SmartAimerUI : MonoBehaviour
     void Start()
     {
         _rect = GetComponent<RectTransform>(); // scale this based on FOV and screen size
-        SetMode(mode);
+        SetSmartPistolMode(mode);
         Array.Resize(ref positionPool, targetingPoolSize);
 
         for (var i = 0; i < targetingPoolSize; i++)
@@ -64,10 +65,63 @@ public class SmartAimerUI : MonoBehaviour
             positionPool[i].enabled = false;
         }
     }
+
+    public void ShowSwordUI()
+    {
+        imageTl.enabled = false;
+        imageTr.enabled = false;
+        imageBl.enabled = false;
+        imageBr.enabled = false;
+        targetingText.enabled = false;
+        targetingText.text = "";
+        reticuleMain.enabled = false;
+        reticulePlasma.enabled = false;
+
+        reticuleSword.enabled = true;
+    }
+
+    [SerializeField]
+    public Image reticuleSword;
     
-    public void SetMode(RibWeaponSmartPistol.SmartPistolModes m)
+    [SerializeField]
+    public Image reticulePlasma;
+
+    public void ShowNone()
+    {
+        imageTl.enabled = false;
+        imageTr.enabled = false;
+        imageBl.enabled = false;
+        imageBr.enabled = false;
+        targetingText.enabled = false;
+        targetingText.text = "";
+        reticuleSword.enabled = false;
+        reticuleMain.enabled = false;
+        reticulePlasma.enabled = false;
+        plasmaCasterText.enabled = false;
+    }
+
+    public void ShowPlasmaCaster()
+    {
+        imageTl.enabled = false;
+        imageTr.enabled = false;
+        imageBl.enabled = false;
+        imageBr.enabled = false;
+        targetingText.enabled = false;
+        targetingText.text = "";
+        reticuleSword.enabled = false;
+        reticuleMain.enabled = false;
+        reticulePlasma.enabled = true;
+        plasmaCasterText.enabled = true;
+    }
+    
+    
+    public void SetSmartPistolMode(RibWeaponSmartPistol.SmartPistolModes m)
     {
         mode = m;
+        plasmaCasterText.enabled = false;
+        reticuleSword.enabled = false;
+        reticulePlasma.enabled = false;
+
         if (m == RibWeaponSmartPistol.SmartPistolModes.Revolver)
         {
             // todo scale the base canvas position based on 
@@ -172,6 +226,10 @@ public class SmartAimerUI : MonoBehaviour
         {
             Vector3 targetWorldPos;
             Vector3 point;
+            if (!target.target.alive)
+            {
+                continue;
+            }
             
             targetWorldPos = target.targetingLoc.transform.position;
             if ((targetWorldPos - mainCamera.transform.position).magnitude > range)

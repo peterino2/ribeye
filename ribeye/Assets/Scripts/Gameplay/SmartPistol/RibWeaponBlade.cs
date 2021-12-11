@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Game;
+using Gameplay.Core;
 using Gameplay.Stats;
 using UnityEngine;
 
@@ -26,6 +27,11 @@ namespace Gameplay.Gunner
         private void Start()
         {
             hurtbox = GetComponent<Collider>();
+            
+            foreach (var trail in trails)
+            {
+                trail.enabled = false;
+            }
         }
 
         [SerializeField] private GameObject model;
@@ -34,11 +40,16 @@ namespace Gameplay.Gunner
             activated = true;
             model.SetActive(true);
             gunAnimator.Play("BladeEquip");
+            gunner.ui.ShowSwordUI();
         }
+
+        [SerializeField]
+        private TrailRenderer[] trails;
 
         public override void DeactivateWeapon()
         {
             model.SetActive(false);
+            activated = false;
         }
 
         private GameObject hookTarget;
@@ -99,19 +110,35 @@ namespace Gameplay.Gunner
                 {
                     List<EntityBase> shouldRemove = new List<EntityBase>();
                     bool hit = false;
+                    int max_hits = 3;
                     foreach (var target in targets)
                     {
-                        if (target != null)
+                        if (target != null && max_hits > 0 && target.alive)
                         {
-                            target.TakeDamage(damage);
+                            var h = target.GetComponent<RibHumanoidEnemy>();
+                            if (h != null)
+                            {
+                                h.TakeSwordDamage(damage);
+                            }
+                            else
+                            {
+                                target.TakeDamage(damage);
+                            }
+
                             Physics.Raycast(
                                 gunner.transform.position,
                                 target.transform.position - gunner.transform.position,
                                 out RaycastHit r, Mathf.Infinity, ~playermask);
                             Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
                             hit = true;
+                            max_hits = -1;
                         }
                         else {
+                            shouldRemove.Append(target);
+                        }
+
+                        if (!target.alive)
+                        {
                             shouldRemove.Append(target);
                         }
                     }
@@ -123,7 +150,7 @@ namespace Gameplay.Gunner
                     
                     if (hit)
                     {
-                        
+                        gunner.ui.Hitmarker();
                     }
                     
                 }
@@ -195,9 +222,32 @@ namespace Gameplay.Gunner
 
                 if (swingRecoilResetTime <= 0)
                 {
+                    gunner.rotationFactor = 0.8f;
                     gunner.rotationTarget = Quaternion.identity;
                 }
             }
+
+            if (activated)
+            {
+                gunner.inventoryUi.ammoText.text = "";
+            }
+
+            if (trailAliveTime > 0)
+            {
+                trailAliveTime -= Time.deltaTime;
+                if (trailAliveTime <= 0)
+                {
+                    foreach (var trail in trails)
+                    {
+                        trail.enabled = false;
+                    }
+                }
+            }
+        }
+
+        public override void GrantAmmo(int ammo)
+        {
+            return;
         }
 
 
@@ -267,12 +317,22 @@ namespace Gameplay.Gunner
 
         private float swingRecoilResetTime = 0.1f;
 
+        private float trailAliveTime = 0;
+
         private void DoSlash()
         {
             swingReady = false;
             gunAnimator.Play(SlashAnims[slashIndex]);
+            
+            gunner.rotationFactor = 0.8f;
             gunner.rotationTarget = Quaternion.Euler(slashRotations_v3[slashIndex]);
             incrementSlash();
+            trailAliveTime = 0.4f;
+            foreach (var trail in trails)
+            {
+                //trails[3].enabled = true;
+                trail.enabled = true;
+            }
             swingDamageDelay = 0.1f;
             swingCooldown = 0.3f;
             swingRecoilResetTime = 0.100f;
@@ -303,7 +363,7 @@ namespace Gameplay.Gunner
 
         public override string GetWeaponName()
         {
-            return "Blade and tackle";
+            return "Frontier Blade";
         }
         
         
