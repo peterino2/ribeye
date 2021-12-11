@@ -64,7 +64,9 @@ public class TurretBehavior : MonoBehaviour {
     #region Start and initialization
 
     private void Start() {
+        //Check if no target
         if (!target) {
+            //Set target
             target = GameObject.Find("CharacterController").transform;
         }
         //Set

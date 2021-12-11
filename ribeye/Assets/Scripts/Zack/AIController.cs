@@ -70,6 +70,11 @@ public class AIController : MonoBehaviour {
     #region Start and initialization
 
     private void Start() {
+        //Check if no destination
+        if (!destination) {
+            //Set target
+            destination = GameObject.Find("CharacterController").transform;
+        }
         //Set
         navMeshAgent = GetComponent<NavMeshAgent>();
         //Set starting state
@@ -85,6 +90,11 @@ public class AIController : MonoBehaviour {
         }
         //Check to initialize
         patrolling?.Initialize();
+        //Check
+        if (animationState == AnimationStates.FastRun) {
+            //Set speed
+            navMeshAgent.speed = runningSpeed;
+        }
     }
 
     private void PlayAnimation(AnimationStates animationStateToBe) {
