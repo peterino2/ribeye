@@ -99,10 +99,12 @@ public class RibGunner : MonoBehaviour
         
     }
 
+    public float rotationFactor = 0.8f;
+
     void HandleCameraTransforms()
     {
-        cameraBoom.transform.localPosition = Vector3.Lerp(positionTarget, cameraBoom.transform.localPosition,   0.8f);
-        cameraBoom.transform.localRotation = Quaternion.Lerp(rotationTarget, cameraBoom.transform.localRotation, 0.8f);
+        cameraBoom.transform.localPosition = Vector3.Lerp(positionTarget, cameraBoom.transform.localPosition,   rotationFactor);
+        cameraBoom.transform.localRotation = Quaternion.Lerp(rotationTarget, cameraBoom.transform.localRotation, rotationFactor);
     }
     // Update is called once per frame
     void Update()
