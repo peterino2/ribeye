@@ -112,7 +112,7 @@ public class RibGunner : MonoBehaviour
         HandleCameraTransforms();
         if (Input.GetKeyDown(KeyCode.Alpha1)) TryActivateGun(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) TryActivateGun(1);
-        // if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) TryActivateGun(2);
         
         
         if (gunIndex == -1)

@@ -13,10 +13,31 @@ namespace Gameplay.Core
         
         [SerializeField]
         public GameObject bloodPrefab;
+        
+        public GameObject bloodsprayPrefab;
+        public GameObject upperRagdollPrefab;
+        public GameObject lowerRagdollPrefab;
+        
+        private void Start()
+        {
+            team = 1;
+        }
+        
+        public void TakeSwordDamage(float damage)
+        {
+            TakeDamage(damage);
+            if (health <= 0.01f)
+            {
+                head.transform.localScale = Vector3.zero;
+                // Destroy(Instantiate(upperRagdollPrefab, transform.position, transform.rotation), 2.5f);
+                // Destroy(Instantiate(lowerRagdollPrefab, transform.position, transform.rotation), 2.5f);
+                Destroy(Instantiate(bloodsprayPrefab, transform.position, Quaternion.identity),  1.8f);
+            }
+        }
 
         public void TakeHeadShotDamage(float damage)
         {
-            TakeDamage(damage * 2);
+            TakeDamage(damage * 4);
             if (health <= 0.01f)
             {
                 head.transform.localScale = Vector3.zero;
@@ -38,6 +59,7 @@ namespace Gameplay.Core
             {
                 GameManager.playHeavySound(transform.position);
                 ragDoll.EnableRagDoll();
+                alive = false;
                 Destroy(gameObject, 5f);
             }
         }

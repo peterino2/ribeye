@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Game;
+using Gameplay.Core;
 using Gameplay.Stats;
 using UnityEngine;
 
@@ -99,19 +100,35 @@ namespace Gameplay.Gunner
                 {
                     List<EntityBase> shouldRemove = new List<EntityBase>();
                     bool hit = false;
+                    int max_hits = 3;
                     foreach (var target in targets)
                     {
-                        if (target != null)
+                        if (target != null && max_hits > 0 && target.alive)
                         {
-                            target.TakeDamage(damage);
+                            var h = target.GetComponent<RibHumanoidEnemy>();
+                            if (h != null)
+                            {
+                                h.TakeSwordDamage(damage);
+                            }
+                            else
+                            {
+                                target.TakeDamage(damage);
+                            }
+
                             Physics.Raycast(
                                 gunner.transform.position,
                                 target.transform.position - gunner.transform.position,
                                 out RaycastHit r, Mathf.Infinity, ~playermask);
                             Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
                             hit = true;
+                            max_hits = -1;
                         }
                         else {
+                            shouldRemove.Append(target);
+                        }
+
+                        if (!target.alive)
+                        {
                             shouldRemove.Append(target);
                         }
                     }

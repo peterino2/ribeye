@@ -172,6 +172,10 @@ public class SmartAimerUI : MonoBehaviour
         {
             Vector3 targetWorldPos;
             Vector3 point;
+            if (!target.target.alive)
+            {
+                continue;
+            }
             
             targetWorldPos = target.targetingLoc.transform.position;
             if ((targetWorldPos - mainCamera.transform.position).magnitude > range)

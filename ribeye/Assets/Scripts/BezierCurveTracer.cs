@@ -125,7 +125,7 @@ public class BezierCurveTracer : MonoBehaviour {
         //Enable
         tracers[nextTracer].TheGameObject.SetActive(true);
         tracers[nextTracer].TheLineRenderer.SetPositions(linePositions.Positions);
-        tracers[nextTracer].curvedLine.Fade();
+        tracers[nextTracer].curvedLine.Fade(false);
         // spawn a particle for the shot
         //if (particlePrefab)
         //{

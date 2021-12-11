@@ -12,14 +12,12 @@ GameObject:
   - component: {fileID: 96981179624809808}
   - component: {fileID: 96981179624809809}
   - component: {fileID: 96981179624809810}
-  - component: {fileID: 96981179624809811}
   - component: {fileID: 96981179624809813}
   - component: {fileID: 96981179624809814}
   - component: {fileID: 868495630}
   - component: {fileID: 1148556552947244869}
-  - component: {fileID: 8538867261356643742}
   m_Layer: 0
-  m_Name: Wrather
+  m_Name: WragLow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,21 +101,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &96981179624809811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96981179624809815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6190291c84a4b1fb8628fe643866420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetingLoc: {fileID: 5682534672143794168}
-  targetSet: 1
-  target: {fileID: 0}
 --- !u!114 &96981179624809813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +179,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 96981179624809814}
   AIControllerScript: {fileID: 96981179624809813}
   collider: {fileID: 96981179624809810}
-  Testing: 0
+  Testing: 1
 --- !u!54 &1148556552947244869
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -213,27 +196,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8538867261356643742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96981179624809815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8dca83adb664ce0baaa081e75c5ae30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
-  team: 0
-  alive: 1
-  ragDoll: {fileID: 868495630}
-  head: {fileID: 3985151990936795963}
-  bloodPrefab: {fileID: 6865962558764003425, guid: d3f6b101be65f074280d0dc3e51890d8, type: 3}
-  bloodsprayPrefab: {fileID: 7997113945496896975, guid: a405840ad67a4314a8c6d4aa11adaec5, type: 3}
-  upperRagdollPrefab: {fileID: 96981179624809815, guid: e8b26eb176ca4c047a6e5a2ca854a9e6, type: 3}
-  lowerRagdollPrefab: {fileID: 96981179624809815, guid: 67aaba571fb5aa34e964ac27d588d9ec, type: 3}
 --- !u!1 &206798222269317249
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,7 +2476,7 @@ Transform:
   m_GameObject: {fileID: 6677632628947476492}
   m_LocalRotation: {x: -0.013753495, y: -0.000002080951, z: 0.000048281683, w: 0.9999054}
   m_LocalPosition: {x: 2.9686475e-12, y: 0.06038963, z: -0.0016615723}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 7922030407169431940}
   m_Father: {fileID: 3463787606994781335}

@@ -32,7 +32,7 @@ namespace Gameplay.Gunner
         
         [SerializeField] private GameObject bulletImpact;
         [SerializeField] private float damageSmart = 1.0f;
-        [SerializeField] private float damageRevolver = 1.5f;
+        [SerializeField] private float damageRevolver = 2.5f;
         
         [SerializeField] private SmartAimerUI ui;
 
@@ -54,6 +54,7 @@ namespace Gameplay.Gunner
         }
 
         private BezierCurveTracer bcurveGen;
+        public GameObject RevolverShotPrefab;
         private void Start()
         {
             //StartCoroutine(switchModes(mode));
@@ -88,8 +89,17 @@ namespace Gameplay.Gunner
             if (target != null)
             {
                 var obj = target.gameObject.GetComponent<RibTargetable>();
-                Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,Mathf.Infinity, curveMask);
-                target.TakeDamage(damageSmart);
+                Physics.Raycast(transform.position, target.transform.position - transform.position, out RaycastHit r,
+                    Mathf.Infinity, curveMask);
+                var wrather = r.transform.gameObject.GetComponent<RibHumanoidEnemy>();
+                if (wrather)
+                {
+                    wrather.TakeHeadShotDamage(damageSmart*0.25f);
+                }
+                else
+                {
+                    target.TakeDamage(damageSmart);
+                }
                 ui.Hitmarker();
                 bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
                 Instantiate(bulletImpact, r.point, Quaternion.LookRotation(r.normal));
@@ -120,17 +130,19 @@ namespace Gameplay.Gunner
             {
                 revolverReady = false;
                 GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.2f);
+                Vector3[] Positions = {muzzle.transform.position, muzzle.transform.position + transform.forward * 3200f};
+                
                 if (ui.GetCenterTarget(out Transform objectHit, out RaycastHit rayhit))
                 {
+                    Positions[1] = rayhit.point;
+                    
                     EntityBase x = objectHit.gameObject.GetComponent<EntityBase>();
 
                     var wrather = objectHit.gameObject.GetComponent<RibHumanoidEnemy>();
                     if (wrather)
                     {
-                        print("wrather shot");
                         if (((wrather.head.transform.position + wrather.head.transform.up * 0.06f) - rayhit.point).magnitude < 0.25f)
                         {
-                            print("Taking Headshot Damage");
                             wrather.TakeHeadShotDamage(damageRevolver);
                             ui.Hitmarker();
                         }
@@ -148,6 +160,11 @@ namespace Gameplay.Gunner
                 
                     Instantiate(bulletImpact, rayhit.point, Quaternion.LookRotation(rayhit.normal));
                 }
+                var line = Instantiate(RevolverShotPrefab, transform.position, Quaternion.identity);
+                var linec = line.GetComponent<LineRenderer>();
+                line.GetComponent<CurvedLine>().Fade(true);
+                linec.SetPositions(Positions);
+                
                 gunAnimator.Play("RevolverShot");
                 gunner.rotationTarget = Quaternion.Euler(revolverRecoilEuler);
                 yield return new WaitForSeconds(0.10f);

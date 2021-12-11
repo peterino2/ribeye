@@ -21,6 +21,11 @@ namespace Gameplay.Core
                 Destroy(gameObject);
             }
         }
+        
+        private void Start()
+        {
+            team = 1;
+        }
 
         public override void Heal(float damage)
         {
