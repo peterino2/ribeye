@@ -2854,7 +2854,7 @@ MonoBehaviour:
   activationIndex: 1
   gunner: {fileID: 0}
   gunAnimator: {fileID: 0}
-  damage: 5
+  damage: 3
   impactEffect: {fileID: 191434988125605650, guid: d3426ceae7d025040b825d574e64915d, type: 3}
   SlashAnims:
   - BladeSlash_1
@@ -9432,7 +9432,7 @@ MonoBehaviour:
   test: {fileID: 0}
   playermask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 631
 --- !u!1 &825193459010655858
 GameObject:
   m_ObjectHideFlags: 0
@@ -14391,7 +14391,7 @@ MonoBehaviour:
   ui: {fileID: 825193458972245379}
   curveMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
   revolverRecoilEuler: {x: -5, y: 5, z: 0}
 --- !u!114 &825193459751783880
 MonoBehaviour:
