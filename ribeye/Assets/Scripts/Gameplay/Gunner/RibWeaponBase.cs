@@ -6,6 +6,7 @@ namespace Gameplay.Gunner
     {
         public int activationIndex = 0;
         private float sprayDeg = 25;
+        protected bool activated;
 
         public RibGunner gunner;
         

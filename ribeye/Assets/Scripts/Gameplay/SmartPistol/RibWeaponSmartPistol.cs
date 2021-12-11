@@ -15,8 +15,6 @@ namespace Gameplay.Gunner
             Revolver
         }
 
-        private bool isActive = false;
-
         [SerializeField] private SmartPistolModes mode = SmartPistolModes.Smart;
         [SerializeField] private int smartShotIndex = 0; // see soundmanager prefab this needs to match
         [SerializeField] private int revolverShotIndex = 1; // see soundmanager prefab this needs to match
@@ -184,7 +182,7 @@ namespace Gameplay.Gunner
         
         public override void ActivateWeapon()
         {
-            isActive = true;
+            activated = true;
             modelBase.SetActive(true);
             modelBase1.SetActive(true);
             modelBase2.SetActive(true);
@@ -197,7 +195,7 @@ namespace Gameplay.Gunner
             if (retriggerRevolver && revolverReady)
             {
                 retriggerRevolver = false;
-                if (mode == SmartPistolModes.Revolver && isActive)
+                if (mode == SmartPistolModes.Revolver && activated)
                 {
                     StartCoroutine(RevolverHeavy());
                 }
@@ -211,7 +209,7 @@ namespace Gameplay.Gunner
         
         public override void DeactivateWeaponNoAnim()
         {
-            isActive = false;
+            activated = false;
             modelBase.SetActive(false);
             modelBase1.SetActive(false);
             modelBase2.SetActive(false);

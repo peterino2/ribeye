@@ -772,6 +772,7 @@ GameObject:
   - component: {fileID: 7578373004924323699}
   - component: {fileID: 5093355506617165902}
   - component: {fileID: 4755316915400382425}
+  - component: {fileID: 2705413202915130979}
   m_Layer: 9
   m_Name: TurretInfo
   m_TagString: Untagged
@@ -853,6 +854,22 @@ MonoBehaviour:
   targetingLoc: {fileID: 1498337520737875456}
   targetSet: 1
   target: {fileID: 5093355506617165902}
+--- !u!54 &2705413202915130979
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516424604918329715}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8790948863325785875
 GameObject:
   m_ObjectHideFlags: 0
