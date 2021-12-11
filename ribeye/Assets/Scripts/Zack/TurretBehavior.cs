@@ -9,10 +9,12 @@ public class TurretBehavior : MonoBehaviour {
     //Declare serializables
     [Header("Setup")]
     [SerializeField] private TurretManager turretManager = null;
-    public Transform turretMuzzlePoint = null;
+    [SerializeField] private Transform turretMuzzleTargeting = null;
+    [SerializeField] private Transform[] turretMuzzlePoints = null;
     [SerializeField] private Animator animator = null;
     [SerializeField] private TurretObjectPool turretObjectPool = null;
     [SerializeField] private Transform target = null;
+    [SerializeField] private string Tag = "CharacterControllerTag";
     [SerializeField] private Transform emptyTarget = null;
     [SerializeField] private Transform xAxisEmptyRotator = null;
     [SerializeField] private Transform xAxisEmptyRotatorReset = null;
@@ -20,14 +22,17 @@ public class TurretBehavior : MonoBehaviour {
     [SerializeField] private Transform xAxisEmptyRotatorRightScan = null;
 
     [Header("Specifications")]
+    [SerializeField] private LineRenderer lineRenderer = null;
     [SerializeField] private float detectionDistance = 25f;
-    public float shootingForce = 7000f;
+    public float shootingForce = 1f;
     [SerializeField] private float speedWhenScanning = 5f;
+    [SerializeField] private float animatorSpeedForShooting = 1f;
 
     [Header("Debugging")]
     [SerializeField] private TargetingStates targetingState = TargetingStates.DoingNothing;
     [SerializeField] private ShootingStates shootingState = ShootingStates.DoingNothing;
     [SerializeField] private ScanningStates scanningState = ScanningStates.Right;
+    [SerializeField] private LayerMask TheLayerMask = new LayerMask();
 
     //Declare privates
     private int hash = 0;
@@ -59,8 +64,15 @@ public class TurretBehavior : MonoBehaviour {
     #region Start and initialization
 
     private void Start() {
+        //Check if no target
+        if (!target) {
+            //Set target
+            target = GameObject.Find("CharacterController").transform;
+        }
         //Set
         hash = Animator.StringToHash(STATE);
+        //Set animator speed
+        animator.speed = animatorSpeedForShooting;
         //Check state
         switch (targetingState) {
             case TargetingStates.DoingNothing:
@@ -86,6 +98,18 @@ public class TurretBehavior : MonoBehaviour {
     #region Update
 
     private void Update() {
+        //Check
+        if (turretObjectPool != null && lineRenderer == null) {
+            //Run lifetimes
+            turretObjectPool.CheckLifetimes(TheLayerMask);
+        }
+        //Check
+        if (lineRenderer != null) {
+            //Set state
+            shootingState = ShootingStates.DoingNothing;
+            //Reset
+            lineRenderer.enabled = false;
+        }
         //Check state
         switch (targetingState) {
             case TargetingStates.DoingNothing:
@@ -146,14 +170,20 @@ public class TurretBehavior : MonoBehaviour {
     private void Targeting() {
         //Target
         turretManager.Target(0f);
-        //Raycast
-        if (Physics.Raycast(turretMuzzlePoint.position, turretMuzzlePoint.forward, out RaycastHit raycastHit, detectionDistance * 2f)) {
-            //Check
-            if (turretManager.lookAtAndLockerScripts[0].target != null) {
-                //Check if matches
-                if (raycastHit.transform == turretManager.lookAtAndLockerScripts[0].target && shootingState == ShootingStates.DoingNothing) {
-                    //Shoot
-                    Shoot();
+        //Check
+        if (Physics.Raycast(turretMuzzleTargeting.position, turretMuzzleTargeting.forward, out RaycastHit raycastHit, detectionDistance * 2f, TheLayerMask, QueryTriggerInteraction.Ignore)) {
+            //Check if player
+            if (raycastHit.transform.gameObject.CompareTag(Tag)) {
+                //Check
+                if (lineRenderer == null) {
+                    //Check
+                    if (shootingState == ShootingStates.DoingNothing) {
+                        //Shoot
+                        Shoot();
+                    }
+                } else {
+                    //Laser
+                    Laser(raycastHit.point);
                 }
             }
         }
@@ -178,8 +208,24 @@ public class TurretBehavior : MonoBehaviour {
         shootingState = ShootingStates.Shooting;
         //Set state for animation
         animator.SetInteger(hash, 1);
-        //Shoot bullet
-        turretObjectPool.Shoot();
+        //Loop
+        for (int i = 0; i < turretMuzzlePoints.Length; i++) {
+            //Shoot bullet
+            turretObjectPool.Shoot(turretMuzzlePoints[i]);
+        }
+    }
+
+    private void Laser(Vector3 position) {
+        //Set
+        lineRenderer.enabled = true;
+        //Set state
+        shootingState = ShootingStates.Shooting;
+        //Set line
+        lineRenderer.SetPosition(0, turretMuzzleTargeting.position);
+        lineRenderer.SetPosition(1, position);
+
+        //HIT PLAYER
+        Debug.Log("HIT");
     }
 
     private void LostTarget() {

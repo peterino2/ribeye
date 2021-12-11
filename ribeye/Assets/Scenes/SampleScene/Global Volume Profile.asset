@@ -852,13 +852,13 @@ MonoBehaviour:
     m_Value: 1
   screenResPresetId:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 16
   screenWidth:
-    m_OverrideState: 0
-    m_Value: 640
+    m_OverrideState: 1
+    m_Value: 768
   screenHeight:
-    m_OverrideState: 0
-    m_Value: 480
+    m_OverrideState: 1
+    m_Value: 512
   colorOn:
     m_OverrideState: 1
     m_Value: 0
@@ -866,7 +866,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 2
   colorSyncedOn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   bitsR:
     m_OverrideState: 0
@@ -884,8 +884,8 @@ MonoBehaviour:
     min: 0
     max: 255
   bitsSynced:
-    m_OverrideState: 0
-    m_Value: 2
+    m_OverrideState: 1
+    m_Value: 0
     min: 0
     max: 255
   bitsGray:
@@ -932,7 +932,7 @@ MonoBehaviour:
     m_Value: 0
   bleedAmount:
     m_OverrideState: 1
-    m_Value: 0.844
+    m_Value: 0.62
     min: 0
     max: 5
   noiseResGlobal:
@@ -969,31 +969,31 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   lineNoiseAmount:
-    m_OverrideState: 0
-    m_Value: 1.28
+    m_OverrideState: 1
+    m_Value: 1.22
     min: 0
     max: 10
   lineNoiseSpeed:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 10
     min: 0
     max: 10
   tapeNoiseOn:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   tapeNoiseTH:
-    m_OverrideState: 1
-    m_Value: 1.126
+    m_OverrideState: 0
+    m_Value: 1.5
     min: 0
     max: 1.5
   tapeNoiseAmount:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0.174
     min: 0
     max: 1.5
   tapeNoiseSpeed:
     m_OverrideState: 0
-    m_Value: 1.5
+    m_Value: 1.339
     min: 0
     max: 1.5
   scanLinesOn:

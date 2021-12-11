@@ -13,7 +13,6 @@ namespace Gameplay.Gunner
     {
         public float damage = 5;
         private Collider hurtbox;
-        private bool activated = false;
         [SerializeField] private GameObject impactEffect;
         private PeterFPSCharacterController _character;
         private void Awake()
