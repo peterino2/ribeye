@@ -17327,7 +17327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680754d99537401983c6dced2374318a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationIndex: 0
+  activationIndex: 2
   gunner: {fileID: 825193458726302190}
   gunAnimator: {fileID: 825193459018451325}
   FireRotation: {x: -12, y: 0, z: 0}
