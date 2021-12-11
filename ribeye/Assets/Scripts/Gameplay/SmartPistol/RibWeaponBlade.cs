@@ -195,6 +195,7 @@ namespace Gameplay.Gunner
 
                 if (swingRecoilResetTime <= 0)
                 {
+                    gunner.rotationFactor = 0.8f;
                     gunner.rotationTarget = Quaternion.identity;
                 }
             }
@@ -271,6 +272,8 @@ namespace Gameplay.Gunner
         {
             swingReady = false;
             gunAnimator.Play(SlashAnims[slashIndex]);
+            
+            gunner.rotationFactor = 0.8f;
             gunner.rotationTarget = Quaternion.Euler(slashRotations_v3[slashIndex]);
             incrementSlash();
             swingDamageDelay = 0.1f;
