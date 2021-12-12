@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Gameplay.Stats;
 using UnityEngine;
 
 public class TurretObjectPool : MonoBehaviour {
@@ -92,7 +93,7 @@ public class TurretObjectPool : MonoBehaviour {
                     //Check
                     if (raycastHit.transform.gameObject.CompareTag(Tag)) {
                         //Player hit
-                        Debug.Log("PLAYER HIT");
+                        FindObjectOfType<RibPlayer>().TakeDamageFromSource(2, turretBehavior.gameObject);
                     }
                     //Disable object
                     DisableObject(i);
