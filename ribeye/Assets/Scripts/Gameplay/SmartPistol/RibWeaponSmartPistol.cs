@@ -101,7 +101,7 @@ namespace Gameplay.Gunner
                 gunner.ui.Hitmarker();
                 bcurveGen.ShowTracer(muzzle.transform, r.point, bulletImpact);
                 Instantiate(bulletImpact, r.point, Quaternion.LookRotation(r.normal));
-                GameManager._soundManager.PlaySound(0, transform.position, volume:0.05f);
+                GameManager._soundManager.PlaySound(0, transform.position, volume:0.2f);
                 gunAnimator.Play("SmartPistolShoot");
                 // StartCoroutine(playFireAnim());
             } 
@@ -132,7 +132,7 @@ namespace Gameplay.Gunner
             if (revolverReady)
             {
                 revolverReady = false;
-                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.2f);
+                GameManager._soundManager.PlaySound(revolverShotIndex, transform.position, volume:0.6f);
                 Vector3[] Positions = {muzzle.transform.position, muzzle.transform.position + transform.forward * 3200f};
                 
                 if (gunner.ui.GetCenterTarget(out Transform objectHit, out RaycastHit rayhit))

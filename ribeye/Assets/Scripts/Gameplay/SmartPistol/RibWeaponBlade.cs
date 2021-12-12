@@ -290,7 +290,7 @@ namespace Gameplay.Gunner
             model.SetActive(false);
             modelresetTimeout = 0.2f;
             
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit r, hookRange, ~gunner.playermask))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit r, hookRange, gunner.playermask))
             {
                 Instantiate(hookPrefab, r.point, Quaternion.LookRotation(r.normal));
                 _character.HookToTarget(r.point, r.point);

@@ -12,6 +12,8 @@ public class SoundManager : MonoBehaviour {
     #endregion
 
     #region Classes and structures
+    
+    public float masterVolume = 1f;
 
     [System.Serializable]
     private class SoundClass {
@@ -83,7 +85,7 @@ public class SoundManager : MonoBehaviour {
             //Set
             soundObjects[soundObjectIndex].FollowTransforms[soundObjects[soundObjectIndex].AudioSourceIndex] = followTransform;
             //Set volume
-            soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].volume = volume;
+            soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].volume = volume * masterVolume;
             //Play sound
             soundObjects[soundObjectIndex].AudioSources[soundObjects[soundObjectIndex].AudioSourceIndex].Play();
             //Increase index

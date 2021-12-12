@@ -255,12 +255,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
     {
         var x = GetComponent<RibPlayer>();
         x.DoFilmGrainDeath();
-        float t = 0;
-        while (t < 30f)
-        {
-            t += Time.deltaTime;
-            transform.rotation = Quaternion.Lerp(transform.rotation, DeathCameraTransform.rotation, 0.4f);
-        }
+        this.enabled = false;
         yield return null;
     }
 
@@ -283,16 +278,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
         dbgString += string.Format("wallgrab: {0}, wallgrab ready: {1} wallrunning: {2}", wallgrabbed, wallgrabready, wallrunning);
         dbgString += string.Format("\ntravel: {0}", travelVector);
         dbgString += string.Format("\nisGrounded {0}", groundCheck.OnGround());
-        dbgString += string.Format("\nupgrades (gunner_index = {0}):", gunner.gunIndex);
-        foreach (var upgrade in gunner.GetUpgrades())
+        
+        if (gunner.HasUpgrade("pistolbasic"))
         {
-            dbgString += string.Format("\n{0}", upgrade);
+            dbgString += string.Format("\nHand Cannon Ready.");
         }
-        dbgString += string.Format("\ndebouncer {0}", wallJumpDebounce);
-        dbgString += string.Format("\nPistol can activate {0}", gunner.guns[0].CanActivate());
-        dbgString += string.Format("\nBlade can activate {0}", gunner.guns[1].CanActivate());
-        dbgString += string.Format("\nEradicator can activate {0}", gunner.guns[2].CanActivate());
-            
+        if (gunner.HasUpgrade("pistolbasic"))
+        {
+            dbgString += string.Format("\nFrontier Blade Ready");
+        }
+        if (gunner.HasUpgrade("plasmacaster"))
+        {
+            dbgString += string.Format("\nDeletus Ready");
+        }
         dbgui.text = dbgString;
     }
 
