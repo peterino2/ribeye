@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class RibGunnerInventory : MonoBehaviour
 {
-    public Image[] icons;
-    public Image[] selectors;
+    public UiIcon[] icons;
     
     [SerializeField] public TextMeshProUGUI ammoText;
     [SerializeField] public TextMeshProUGUI weaponText;
@@ -36,15 +35,15 @@ public class RibGunnerInventory : MonoBehaviour
 
     public void SetSelector(int index)
     {
-        foreach (var sel in selectors)
+        foreach (var sel in icons)
         {
-            sel.enabled = false;
+            sel.Deselect();
         }
         if (index == -1)
         {
             return;
         }
-        selectors[index].enabled = true;
+        icons[index].Select();
         // selector.rectTransform.SetPositionAndRotation(icons[index].rectTransform.rect.position, Quaternion.identity);
     }
     

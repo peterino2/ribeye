@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using DefaultNamespace;
+using Gameplay.Stats;
 using UnityEngine;
 
 public class RibPlasmaProjectile : MonoBehaviour
@@ -25,9 +26,12 @@ public class RibPlasmaProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        hurtbox.Detonate(damage, team);
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        if (!other.gameObject.GetComponent<RibPlayer>())
+        {
+            hurtbox.Detonate(damage, team);
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 
     public void SetVelocityDir(Vector3 dir)

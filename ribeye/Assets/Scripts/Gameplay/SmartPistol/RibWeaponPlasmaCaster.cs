@@ -24,6 +24,7 @@ namespace Gameplay.Gunner
             activated = true;
             gunner.inventoryUi.ammoText.enabled = true;
             modelAnimator.Play("LauncherEquip");
+            gunAnimator.Play("DefaultIdle");
             model.SetActive(true);
             gunner.ui.ShowPlasmaCaster();
         }
