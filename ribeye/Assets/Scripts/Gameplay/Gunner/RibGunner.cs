@@ -94,6 +94,7 @@ public class RibGunner : MonoBehaviour
             inventoryUi.ShowIcon(2);
             TryActivateGun(2); // plasma caster index
         }
+        inventoryUi.SetSelector(gunIndex);
     }
 
     public int WeaponStartIndex = -1;
