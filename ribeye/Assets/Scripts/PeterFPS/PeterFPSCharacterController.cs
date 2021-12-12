@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Gameplay.Core;
 using Gameplay.Gunner;
+using Gameplay.Stats;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -243,6 +244,29 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             _interactable = null;
         }
+    }
+
+    [SerializeField]
+    public Transform DeathCameraTransform;
+
+    private bool dead = false;
+
+    IEnumerator DoDeath()
+    {
+        var x = GetComponent<RibPlayer>();
+        x.DoFilmGrainDeath();
+        float t = 0;
+        while (t < 30f)
+        {
+            t += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(transform.rotation, DeathCameraTransform.rotation, 0.4f);
+        }
+        yield return null;
+    }
+
+    public void Die()
+    {
+        StartCoroutine(DoDeath());
     }
 
     private void HandleDebugUi()

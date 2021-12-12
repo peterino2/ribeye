@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DefaultNamespace.PeterFPS;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace Gameplay.Stats
 {
@@ -19,6 +20,26 @@ namespace Gameplay.Stats
         }
         
         private bool filmGrainAnimating = false;
+        
+        IEnumerator filmGrainDeath()
+        {
+            float t = 0;
+            vhs.profile.TryGet(out VHSPro vhsInner);
+            while (t < 20f)
+            {
+                t += Time.deltaTime;
+                var f = deathFilmCurve.Evaluate(t);
+
+                vhsInner.filmGrainAmount.value = f;
+                vhsInner.bleedAmount.value = f*5;
+                vhsInner.signalNoiseAmount.value = f;
+                if (t > 2f)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+                yield return null;
+            }
+        }
 
         IEnumerator filmGrainExplosion()
         {
@@ -41,7 +62,19 @@ namespace Gameplay.Stats
             StopCoroutine(filmGrainExplosion());
             StartCoroutine(filmGrainExplosion());
         }
+
+        private bool dead = false;
+        public void  DoFilmGrainDeath()
+        {
+            filmGrainAnimating = false;
+            if (!dead)
+            {
+                dead = true;
+                StartCoroutine(filmGrainDeath());
+            }
+        }
         
+        public AnimationCurve deathFilmCurve;
         public AnimationCurve filmGrainCurve;
         public Volume vhs;
         public HurtIndicatorUi hurtUi;
@@ -52,7 +85,7 @@ namespace Gameplay.Stats
 
             if (health == 0)
             {
-                _controller.enabled = false;
+                _controller.Die();
             }
         }
 

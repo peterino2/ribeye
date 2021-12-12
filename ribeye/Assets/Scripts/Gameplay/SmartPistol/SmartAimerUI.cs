@@ -36,6 +36,7 @@ public class SmartAimerUI : MonoBehaviour
     
     [SerializeField] public Image reticuleMain;
     [SerializeField] public Image hitmarker;
+    [SerializeField] public Image smartModeAlt;
     [SerializeField] public TextMeshProUGUI plasmaCasterText;
 
 
@@ -76,7 +77,7 @@ public class SmartAimerUI : MonoBehaviour
         targetingText.text = "";
         reticuleMain.enabled = false;
         reticulePlasma.enabled = false;
-
+        smartModeAlt.enabled = false;
         reticuleSword.enabled = true;
     }
 
@@ -94,6 +95,7 @@ public class SmartAimerUI : MonoBehaviour
         imageBr.enabled = false;
         targetingText.enabled = false;
         targetingText.text = "";
+        smartModeAlt.enabled = false;
         reticuleSword.enabled = false;
         reticuleMain.enabled = false;
         reticulePlasma.enabled = false;
@@ -107,6 +109,7 @@ public class SmartAimerUI : MonoBehaviour
         imageBl.enabled = false;
         imageBr.enabled = false;
         targetingText.enabled = false;
+        smartModeAlt.enabled = false;
         targetingText.text = "";
         reticuleSword.enabled = false;
         reticuleMain.enabled = false;
@@ -121,6 +124,16 @@ public class SmartAimerUI : MonoBehaviour
         plasmaCasterText.enabled = false;
         reticuleSword.enabled = false;
         reticulePlasma.enabled = false;
+
+        var gunner = FindObjectOfType<RibGunner>();
+        if (gunner.HasUpgrade("smartpistol"))
+        {
+            smartModeAlt.enabled = true;
+        }
+        else
+        {
+            smartModeAlt.enabled = false;
+        }
 
         if (m == RibWeaponSmartPistol.SmartPistolModes.Revolver)
         {

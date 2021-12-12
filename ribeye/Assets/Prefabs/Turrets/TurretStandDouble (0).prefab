@@ -443,6 +443,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
+  team: 0
+  alive: 1
   deathExplosionParticle: {fileID: 5520183136176676627, guid: c4a627c0909d8a84a8c42c52ca51e2df, type: 3}
   deathExplosionCenterPoint: {fileID: 65981808619192515}
 --- !u!1 &2780927708540774808

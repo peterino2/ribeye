@@ -113,6 +113,11 @@ namespace Gameplay.Gunner
                     int max_hits = 3;
                     foreach (var target in targets)
                     {
+                        if (!target)
+                        {
+                            shouldRemove.Append(target);
+                            continue;
+                        }
                         if (target.GetComponent<RibPlayer>())
                         {
                             continue;
