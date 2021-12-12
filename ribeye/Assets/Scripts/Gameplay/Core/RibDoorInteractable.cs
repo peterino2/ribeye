@@ -13,6 +13,7 @@ namespace Gameplay.Core
         public override void Activate(PeterFPSCharacterController controller)
         {
             print("Activating door");
+            GameManager._soundManager.PlaySound(26, transform.position);
             lever.OpenDoor();
             this.enabled = false;
         }
