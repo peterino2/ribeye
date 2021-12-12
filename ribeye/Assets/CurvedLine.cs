@@ -14,9 +14,13 @@ public class CurvedLine : MonoBehaviour
 
 
     private float opacity = 0;
-    public void Fade()
+    public void Fade(bool autodie)
     {
         opacity = 1f;
+        if (autodie)
+        {
+            Destroy(gameObject, 2f);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -29,7 +33,6 @@ public class CurvedLine : MonoBehaviour
             lr.material.color = new Color(lr.material.color.r, lr.material.color.g, lr.material.color.b, opacity);
             lr.material.SetFloat("_EmissiveIntensity", 20*opacity);
         }
-
         else
         {
             lr.enabled = false;

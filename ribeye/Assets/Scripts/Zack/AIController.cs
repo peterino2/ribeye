@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using Gameplay.Stats;
 
 public class AIController : MonoBehaviour {
 
@@ -47,7 +48,7 @@ public class AIController : MonoBehaviour {
     }
 
     private enum AnimationStates {
-        Idle, FastRun, MutantSwiping, Attack, FallingIdle, FallingToLand, Crawling
+        Idle, FastRun, MutantSwiping, Attack, FallingIdle, FallingToLand, Crawling, FastSlap
     }
 
     private enum FallingStates {
@@ -79,6 +80,7 @@ public class AIController : MonoBehaviour {
         navMeshAgent = GetComponent<NavMeshAgent>();
         //Set starting state
         state = startingState;
+        navMeshAgent.angularSpeed = 360 * 8;
         //Set
         hash = Animator.StringToHash(STATE);
         //Play animation
@@ -95,6 +97,7 @@ public class AIController : MonoBehaviour {
             //Set speed
             navMeshAgent.speed = runningSpeed;
         }
+        navMeshAgent.acceleration = runningSpeed;
     }
 
     private void PlayAnimation(AnimationStates animationStateToBe) {
@@ -112,6 +115,9 @@ public class AIController : MonoBehaviour {
     }
 
     #endregion
+
+
+    public bool FastSlapFinished = false;
 
     private void Update() {
         //Check
@@ -169,6 +175,13 @@ public class AIController : MonoBehaviour {
                 fallingFinished.AnimationHasFinished = false;
             }
         }
+
+        if (FastSlapFinished)
+        {
+            FastSlapFinished = false;
+            PlayAnAttackingAnimation();
+        }
+        
         //Check
         if (attackingFinished.AnimationHasFinished) {
             //Reset
@@ -183,9 +196,13 @@ public class AIController : MonoBehaviour {
             //Play an attacking animation
             PlayAnAttackingAnimation();
         }
+        
         //Check if attacking
-        if (animationState == AnimationStates.Attack || animationState == AnimationStates.MutantSwiping) {
+        if (animationState == AnimationStates.Attack || animationState == AnimationStates.MutantSwiping || animationState == AnimationStates.FastSlap) {
             //Check distance
+            
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, AttackTargetRotation, 720f*Time.deltaTime);
+            
             if (Vector3.Distance(navMeshAgent.transform.position, destination.position) > stoppingDistance) {
                 //Continue
                 navMeshAgent.isStopped = false;
@@ -208,16 +225,29 @@ public class AIController : MonoBehaviour {
         }
     }
 
+    private Quaternion AttackTargetRotation;
+
     private void PlayAnAttackingAnimation() {
         //Stop
         navMeshAgent.isStopped = true;
         //Prepare to play an attack
-        if (UnityEngine.Random.Range(0, 2) == 0) {
+        var p = FindObjectOfType<RibPlayer>(); // todo replace with static
+        var rv = p.transform.position - transform.position;
+        rv.y = 0;
+        AttackTargetRotation = Quaternion.LookRotation(rv);
+        int seq = UnityEngine.Random.Range(0, 3);
+        
+        if (seq == 0) {
             //Play animation
+            // fuck it
             PlayAnimation(AnimationStates.Attack);
-        } else {
+        } else if(seq == 1)
+        {
             //Play animation
             PlayAnimation(AnimationStates.MutantSwiping);
+        } else if(seq == 2)
+        {
+            PlayAnimation(AnimationStates.FastSlap);
         }
     }
 

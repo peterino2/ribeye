@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Numerics;
 using Gameplay.Core;
 using Gameplay.Gunner;
+using Gameplay.Stats;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Cursor = UnityEngine.Cursor;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -244,20 +246,52 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
     }
 
+    [SerializeField]
+    public Transform DeathCameraTransform;
+
+    private bool dead = false;
+
+    IEnumerator DoDeath()
+    {
+        var x = GetComponent<RibPlayer>();
+        x.DoFilmGrainDeath();
+        float t = 0;
+        while (t < 30f)
+        {
+            t += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(transform.rotation, DeathCameraTransform.rotation, 0.4f);
+        }
+        yield return null;
+    }
+
+    public LineRenderer HookTrail;
+    public Transform HookArmTransform;
+
+    public void DrawHookTrail()
+    {
+        
+    }
+
+    public void Die()
+    {
+        StartCoroutine(DoDeath());
+    }
+
     private void HandleDebugUi()
     {
-        string dbgString = string.Format("jumping: {0}, sliding{1}, dashing{2}, doublejump{3}\n", jumping, sliding, dashing, doubleJump);
-        dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
-        dbgString += string.Format("\ntravel{0}", travelVector);
+        string dbgString = string.Format("jumping: {0}, sliding: {1}, dashing: {2}, doublejump; {3}\n", jumping, sliding, dashing, doubleJump);
+        dbgString += string.Format("wallgrab: {0}, wallgrab ready: {1} wallrunning: {2}", wallgrabbed, wallgrabready, wallrunning);
+        dbgString += string.Format("\ntravel: {0}", travelVector);
+        dbgString += string.Format("\nisGrounded {0}", groundCheck.OnGround());
         dbgString += string.Format("\nupgrades (gunner_index = {0}):", gunner.gunIndex);
         foreach (var upgrade in gunner.GetUpgrades())
         {
             dbgString += string.Format("\n{0}", upgrade);
         }
         dbgString += string.Format("\ndebouncer {0}", wallJumpDebounce);
-        dbgString += string.Format("\npistol can activate {0}", gunner.guns[0].CanActivate());
-        dbgString += string.Format("\nblade can activate {0}", gunner.guns[1].CanActivate());
-        dbgString += string.Format("\nJank can activate {0}", false);
+        dbgString += string.Format("\nPistol can activate {0}", gunner.guns[0].CanActivate());
+        dbgString += string.Format("\nBlade can activate {0}", gunner.guns[1].CanActivate());
+        dbgString += string.Format("\nEradicator can activate {0}", gunner.guns[2].CanActivate());
             
         dbgui.text = dbgString;
     }
@@ -429,12 +463,20 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
 
     private bool jumping = false;
-    private bool underObject = false;
     [SerializeField] private float maxAccelSpeed = 20f;
     [SerializeField] private float maxSlideSpeed = 20f;
 
     Vector3 travelVector = Vector3.zero;
     Vector3 horizontalVelocityVector = Vector3.zero;
+
+    // todo
+    public float slowtime_start;
+    public float slowtime;
+
+    public void SetSlow()
+    {
+        
+    }
 
     private void FixedUpdate()
     {
@@ -467,7 +509,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
         }
         
-        if (!sliding && !jumping && !dashing && !underObject && !hookingToTarget)
+        if (!sliding && !jumping && !dashing && !hookingToTarget)
         {
             _capsule.center = new Vector3(0, -0.25f, 0);
             _capsule.height = 1.5f;
@@ -476,7 +518,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (groundState == groundStates.Grounded)
             {
                 if (travelVector.magnitude > 0)
-                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed*travelVector, Time.deltaTime * 10);
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed * travelVector, Time.deltaTime * 10);
                 else
                     _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 10);
                 _rigidbody.useGravity = false;
@@ -584,13 +626,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
         StartCoroutine(ResetWallgrabDebounce());
     }
 
+    private bool play_jumpsound = false;
+
     private void HandleJumpFixedUpdate()
     {
         if (spacePressed && !wallgrabbed && !wallrunning)
         {
             StartCoroutine(doJump());
         }
-        
         
         if (dashing && spacePressed)
         {
@@ -607,6 +650,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
             _rigidbody.AddForce(transform.up * 8, ForceMode.Impulse);
             wallJumped = false;
         }
+
+        if (play_jumpsound)
+        {
+            GameManager._soundManager.PlaySound(11, transform.position, volume:0.2f);
+            play_jumpsound = false;
+        }
         spacePressed = false;
     }
 
@@ -621,6 +670,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 Vector3 vel = _rigidbody.velocity;
                 _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
                 jumping = true;
+                play_jumpsound = true;
                 yield return new WaitForSeconds(0.2f);
                 jumping = false;
             }
@@ -632,6 +682,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                     _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
                     doubleJump = true;
                     jumping = true;
+                    play_jumpsound = true;
                     yield return new WaitForSeconds(0.2f);
                     jumping = false;
                 }
@@ -650,7 +701,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         return rv;
     }
 
-
     private void HandleGravity()
     {
 
@@ -662,6 +712,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #endregion
 
+    
     private float slideTimeStart = 0f;
     private void Update() 
     {
@@ -670,6 +721,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             spacePressed = true;
         }
+        
         Lean();
         inputScript.SetInput();
 
@@ -710,10 +762,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
             //StopCoroutine(doWallGrab());
         }
 
-
-        int layer = 1 << 3;
-        layer = ~layer;
-        underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
 
         if (wallgrabbed)
         {
@@ -780,11 +828,19 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 gunner.speedLines.Stop();
             }
         }
-        
-        //HandleDebugUi();
-    }
 
-    
-    public GameObject TestHookTarget;
+        if (hookingToTarget)
+        {
+            Vector3[] positions = {HookArmTransform.position, hookPoint};
+            HookTrail.enabled = true;
+            HookTrail.SetPositions(positions);
+        }
+        else
+        {
+            HookTrail.enabled = false;
+        }
+        
+        HandleDebugUi();
+    }
 }
 
