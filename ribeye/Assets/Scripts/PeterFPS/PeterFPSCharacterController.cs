@@ -257,9 +257,9 @@ public class PeterFPSCharacterController : MonoBehaviour {
             dbgString += string.Format("\n{0}", upgrade);
         }
         dbgString += string.Format("\ndebouncer {0}", wallJumpDebounce);
-        dbgString += string.Format("\npistol can activate {0}", gunner.guns[0].CanActivate());
-        dbgString += string.Format("\nblade can activate {0}", gunner.guns[1].CanActivate());
-        dbgString += string.Format("\nJank can activate {0}", false);
+        dbgString += string.Format("\nPistol can activate {0}", gunner.guns[0].CanActivate());
+        dbgString += string.Format("\nBlade can activate {0}", gunner.guns[1].CanActivate());
+        dbgString += string.Format("\nEradicator can activate {0}", gunner.guns[2].CanActivate());
             
         dbgui.text = dbgString;
     }
@@ -791,8 +791,5 @@ public class PeterFPSCharacterController : MonoBehaviour {
         
         HandleDebugUi();
     }
-
-    
-    public GameObject TestHookTarget;
 }
 

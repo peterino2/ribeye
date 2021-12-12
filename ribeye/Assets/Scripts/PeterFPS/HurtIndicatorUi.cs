@@ -26,15 +26,15 @@ namespace DefaultNamespace.PeterFPS
             var horizontalDir = direction;
             horizontalDir.y = 0;
 
-            var q = Quaternion.Euler(direction);
+            var q = Quaternion.LookRotation(direction);
 
-            var angle = (q.eulerAngles.y - tf.eulerAngles.y + 180);
+            var angle = (tf.eulerAngles.y - q.eulerAngles.y + 180);
             if (angle > 360)
             {
                 angle -= 360;
             }
             //print(String.Format("source: {3} {4} my_angle: {0} hurt_angle:{1} result: {2}", tf.eulerAngles.y, q.eulerAngles.y, angle, source, direction));
-            int dir = up;
+            int dir = down;
 
             if (angle > (90 - 45))
             {
@@ -42,7 +42,7 @@ namespace DefaultNamespace.PeterFPS
             }
             if (angle > (180 - 45))
             {
-                dir = down;
+                dir = up;
             }
             if (angle > (270 - 45))
             {

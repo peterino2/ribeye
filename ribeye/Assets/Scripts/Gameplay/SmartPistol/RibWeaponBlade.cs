@@ -113,6 +113,11 @@ namespace Gameplay.Gunner
                     int max_hits = 3;
                     foreach (var target in targets)
                     {
+                        if (target.GetComponent<RibPlayer>())
+                        {
+                            continue;
+                        }
+                        
                         if (target != null && max_hits > 0 && target.alive)
                         {
                             var h = target.GetComponent<RibHumanoidEnemy>();
@@ -120,6 +125,14 @@ namespace Gameplay.Gunner
                             {
                                 h.TakeSwordDamage(damage);
                                 max_hits = -1;
+                                if (Physics.Raycast(
+                                    gunner.transform.position,
+                                    target.transform.position - gunner.transform.position,
+                                    out RaycastHit r, Mathf.Infinity, ~playermask))
+                                {
+                                    Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
+                                    hit = true;
+                                }
                             }
                             else
                             {
@@ -127,14 +140,6 @@ namespace Gameplay.Gunner
                                 target.TakeDamage(damage);
                             }
 
-                            if (Physics.Raycast(
-                                gunner.transform.position,
-                                target.transform.position - gunner.transform.position,
-                                out RaycastHit r, Mathf.Infinity, ~playermask))
-                            {
-                                Instantiate(impactEffect, r.point, Quaternion.LookRotation(r.normal));
-                                hit = true;
-                            }
                         }
                         else {
                             shouldRemove.Append(target);
