@@ -144,7 +144,7 @@ namespace Gameplay.Gunner
                     var wrather = objectHit.gameObject.GetComponent<RibHumanoidEnemy>();
                     if (wrather)
                     {
-                        if (((wrather.head.transform.position + wrather.head.transform.up * 0.06f) - rayhit.point).magnitude < 0.25f)
+                        if (((wrather.head.transform.position + wrather.head.transform.up * 0.06f) - rayhit.point).magnitude < 0.35f)
                         {
                             wrather.TakeHeadShotDamage(damageRevolver);
                             smartAmmo = smartAmmo + 5 > smartAmmoMax? smartAmmoMax: smartAmmo + 5;

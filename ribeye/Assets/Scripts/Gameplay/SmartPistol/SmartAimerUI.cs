@@ -126,7 +126,7 @@ public class SmartAimerUI : MonoBehaviour
         reticulePlasma.enabled = false;
 
         var gunner = FindObjectOfType<RibGunner>();
-        if (gunner.HasUpgrade("smartpistol"))
+        if (gunner.HasUpgrade("pistolsmart"))
         {
             smartModeAlt.enabled = true;
         }

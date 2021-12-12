@@ -264,6 +264,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
         yield return null;
     }
 
+    public LineRenderer HookTrail;
+    public Transform HookArmTransform;
+
+    public void DrawHookTrail()
+    {
+        
+    }
+
     public void Die()
     {
         StartCoroutine(DoDeath());
@@ -811,6 +819,17 @@ public class PeterFPSCharacterController : MonoBehaviour {
             {
                 gunner.speedLines.Stop();
             }
+        }
+
+        if (hookingToTarget)
+        {
+            Vector3[] positions = {HookArmTransform.position, hookPoint};
+            HookTrail.enabled = true;
+            HookTrail.SetPositions(positions);
+        }
+        else
+        {
+            HookTrail.enabled = false;
         }
         
         HandleDebugUi();

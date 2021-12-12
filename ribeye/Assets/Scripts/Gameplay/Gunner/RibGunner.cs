@@ -77,7 +77,10 @@ public class RibGunner : MonoBehaviour
     {
         print("upgrade granted +++" + upgrade);
         GiveUpgradeInner(upgrade);
-        
+        if (upgrade.ToLower() == "pistolsmart".ToLower() && gunIndex == 0)
+        {
+            ui.SetSmartPistolMode(RibWeaponSmartPistol.SmartPistolModes.Revolver);
+        }
         // automatically equip the new weapon if it's smart pistol or sword
         if (upgrade.ToLower() == "PistolBasic".ToLower())
         {
