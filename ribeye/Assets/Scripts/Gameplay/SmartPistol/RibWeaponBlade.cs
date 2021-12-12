@@ -66,6 +66,8 @@ namespace Gameplay.Gunner
             
             if (!hooked && hookready)
             {
+                
+                GameManager._soundManager.PlaySound(22, transform.position); // Grapple shot
                 gunAnimator.Play("HookToss");
                 hookTossTime = 0.22f;
             }
@@ -163,6 +165,7 @@ namespace Gameplay.Gunner
                     
                     if (hit)
                     {
+                        GameManager._soundManager.PlaySound(19, transform.position); // sword hit thick
                         gunner.ui.Hitmarker();
                     }
                     
@@ -292,6 +295,7 @@ namespace Gameplay.Gunner
                 Instantiate(hookPrefab, r.point, Quaternion.LookRotation(r.normal));
                 _character.HookToTarget(r.point, r.point);
                 gunAnimator.Play("HookPull");
+                GameManager._soundManager.PlaySound(9, transform.position); // Grapple shot
                 modelresetTimeout = 0.12f;
             }
         }
@@ -327,6 +331,8 @@ namespace Gameplay.Gunner
 
         [SerializeField] 
         private Vector3[] slashRotations_v3 = { };
+        
+        private int[] slashSounds = {20, 21 };
 
         private float swingRecoilResetTime = 0.1f;
 
@@ -336,6 +342,7 @@ namespace Gameplay.Gunner
         {
             swingReady = false;
             gunAnimator.Play(SlashAnims[slashIndex]);
+            GameManager._soundManager.PlaySound(slashSounds[slashIndex], transform.position);
             
             gunner.rotationFactor = 0.8f;
             gunner.rotationTarget = Quaternion.Euler(slashRotations_v3[slashIndex]);

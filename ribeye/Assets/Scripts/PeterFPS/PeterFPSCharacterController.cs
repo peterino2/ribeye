@@ -626,13 +626,14 @@ public class PeterFPSCharacterController : MonoBehaviour {
         StartCoroutine(ResetWallgrabDebounce());
     }
 
+    private bool play_jumpsound = false;
+
     private void HandleJumpFixedUpdate()
     {
         if (spacePressed && !wallgrabbed && !wallrunning)
         {
             StartCoroutine(doJump());
         }
-        
         
         if (dashing && spacePressed)
         {
@@ -649,6 +650,12 @@ public class PeterFPSCharacterController : MonoBehaviour {
             _rigidbody.AddForce(transform.up * 8, ForceMode.Impulse);
             wallJumped = false;
         }
+
+        if (play_jumpsound)
+        {
+            GameManager._soundManager.PlaySound(11, transform.position, volume:0.2f);
+            play_jumpsound = false;
+        }
         spacePressed = false;
     }
 
@@ -663,6 +670,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                 Vector3 vel = _rigidbody.velocity;
                 _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
                 jumping = true;
+                play_jumpsound = true;
                 yield return new WaitForSeconds(0.2f);
                 jumping = false;
             }
@@ -674,6 +682,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
                     _rigidbody.velocity = new Vector3(vel.x, jumpImpulse, vel.z);
                     doubleJump = true;
                     jumping = true;
+                    play_jumpsound = true;
                     yield return new WaitForSeconds(0.2f);
                     jumping = false;
                 }
@@ -691,7 +700,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
         return rv;
     }
-
 
     private void HandleGravity()
     {

@@ -23,6 +23,7 @@ public class AnimationAttackHitFinished : MonoBehaviour {
 
     public void AnimationAttackHitFinishedNow(){
         //Check within
+        GameManager._soundManager.PlaySound(16, transform.position);
         if (AITriggerHitPlayerScript.PlayerWithinDamageZone()) {
             //HIT
             var x = FindObjectOfType<RibPlayer>();
