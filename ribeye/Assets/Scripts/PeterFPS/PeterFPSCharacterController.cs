@@ -437,6 +437,15 @@ public class PeterFPSCharacterController : MonoBehaviour {
     Vector3 travelVector = Vector3.zero;
     Vector3 horizontalVelocityVector = Vector3.zero;
 
+    // todo
+    public float slowtime_start;
+    public float slowtime;
+
+    public void SetSlow()
+    {
+        
+    }
+
     private void FixedUpdate()
     {
         _rigidbody.rotation = Quaternion.Euler(0, mousex, 0);

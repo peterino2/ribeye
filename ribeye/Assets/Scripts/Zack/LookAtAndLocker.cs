@@ -1,6 +1,6 @@
 using UnityEngine;
 
-#if WITH_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
