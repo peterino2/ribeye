@@ -92,6 +92,8 @@ GameObject:
   - component: {fileID: 4618954134576110367}
   - component: {fileID: 5427403785302131163}
   - component: {fileID: 5427403785302131162}
+  - component: {fileID: 416867018}
+  - component: {fileID: 416867019}
   m_Layer: 0
   m_Name: lever_split
   m_TagString: Untagged
@@ -107,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5427403785302131109}
   m_LocalRotation: {x: 0.00012347102, y: -0.7071068, z: -0.00012347102, w: 0.7071068}
-  m_LocalPosition: {x: -1.27, y: 1.4771057, z: -0.323}
+  m_LocalPosition: {x: -1.27, y: 1.4771057, z: -0.276}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4923533375187966125}
@@ -149,6 +151,33 @@ MonoBehaviour:
   animator: {fileID: 5427403785302131163}
   slidingDoors: {fileID: 7069549908207707466}
   Testing: 0
+--- !u!65 &416867018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5427403785302131109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5357767, y: 2.903738, z: 2.555253}
+  m_Center: {x: -0.68585527, y: -0.05216789, z: -0.08519471}
+--- !u!114 &416867019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5427403785302131109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a6a1a8990244ad98490370fbbe7412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionText: Open
+  lever: {fileID: 0}
 --- !u!1 &5513517159689142116
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,14 +37,11 @@ public class Lever : MonoBehaviour {
 
     #region Update
 
-    private void Update() {
-        //Check
-        if (Testing) {
-            animator.SetInteger(hash, 1);
-            Testing = false;
-        }
+    public void OpenDoor()
+    {
+        animator.SetInteger(hash, 1);
     }
-
+    
     #endregion
 
     #region Public functions

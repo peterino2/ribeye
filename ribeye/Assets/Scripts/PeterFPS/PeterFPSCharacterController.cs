@@ -247,9 +247,10 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private void HandleDebugUi()
     {
-        string dbgString = string.Format("jumping: {0}, sliding{1}, dashing{2}, doublejump{3}\n", jumping, sliding, dashing, doubleJump);
-        dbgString += string.Format("wallgrab: {0}, wallgrab ready{1} wallrunning{2}", wallgrabbed, wallgrabready, wallrunning);
-        dbgString += string.Format("\ntravel{0}", travelVector);
+        string dbgString = string.Format("jumping: {0}, sliding: {1}, dashing: {2}, doublejump; {3}\n", jumping, sliding, dashing, doubleJump);
+        dbgString += string.Format("wallgrab: {0}, wallgrab ready: {1} wallrunning: {2}", wallgrabbed, wallgrabready, wallrunning);
+        dbgString += string.Format("\ntravel: {0}", travelVector);
+        dbgString += string.Format("\nisGrounded {0}", groundCheck.OnGround());
         dbgString += string.Format("\nupgrades (gunner_index = {0}):", gunner.gunIndex);
         foreach (var upgrade in gunner.GetUpgrades())
         {
@@ -430,7 +431,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
     }
 
     private bool jumping = false;
-    private bool underObject = false;
     [SerializeField] private float maxAccelSpeed = 20f;
     [SerializeField] private float maxSlideSpeed = 20f;
 
@@ -468,7 +468,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
         }
         
-        if (!sliding && !jumping && !dashing && !underObject && !hookingToTarget)
+        if (!sliding && !jumping && !dashing && !hookingToTarget)
         {
             _capsule.center = new Vector3(0, -0.25f, 0);
             _capsule.height = 1.5f;
@@ -477,7 +477,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             if (groundState == groundStates.Grounded)
             {
                 if (travelVector.magnitude > 0)
-                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed*travelVector, Time.deltaTime * 10);
+                    _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, speed * travelVector, Time.deltaTime * 10);
                 else
                     _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, Vector3.zero, Time.deltaTime * 10);
                 _rigidbody.useGravity = false;
@@ -714,10 +714,6 @@ public class PeterFPSCharacterController : MonoBehaviour {
         }
 
 
-        int layer = 1 << 3;
-        layer = ~layer;
-        underObject = Physics.Raycast(transform.position + new Vector3(0, -0.5f, 0), Vector3.up, 1, layer);
-
         if (wallgrabbed)
         {
             _rigidbody.useGravity = false;
@@ -784,7 +780,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
             }
         }
         
-        //HandleDebugUi();
+        HandleDebugUi();
     }
 
     

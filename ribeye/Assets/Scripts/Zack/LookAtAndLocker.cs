@@ -1,5 +1,8 @@
 using UnityEngine;
+
+#if WITH_EDITOR
 using UnityEditor;
+#endif
 
 public class LookAtAndLocker : MonoBehaviour {
 

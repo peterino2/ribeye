@@ -24,6 +24,7 @@ public class RagDoll : MonoBehaviour {
         for (int i = 0; i < rigidbodies.Length; i++) {
             //Turn on kinematic
             rigidbodies[i].isKinematic = true;
+            rigidbodies[i].GetComponent<Collider>().enabled = false;
         }
     }
 
@@ -53,6 +54,8 @@ public class RagDoll : MonoBehaviour {
         for (int i = 0; i < rigidbodies.Length; i++) {
             //Turn off kinematic
             rigidbodies[i].isKinematic = false;
+            // turn off colliders
+            rigidbodies[i].GetComponent<Collider>().enabled = true;
         }
     }
 
