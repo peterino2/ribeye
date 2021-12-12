@@ -1,11 +1,56 @@
 fileFormatVersion: 2
-guid: 10df10132dcbccb4783bfd295546abc6
+guid: 8965b02ef04e2744c980237e079fce58
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 4781951162920444690
-    second: Armature|ArmatureAction
+      74: -727901052946559348
+    second: Cube.007|Cube.005Action
+  - first:
+      74: 521587529731010680
+    second: Cube.007|Cube.006Action
+  - first:
+      74: 3848789871048165438
+    second: Cube.007|Cube.007Action
+  - first:
+      74: 6357146851243545527
+    second: Cube.007|Cube.008Action
+  - first:
+      74: 2108944049028585761
+    second: Cube.005|Cube.005Action
+  - first:
+      74: 1516579047678073448
+    second: Cube.005|Cube.006Action
+  - first:
+      74: 242121369455463731
+    second: Cube.005|Cube.007Action
+  - first:
+      74: -4434118090058438355
+    second: Cube.005|Cube.008Action
+  - first:
+      74: -7909863099968968139
+    second: Cube.006|Cube.005Action
+  - first:
+      74: -4081537619849912291
+    second: Cube.006|Cube.006Action
+  - first:
+      74: 6426517205468490920
+    second: Cube.006|Cube.007Action
+  - first:
+      74: -8776780711480755866
+    second: Cube.006|Cube.008Action
+  - first:
+      74: -3687440561281741673
+    second: Cube.008|Cube.005Action
+  - first:
+      74: 2660744358674843697
+    second: Cube.008|Cube.006Action
+  - first:
+      74: 4342396976218902531
+    second: Cube.008|Cube.007Action
+  - first:
+      74: 6072364172226014548
+    second: Cube.008|Cube.008Action
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -33,43 +78,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Armature|ArmatureAction
-      takeName: Armature|ArmatureAction
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 7
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 1
-        functionName: FinishedShooting
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []

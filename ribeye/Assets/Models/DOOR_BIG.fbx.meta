@@ -1,12 +1,34 @@
 fileFormatVersion: 2
-guid: 10df10132dcbccb4783bfd295546abc6
+guid: 06475228d8f6c7e479a8053a78e5eb99
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable:
+  internalIDToNameTable: []
+  externalObjects:
   - first:
-      74: 4781951162920444690
-    second: Armature|ArmatureAction
-  externalObjects: {}
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ATTACHMENT_1
+    second: {fileID: 2100000, guid: a32346f27d5fc4544882261a1aefae9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BLUE LED
+    second: {fileID: 2100000, guid: 033be7eed9a984348b4d278d3275ff68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CORE METAL
+    second: {fileID: 2100000, guid: a0838a0937f8a6b45bec1dbfa75e5e3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CORE METAL.005
+    second: {fileID: 2100000, guid: 9c2ecaa5826d6a143b8e26bcaae19dd8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SHINY METAL
+    second: {fileID: 2100000, guid: d685ca2d2e812c748923928c2055dc6d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -33,43 +55,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Armature|ArmatureAction
-      takeName: Armature|ArmatureAction
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 7
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 1
-        functionName: FinishedShooting
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
