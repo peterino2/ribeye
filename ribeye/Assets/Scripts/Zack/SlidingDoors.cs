@@ -65,7 +65,7 @@ public class SlidingDoors : MonoBehaviour {
         //Check if not null
         if (trigger != null) {
             //Check if triggered
-            if (trigger != null && trigger.HasObjects()) {
+            if (trigger.HasObjects()) {
                 //Change state
                 state = States.Opening;
             }
