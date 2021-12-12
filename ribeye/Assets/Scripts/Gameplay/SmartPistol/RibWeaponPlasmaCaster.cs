@@ -17,7 +17,6 @@ namespace Gameplay.Gunner
             activationIndex = 2;
         }
 
-
         private float equipTime = 0f;
         public override void ActivateWeapon()
         {
@@ -60,6 +59,7 @@ namespace Gameplay.Gunner
                 var p = b.GetComponentInChildren<RibPlasmaProjectile>();
                 p.SetVelocityDir(gunner.transform.forward);
                 modelAnimator.Play("LauncherFire",-1,0);
+                GameManager._soundManager.PlaySound(10, transform.position);
                 p.damage = damage;
                 fireReady = false;
                 p.team = 0;

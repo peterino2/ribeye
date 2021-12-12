@@ -222,15 +222,15 @@ MonoBehaviour:
   - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
     TheAudioClips:
     - {fileID: 8300000, guid: db3dfae548374b948b05a53f21167368, type: 3}
-    NumberOfObjects: 50
+    NumberOfObjects: 5
   - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
     TheAudioClips:
     - {fileID: 8300000, guid: 9a7517dee267c4a43b7402fe728b8830, type: 3}
-    NumberOfObjects: 50
+    NumberOfObjects: 5
   - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
     TheAudioClips:
     - {fileID: 8300000, guid: 8a5dec348937b5e42a064185b6f1af3c, type: 3}
-    NumberOfObjects: 50
+    NumberOfObjects: 5
   - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
     TheAudioClips:
     - {fileID: 8300000, guid: ed681cb9f848f00479473fa3163c21f7, type: 3}
@@ -255,6 +255,22 @@ MonoBehaviour:
     TheAudioClips:
     - {fileID: 8300000, guid: ed681cb9f848f00479473fa3163c21f7, type: 3}
     NumberOfObjects: 20
+  - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
+    TheAudioClips:
+    - {fileID: 8300000, guid: 91a048257bb49894f9e92e1cea0092dd, type: 3}
+    NumberOfObjects: 20
+  - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
+    TheAudioClips:
+    - {fileID: 8300000, guid: 602abf97856b5cd4cab533d71db8c704, type: 3}
+    NumberOfObjects: 20
+  - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
+    TheAudioClips:
+    - {fileID: 8300000, guid: 636536064ca0dd94a9f7bb0d0297ed05, type: 3}
+    NumberOfObjects: 20
+  - SoundPrefab: {fileID: 6635383395330694299, guid: d15bb84c622703644a58094c14f865f7, type: 3}
+    TheAudioClips:
+    - {fileID: 8300000, guid: 89d13121f32bdc040842092a6b7d0d27, type: 3}
+    NumberOfObjects: 5
 --- !u!1 &733144918151738201
 GameObject:
   m_ObjectHideFlags: 0

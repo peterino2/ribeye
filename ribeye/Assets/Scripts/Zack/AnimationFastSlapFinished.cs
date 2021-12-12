@@ -27,7 +27,7 @@ public class AnimationFastSlapFinished : MonoBehaviour {
         //Check within
         if (AITriggerHitPlayerScript.PlayerWithinDamageZone()) {
             //HIT
-            print("FastSlap");
+            GameManager._soundManager.PlaySound(14, transform.position);
             var x = FindObjectOfType<RibPlayer>();
             {
                 x.TakeDamageFromSource(1, gameObject);

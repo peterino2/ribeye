@@ -28,6 +28,7 @@ public class RibPlasmaProjectile : MonoBehaviour
     {
         if (!other.gameObject.GetComponent<RibPlayer>())
         {
+            GameManager._soundManager.PlaySound(12, transform.position);
             hurtbox.Detonate(damage, team);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);

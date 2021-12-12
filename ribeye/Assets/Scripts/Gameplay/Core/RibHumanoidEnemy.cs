@@ -63,6 +63,7 @@ namespace Gameplay.Core
                 ragDoll.EnableRagDoll();
                 alive = false;
                 Destroy(gameObject, 5f);
+                GameManager._soundManager.PlaySound(16, transform.position);
             }
         }
 
