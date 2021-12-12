@@ -212,7 +212,7 @@ public class TurretBehavior : MonoBehaviour {
         for (int i = 0; i < turretMuzzlePoints.Length; i++) {
             //Shoot bullet
             turretObjectPool.Shoot(turretMuzzlePoints[i]);
-            GameManager._soundManager.PlaySound(22, transform.position);
+            GameManager._soundManager.PlaySound(22, transform.position, volume:0.1f);
         }
     }
 

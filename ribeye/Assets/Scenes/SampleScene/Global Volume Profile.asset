@@ -99,10 +99,10 @@ MonoBehaviour:
     m_Value: 0
   limitMin:
     m_OverrideState: 1
-    m_Value: 8.483
+    m_Value: 5.447505
   limitMax:
     m_OverrideState: 1
-    m_Value: 8.880556
+    m_Value: 5.6046114
   curveMap:
     m_OverrideState: 0
     m_Value:
@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd4f2a752f876740a55e3c7139496e5, type: 3}
   m_Name: VHSPro
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   g_pixel: 1
   g_color: 1
