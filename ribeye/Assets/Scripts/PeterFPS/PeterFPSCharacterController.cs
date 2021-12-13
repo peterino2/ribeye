@@ -71,6 +71,13 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     #region Update
 
+    public static PeterFPSCharacterController _controller;
+
+    private void Awake()
+    {
+        _controller = this;
+    }
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -283,7 +290,7 @@ public class PeterFPSCharacterController : MonoBehaviour {
         {
             dbgString += string.Format("\nHand Cannon Ready.");
         }
-        if (gunner.HasUpgrade("pistolbasic"))
+        if (gunner.HasUpgrade("sword"))
         {
             dbgString += string.Format("\nFrontier Blade Ready");
         }

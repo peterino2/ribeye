@@ -14,6 +14,9 @@ namespace Gameplay.Core
             GameManager.playHitSound(transform.position);
             if (health <= 0.01f)
             {
+                if (owner) {
+                    owner.EnemyKilled(this);
+                }
                 GameManager.playHeavySound(transform.position);
                 var x = Instantiate(deathExplosionParticle, deathExplosionCenterPoint.position, Quaternion.identity);
                 Destroy(x, 2f);
