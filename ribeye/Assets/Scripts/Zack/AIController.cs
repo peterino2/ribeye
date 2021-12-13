@@ -20,13 +20,13 @@ public class AIController : MonoBehaviour {
     [SerializeField] private AnimationStates startingAnimationState = AnimationStates.Idle;
 
     [Header("Debugging")]
-    [SerializeField] private AnimationStates animationState = AnimationStates.Idle;
-    [SerializeField] private States state = States.Stand;
-    [SerializeField] private FallingStates fallingState = FallingStates.NotFalling;
-    [SerializeField] private GroundStates groundState = GroundStates.InAir;
+    [SerializeField] public AnimationStates animationState = AnimationStates.Idle;
+    [SerializeField] public States state = States.Stand;
+    [SerializeField] public FallingStates fallingState = FallingStates.NotFalling;
+    [SerializeField] public GroundStates groundState = GroundStates.InAir;
 
     [Header("Testing")]
-    [SerializeField] private bool activateCrawling = false;
+    [SerializeField] public bool activateCrawling = false;
     [SerializeField] private float fallingSpeed = 0.85f;
     [SerializeField] private AnimationFinished fallingFinished = null;
     [SerializeField] private AnimationAttackFinished attackingFinished = null;
@@ -43,19 +43,19 @@ public class AIController : MonoBehaviour {
 
     #region Enumerators
 
-    private enum States {
+    public enum States {
         Stand, GoToDestination, Patrol
     }
 
-    private enum AnimationStates {
+    public enum AnimationStates {
         Idle, FastRun, MutantSwiping, Attack, FallingIdle, FallingToLand, Crawling, FastSlap
     }
 
-    private enum FallingStates {
+    public enum FallingStates {
         NotFalling, Falling, HitGround
     }
 
-    private enum GroundStates {
+    public enum GroundStates {
         InAir, Grounded
     }
 

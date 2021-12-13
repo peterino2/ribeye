@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay.Core;
+using UnityEngine;
 
 namespace Gameplay.Stats
 {
@@ -6,6 +7,7 @@ namespace Gameplay.Stats
     {
         [SerializeField] public float health = 3f;
         [SerializeField] public float team = 0;
+        [SerializeField] public EventDirector owner;
 
         public bool alive = true;
         

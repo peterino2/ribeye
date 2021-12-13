@@ -59,6 +59,9 @@ namespace Gameplay.Core
             GameManager.playHitSound(transform.position);
             if (health <= 0.01f)
             {
+                if (owner) {
+                    owner.EnemyKilled(this);
+                }
                 GameManager.playHeavySound(transform.position);
                 ragDoll.EnableRagDoll();
                 alive = false;

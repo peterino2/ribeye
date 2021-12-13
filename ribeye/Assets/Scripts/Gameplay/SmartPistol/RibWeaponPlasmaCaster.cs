@@ -31,7 +31,6 @@ namespace Gameplay.Gunner
         public override void DeactivateWeapon()
         {
             gunner.rotationFactor = 0.8f;
-            gunner.rotationTarget = Quaternion.Euler(FireRotation);
             model.SetActive(false);
             activated = false;
         }
@@ -76,16 +75,6 @@ namespace Gameplay.Gunner
                 {
                     fireReady = true;
                 }
-            }
-
-            if (equipTime > 0)
-            {
-                equipTime -= Time.deltaTime;
-                if (equipTime <= 0)
-                {
-                    gunner.rotationTarget = Quaternion.identity;
-                }
-
             }
             
             if (activated)

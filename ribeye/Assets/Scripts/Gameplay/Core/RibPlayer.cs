@@ -13,12 +13,19 @@ namespace Gameplay.Stats
 
         [SerializeField] public float maxHp = 10f;
 
+        public static RibPlayer player;
         private PeterFPSCharacterController _controller;
+
+        private void Awake()
+        {
+            player = this;
+        }
+
         private void Start()
         {
             _controller = FindObjectOfType<PeterFPSCharacterController>();
         }
-        
+
         private bool filmGrainAnimating = false;
         
         IEnumerator filmGrainDeath()
@@ -99,7 +106,7 @@ namespace Gameplay.Stats
         public override void Heal(float damage)
         {
             health += damage;
-            Mathf.Min(maxHp, health);
+            health = Mathf.Min(maxHp, health);
         }
     }
 }

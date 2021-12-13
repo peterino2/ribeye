@@ -7,7 +7,9 @@ namespace Gameplay.Core
     public abstract class RibInteractable : MonoBehaviour
     {
         private RibInteractionUi ui;
-        private PeterFPSCharacterController _controller;
+        protected PeterFPSCharacterController _controller;
+
+        public bool ready = true;
         
         public string interactionText = "Interact with me";
 
@@ -24,10 +26,13 @@ namespace Gameplay.Core
 
         private void OnTriggerEnter(Collider other)
         {
-            var x = other.gameObject.GetComponent<PeterFPSCharacterController>();
-            if (x)
+            if (ready)
             {
-                _controller.SetInteractable(this);
+                var x = other.gameObject.GetComponent<PeterFPSCharacterController>();
+                if (x)
+                {
+                    _controller.SetInteractable(this);
+                }
             }
         }
         
