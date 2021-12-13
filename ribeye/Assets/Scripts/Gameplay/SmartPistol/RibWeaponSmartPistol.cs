@@ -147,7 +147,7 @@ namespace Gameplay.Gunner
                         if (((wrather.head.transform.position + wrather.head.transform.up * 0.06f) - rayhit.point).magnitude < 0.55f)
                         {
                             wrather.TakeHeadShotDamage(damageRevolver);
-                            smartAmmo = smartAmmo + 5 > smartAmmoMax? smartAmmoMax: smartAmmo + 5;
+                            smartAmmo = smartAmmo + 3 > smartAmmoMax? smartAmmoMax: smartAmmo + 3;
                             gunner.ui.Hitmarker();
                         }
                         else

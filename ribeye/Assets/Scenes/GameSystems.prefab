@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tmp: {fileID: 1199201520}
+  watched: {fileID: 0}
 --- !u!1 &1507802295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1252,7 @@ MonoBehaviour:
   fireDelay: 0.4
   muzzle: {fileID: 5371430876946370439}
   damage: 16
-  Ammo: 5
+  Ammo: 50
 --- !u!1 &2951822109445181333
 GameObject:
   m_ObjectHideFlags: 0
@@ -12884,11 +12885,7 @@ MonoBehaviour:
     m_Bits: 887
   speedLines: {fileID: 6699824572970673368}
   gunAnimator: {fileID: 6699824572807547689}
-  initialUpgrades:
-  - pistolbasic
-  - sword
-  - pistolsmart
-  - plasmacaster
+  initialUpgrades: []
   positionTarget: {x: 0, y: 0, z: 0}
   rotationTarget: {x: 0, y: 0, z: 0, w: 1}
   cameraBoom: {fileID: 6699824574249537689}
@@ -15875,7 +15872,7 @@ MonoBehaviour:
     m_Bits: 513
   revolverRecoilEuler: {x: -5, y: 5, z: 0}
   smartAmmoMax: 30
-  smartAmmo: 30
+  smartAmmo: 0
   smartAmmoRegenTime: 2
 --- !u!114 &6699824573403025308
 MonoBehaviour:
@@ -17900,6 +17897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   team: 0
+  owner: {fileID: 0}
   alive: 1
   maxHp: 20
   deathFilmCurve:
