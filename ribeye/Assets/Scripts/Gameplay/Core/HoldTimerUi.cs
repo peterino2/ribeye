@@ -15,10 +15,11 @@ namespace Gameplay.Core
             ui = this;
         }
 
-        private HeldButton watched;
+        public HeldButton watched;
 
         public void watch(HeldButton x)
         {
+            print("watched");
             watched = x;
         }
 

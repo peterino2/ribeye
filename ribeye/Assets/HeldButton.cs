@@ -31,7 +31,6 @@ public class HeldButton : RibInteractable
         if (started)
         {
             tui.watch(this);
-                
             if (Input.GetKey(KeyCode.F) && (_controller._interactable == this))
             {
                 holdTimeLeft -= Time.deltaTime;
@@ -42,6 +41,7 @@ public class HeldButton : RibInteractable
                     tui.watch(null);
                     _controller._interactable = null;
                     ready = false;
+                    started = false;
                 }
             }
         }
