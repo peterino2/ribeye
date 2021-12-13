@@ -229,11 +229,14 @@ public class TurretBehavior : MonoBehaviour {
         Debug.Log("HIT");
     }
 
-    private void LostTarget() {
+    private void LostTarget()
+    {
         //Target
         turretManager.Target(0f);
         //Check
-        if (turretManager.lookAtAndLockerScripts[0].transform.localEulerAngles == Vector3.zero && turretManager.lookAtAndLockerScripts[1].transform.localEulerAngles == Vector3.zero) {
+        if (Vector3Approximately(turretManager.lookAtAndLockerScripts[0].transform.localEulerAngles, Vector3.zero)
+        && Vector3Approximately(turretManager.lookAtAndLockerScripts[1].transform.localEulerAngles, Vector3.zero))
+        {
             //Change rotation
             xAxisEmptyRotator.rotation = xAxisEmptyRotatorRightScan.rotation;
             //Set
@@ -241,6 +244,11 @@ public class TurretBehavior : MonoBehaviour {
             //Change state
             targetingState = TargetingStates.Scanning;
         }
+    }
+
+    private bool Vector3Approximately(Vector3 v0, Vector3 v1)
+    {
+        return Mathf.Approximately(v0.x, v1.x) && Mathf.Approximately(v0.y, v1.y) && Mathf.Approximately(v0.z, v1.z);
     }
 
     #endregion
