@@ -281,7 +281,8 @@ public class PeterFPSCharacterController : MonoBehaviour {
 
     private void HandleDebugUi()
     {
-        string dbgString = string.Format("jumping: {0}, sliding: {1}, dashing: {2}, doublejump; {3}\n", jumping, sliding, dashing, doubleJump);
+        string dbgString = "APOHILON SYSTEMS COMBAT OS VER 0.1:\n";
+        dbgString += string.Format("jumping: {0}, sliding: {1}, dashing: {2}, doublejump; {3}\n", jumping, sliding, dashing, doubleJump);
         dbgString += string.Format("wallgrab: {0}, wallgrab ready: {1} wallrunning: {2}", wallgrabbed, wallgrabready, wallrunning);
         dbgString += string.Format("\ntravel: {0}", travelVector);
         dbgString += string.Format("\nisGrounded {0}", groundCheck.OnGround());

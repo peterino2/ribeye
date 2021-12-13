@@ -200,7 +200,7 @@ MonoBehaviour:
   xAxisEmptyRotatorLeftScan: {fileID: 7245972440830169340}
   xAxisEmptyRotatorRightScan: {fileID: 7245972439952847170}
   lineRenderer: {fileID: 0}
-  detectionDistance: 10
+  detectionDistance: 40
   shootingForce: 1
   speedWhenScanning: 5
   animatorSpeedForShooting: 0.35
@@ -788,6 +788,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
+  team: 0
+  owner: {fileID: 0}
+  alive: 1
   deathExplosionParticle: {fileID: 5520183136176676627, guid: c4a627c0909d8a84a8c42c52ca51e2df, type: 3}
   deathExplosionCenterPoint: {fileID: 1498337520737875456}
 --- !u!1 &8790948863325785875

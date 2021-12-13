@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Gunner;
+using Gameplay.Stats;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -75,6 +76,7 @@ public class RibGunner : MonoBehaviour
     public RibGunnerInventory inventoryUi;
     public void GiveUpgrade(string upgrade)
     {
+        RibPlayer.player.Heal(9999);
         print("upgrade granted +++" + upgrade);
         GiveUpgradeInner(upgrade);
         if (upgrade.ToLower() == "pistolsmart".ToLower() && gunIndex == 0)

@@ -128,6 +128,13 @@ namespace Gameplay.Gunner
                         if (target != null && max_hits > 0 && target.alive)
                         {
                             var h = target.GetComponent<RibHumanoidEnemy>();
+                            
+                            if (h.health <= damage)
+                            {
+                                // this is a killing blow
+                                RibPlayer.player.Heal(0.5f);
+                            }
+                            
                             if (h != null)
                             {
                                 h.TakeSwordDamage(damage);
@@ -146,6 +153,7 @@ namespace Gameplay.Gunner
                                 max_hits = -1;
                                 target.TakeDamage(damage);
                             }
+
 
                         }
                         else {

@@ -46,18 +46,14 @@ public class TrashRoomTrigger : EventDirector
 
     private bool doorReady = true;
 
-    IEnumerator SlowTick()
+    public override void OnSlowTick(float dt)
     {
-        while (true)
+        if (killCount >= 7 && doorReady)
         {
-            if (killCount >= 7 && doorReady)
-            {
-                doorReady = false;
-                door.Activate(PeterFPSCharacterController._controller);
-                this.enabled = false;
-                StopAllCoroutines();
-            }
-            yield return new WaitForSeconds(1.0f);
+            doorReady = false;
+            door.Activate(PeterFPSCharacterController._controller);
+            this.enabled = false;
+            StopAllCoroutines();
         }
     }
 
@@ -75,6 +71,6 @@ public class TrashRoomTrigger : EventDirector
         }
 
         doorOpenCount = ais.Length + nonCrawlers.Length;
-        StartCoroutine(SlowTick());
+        Init();
     }
 }
