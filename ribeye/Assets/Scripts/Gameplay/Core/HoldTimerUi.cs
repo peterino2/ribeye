@@ -10,7 +10,7 @@ namespace Gameplay.Core
         
         public TextMeshProUGUI tmp;
 
-        private void Start()
+        private void Awake()
         {
             ui = this;
         }
