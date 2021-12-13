@@ -81,7 +81,7 @@ namespace Gameplay.Gunner
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.GetComponent<EntityBase>()
-                && ((( 1 << other.gameObject.layer) | playermask.value) > 0)
+                && !(other.gameObject.GetComponent<RibPlayer>())
             )
             {
                 targets.Add(other.gameObject.GetComponent<EntityBase>());

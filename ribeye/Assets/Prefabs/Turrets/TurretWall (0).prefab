@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1498337520737875456}
   - component: {fileID: 251453172662926327}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: XAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2934209799449132851}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone.002_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7723112037912652275}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 6184708119312930097}
   - component: {fileID: 1004353573337242379}
   - component: {fileID: 1004353573337242378}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Armature.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8012293221673009441}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3947455639551608383}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bone.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2367343837114032736}
   - component: {fileID: 4168478429015421778}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972439952847170}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: XAxisEmptyRotatorRightScan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,7 +431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972439994940213}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EmptyTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972440634539368}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzleTargeting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972440830169340}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: XAxisEmptyRotatorLeftScan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7245972440885376757}
   - component: {fileID: 7245972440885376758}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: YAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972441073676995}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: XAxisEmptyRotatorReset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -608,7 +608,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7245972441267342027}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: XAxisEmptyRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +803,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5736220643179013093}
   - component: {fileID: 1471300458759190929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret.019
   m_TagString: Untagged
   m_Icon: {fileID: 0}

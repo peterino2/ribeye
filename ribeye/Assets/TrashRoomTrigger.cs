@@ -48,7 +48,7 @@ public class TrashRoomTrigger : EventDirector
 
     public override void OnSlowTick(float dt)
     {
-        if (killCount >= 7 && doorReady)
+        if (killCount >= 6 && doorReady)
         {
             doorReady = false;
             door.Activate(PeterFPSCharacterController._controller);
