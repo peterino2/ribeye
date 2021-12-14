@@ -932,7 +932,7 @@ MonoBehaviour:
     m_Value: 0
   bleedAmount:
     m_OverrideState: 1
-    m_Value: 0.26
+    m_Value: 1.85
     min: 0
     max: 5
   noiseResGlobal:
@@ -970,46 +970,46 @@ MonoBehaviour:
     m_Value: 1
   lineNoiseAmount:
     m_OverrideState: 1
-    m_Value: 0.27
+    m_Value: 1.86
     min: 0
     max: 10
   lineNoiseSpeed:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1.39
     min: 0
     max: 10
   tapeNoiseOn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   tapeNoiseTH:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1.5
     min: 0
     max: 1.5
   tapeNoiseAmount:
-    m_OverrideState: 0
-    m_Value: 0.174
+    m_OverrideState: 1
+    m_Value: 0.089
     min: 0
     max: 1.5
   tapeNoiseSpeed:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1.339
     min: 0
     max: 1.5
   scanLinesOn:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   scanLineWidth:
-    m_OverrideState: 0
-    m_Value: 10
+    m_OverrideState: 1
+    m_Value: 15.71
     min: 0
     max: 20
   linesFloatOn:
-    m_OverrideState: 0
-    m_Value: 0
-  linesFloatSpeed:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
+  linesFloatSpeed:
+    m_OverrideState: 1
+    m_Value: -0.07
     min: -3
     max: 3
   stretchOn:
@@ -1086,20 +1086,20 @@ MonoBehaviour:
     min: -2
     max: 2
   feedbackOn:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   feedbackThresh:
-    m_OverrideState: 0
-    m_Value: 0.381
+    m_OverrideState: 1
+    m_Value: 1
     min: 0
     max: 1
   feedbackAmount:
-    m_OverrideState: 0
-    m_Value: 2
+    m_OverrideState: 1
+    m_Value: 3
     min: 0
     max: 3
   feedbackFade:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.82
     min: 0
     max: 1
